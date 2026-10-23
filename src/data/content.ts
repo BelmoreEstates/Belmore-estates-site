@@ -15,6 +15,8 @@
  */
 import { copyDefaults } from "./copy.generated";
 import { round6Blocks } from "./copy-round6";
+import { seoBlocks } from "./copy-seo";
+import { round7Blocks } from "./copy-round7";
 
 export type BlockDef = {
   key: string;
@@ -48,7 +50,7 @@ const extraBlocks: BlockDef[] = [
   { key: "design-studio.image.src", value: "/images/studio.jpg", image: true },
   { key: "process.hero.image.src", value: "/images/porch.jpg", image: true },
   { key: "about.hero.image.src", value: "/images/living.jpg", image: true },
-  // Future section card on /homes (admin "Future section" tab).
+  // Future section card on /lots (admin "Future section" tab).
   { key: "homes.future.eyebrow", value: "Future section" },
   { key: "homes.future.title", value: "17 lots east of Shelby Circle" },
   {
@@ -82,6 +84,8 @@ const extraBlocks: BlockDef[] = [
   // goes live on Publish). Quill's v2 keys are in copy-round6.ts.
   { key: "global.legal.enabled", value: "" },
   ...round6Blocks,
+  ...seoBlocks,
+  ...round7Blocks,
   // Lot map (src/components/map). Approved by Forge; defaults match the shipped strings.
   { key: "map.future.label", value: "Future phase (planned, details TBD)" },
   { key: "map.future.note", value: "planned along Shelby Circle and beyond, details TBD" },

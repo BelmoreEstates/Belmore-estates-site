@@ -121,7 +121,7 @@ export const SYSTEM_PAGES: SystemPage[] = [
   {
     slug: "homes",
     title: "Phase 1 Lots",
-    path: "/homes",
+    path: "/lots",
     seoPrefix: "homes",
     sections: ["HomesLots"],
   },
@@ -138,6 +138,8 @@ export const SYSTEM_PAGES: SystemPage[] = [
     path: "/process",
     seoPrefix: "process",
     sections: ["ProcessIntro", "ProcessSteps", "ProcessCta"],
+    // Round 7 (process v3): used by the draft layout; the default layout is unchanged.
+    optional: ["ProcessPhases", "ProcessWarranty"],
   },
   {
     slug: "about",
@@ -145,6 +147,7 @@ export const SYSTEM_PAGES: SystemPage[] = [
     path: "/about",
     seoPrefix: "about",
     sections: ["AboutIntro", "AboutStory", "AboutTeam"],
+    optional: ["AboutHistory", "AboutLand", "AboutVision", "AboutCta"],
   },
   { slug: "faq", title: "FAQ", path: "/faq", seoPrefix: "faq", sections: ["FaqList"] },
   {
@@ -180,7 +183,7 @@ export const SYSTEM_PAGES: SystemPage[] = [
   {
     slug: "_lot",
     title: "Lot page (every lot)",
-    path: "/homes/$slug",
+    path: "/lots/$slug",
     seoPrefix: "homes.detail",
     sections: ["LotDetailHero", "LotDetailForm"],
     template: "lot",
@@ -203,6 +206,7 @@ export const RESERVED_SLUGS = new Set([
   "assets",
   "plans",
   "homes",
+  "lots",
   "robots.txt",
   "sitemap.xml",
   "favicon.svg",

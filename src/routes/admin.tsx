@@ -193,7 +193,7 @@ function AdminPage() {
               k.startsWith("forms.waitlist.") ||
               k === "global.status.future"
             }
-            intro="The future-section card on /homes and the waitlist form. Set 'homes.future.open' to 'no' to hide the card. Waitlist sign-ups are in Leads (type: waitlist)."
+            intro="The future-section card on /lots and the waitlist form. Set 'homes.future.open' to 'no' to hide the card. Waitlist sign-ups are in Leads (type: waitlist)."
           />
         ) : null}
         {tab === "Social & legal" ? (

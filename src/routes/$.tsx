@@ -1,5 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { textOf } from "@/components/site/text";
+import { headPath, socialDefaults, textOf, useSiteData } from "@/components/site/text";
+import { canonicalPath, seoTags } from "@/lib/seo";
+import { siteGraphLd } from "@/lib/jsonld";
+import { socialProfiles } from "@/site/social-icons";
 import type { PublicData } from "@/server/public";
 import { isValidCustomSlug } from "@/site/doc";
 import { PageView } from "@/site/page-view";
@@ -23,20 +26,32 @@ export const Route = createFileRoute("/$")({
       PublicData | undefined;
     const page = pageOf(data, params._splat ?? "");
     if (!page || !data) return {};
-    return {
-      meta: [
-        { title: page.seoTitle?.trim() || page.title },
-        {
-          name: "description",
-          content: page.seoDescription?.trim() || textOf(data.blocks, "global.seo.description"),
-        },
+    return seoTags({
+      title: page.seoTitle?.trim() || page.title,
+      description: page.seoDescription?.trim() || textOf(data.blocks, "global.seo.description"),
+      ...socialDefaults(data.blocks),
+      path: canonicalPath(headPath({ matches, params })),
+      jsonLd: [
+        siteGraphLd({
+          siteName: socialDefaults(data.blocks).siteName,
+          sameAs: socialProfiles(data.blocks),
+        }),
       ],
-    };
+    });
   },
   component: CustomPage,
 });
 
 function CustomPage() {
   const { slug } = Route.useLoaderData();
-  return <PageView slug={slug} />;
+  const { site } = useSiteData();
+  const title = site.pages[slug]?.title?.trim();
+  // Library blocks render h2 headings, so the page's one H1 is its title
+  // (visually hidden: the owner's Hero block shows the visible heading).
+  return (
+    <>
+      {title ? <h1 className="sr-only">{title}</h1> : null}
+      <PageView slug={slug} />
+    </>
+  );
 }

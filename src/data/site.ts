@@ -233,7 +233,7 @@ export function homesOnLot(lotId: string) {
 export const nav = [
   { to: "/community", label: "Community" },
   { to: "/plans", label: "Floor Plans" },
-  { to: "/homes", label: "Phase 1 Lots" },
+  { to: "/lots", label: "Phase 1 Lots" },
   { to: "/design-studio", label: "Design Studio" },
   { to: "/process", label: "Our Process" },
   { to: "/about", label: "About" },

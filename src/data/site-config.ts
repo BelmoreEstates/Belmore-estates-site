@@ -7,6 +7,13 @@
  * the local-dev fallbacks used when a variable is unset.
  */
 
+/**
+ * Fallback for SITE_ORIGIN (canonical URLs, og:url, sitemap.xml): the
+ * production site. `npm run deploy:*` passes PRODUCTION_URL as SITE_ORIGIN;
+ * set PRODUCTION_URL to the custom domain once it is live.
+ */
+export const DEFAULT_SITE_ORIGIN = "https://belmore-estates.netlify.app";
+
 /** Fallback for CONTACT_EMAIL: the public contact address ({{CONTACT_EMAIL}} in the copy). */
 export const DEFAULT_CONTACT_EMAIL = "belmoreestates@gmail.com";
 /** Internal key the server uses to pass CONTACT_EMAIL to pages inside the content map. */
@@ -70,3 +77,10 @@ export const PLAN_PLACEHOLDER = "/images/plan-placeholder.svg";
 export const GLA_SITE_URL = "https://greaterliving.com/";
 /** GLA Architecture's public plan collection ("View all plans"). Verified 200, Oct 23 2026. */
 export const GLA_PLANS_URL = "https://greaterliving.com/shop-plans/";
+
+/**
+ * The 19 NYCRR 175.25 attribution line (Quill, SEO pass 2). Lead notification
+ * emails end with it; the footer and legal page carry the same line as copy.
+ */
+export const AGENT_ATTRIBUTION =
+  "Joseph Deleguardia, Licensed Real Estate Salesperson, The Derek Pino Team at RE/MAX Realty Group";

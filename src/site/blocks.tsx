@@ -227,9 +227,11 @@ export function Hero(p: HeroProps) {
         >
           <Head eyebrow={p.eyebrow} />
           {filled(p.heading) ? (
-            <h1 className="mt-4 text-5xl leading-tight">
+            // h2, not h1: every page already has its one H1 (system pages in their
+            // intro section, custom pages a visually hidden title in routes/$.tsx).
+            <h2 className="mt-4 text-5xl leading-tight">
               <Show v={p.heading} />
-            </h1>
+            </h2>
           ) : null}
           {filled(p.body) ? (
             <p
@@ -429,7 +431,7 @@ export function LotList(p: LotListProps) {
             {lots.map((lot) => (
               <li key={lot.slug}>
                 <Link
-                  to="/homes/$slug"
+                  to="/lots/$slug"
                   params={{ slug: lot.slug }}
                   className="flex min-h-11 flex-col gap-1 border border-line bg-paper p-4 text-ink hover:border-copper"
                 >

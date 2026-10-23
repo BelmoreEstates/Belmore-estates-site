@@ -18,9 +18,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignStudioRouteImport } from './routes/design-studio'
 import { Route as EditorRouteImport } from './routes/editor'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as HomesRouteImport } from './routes/homes'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LotsRouteImport } from './routes/lots'
 import { Route as PlansRouteImport } from './routes/plans'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProcessRouteImport } from './routes/process'
@@ -28,6 +28,8 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesSlugRouteImport } from './routes/homes.$slug'
+import { Route as LotsIndexRouteImport } from './routes/lots.index'
+import { Route as LotsSlugRouteImport } from './routes/lots.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as PlansIndexRouteImport } from './routes/plans.index'
 import { Route as PlansSlugRouteImport } from './routes/plans.$slug'
@@ -78,11 +80,6 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomesRoute = HomesRouteImport.update({
-  id: '/homes',
-  path: '/homes',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LegalRoute = LegalRouteImport.update({
   id: '/legal',
   path: '/legal',
@@ -91,6 +88,11 @@ const LegalRoute = LegalRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LotsRoute = LotsRouteImport.update({
+  id: '/lots',
+  path: '/lots',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlansRoute = PlansRouteImport.update({
@@ -119,14 +121,24 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomesIndexRoute = HomesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => HomesRoute,
+  id: '/homes/',
+  path: '/homes/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HomesSlugRoute = HomesSlugRouteImport.update({
+  id: '/homes/$slug',
+  path: '/homes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LotsIndexRoute = LotsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LotsRoute,
+} as any)
+const LotsSlugRoute = LotsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
-  getParentRoute: () => HomesRoute,
+  getParentRoute: () => LotsRoute,
 } as any)
 const MediaIdRoute = MediaIdRouteImport.update({
   id: '/media/$id',
@@ -159,18 +171,20 @@ export interface FileRoutesByFullPath {
   '/design-studio': typeof DesignStudioRoute
   '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
-  '/homes': typeof HomesRouteWithChildren
   '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
+  '/lots': typeof LotsRouteWithChildren
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
+  '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
   '/homes/': typeof HomesIndexRoute
+  '/lots/': typeof LotsIndexRoute
   '/plans/': typeof PlansIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -191,9 +205,11 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
+  '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
   '/homes': typeof HomesIndexRoute
+  '/lots': typeof LotsIndexRoute
   '/plans': typeof PlansIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -208,18 +224,20 @@ export interface FileRoutesById {
   '/design-studio': typeof DesignStudioRoute
   '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
-  '/homes': typeof HomesRouteWithChildren
   '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
+  '/lots': typeof LotsRouteWithChildren
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
+  '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
   '/homes/': typeof HomesIndexRoute
+  '/lots/': typeof LotsIndexRoute
   '/plans/': typeof PlansIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -235,18 +253,20 @@ export interface FileRouteTypes {
     | '/design-studio'
     | '/editor'
     | '/faq'
-    | '/homes'
     | '/legal'
     | '/login'
+    | '/lots'
     | '/plans'
     | '/privacy'
     | '/process'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/homes/$slug'
+    | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
     | '/homes/'
+    | '/lots/'
     | '/plans/'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
@@ -267,9 +287,11 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/homes/$slug'
+    | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
     | '/homes'
+    | '/lots'
     | '/plans'
     | '/api/auth/$'
   id:
@@ -283,18 +305,20 @@ export interface FileRouteTypes {
     | '/design-studio'
     | '/editor'
     | '/faq'
-    | '/homes'
     | '/legal'
     | '/login'
+    | '/lots'
     | '/plans'
     | '/privacy'
     | '/process'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/homes/$slug'
+    | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
     | '/homes/'
+    | '/lots/'
     | '/plans/'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
@@ -309,15 +333,17 @@ export interface RootRouteChildren {
   DesignStudioRoute: typeof DesignStudioRoute
   EditorRoute: typeof EditorRoute
   FaqRoute: typeof FaqRoute
-  HomesRoute: typeof HomesRouteWithChildren
   LegalRoute: typeof LegalRoute
   LoginRoute: typeof LoginRoute
+  LotsRoute: typeof LotsRouteWithChildren
   PlansRoute: typeof PlansRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ProcessRoute: typeof ProcessRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  HomesSlugRoute: typeof HomesSlugRoute
   MediaIdRoute: typeof MediaIdRoute
+  HomesIndexRoute: typeof HomesIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -386,13 +412,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/homes': {
-      id: '/homes'
-      path: '/homes'
-      fullPath: '/homes'
-      preLoaderRoute: typeof HomesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/legal': {
       id: '/legal'
       path: '/legal'
@@ -405,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lots': {
+      id: '/lots'
+      path: '/lots'
+      fullPath: '/lots'
+      preLoaderRoute: typeof LotsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plans': {
@@ -444,17 +470,31 @@ declare module '@tanstack/react-router' {
     }
     '/homes/': {
       id: '/homes/'
-      path: '/'
+      path: '/homes'
       fullPath: '/homes/'
       preLoaderRoute: typeof HomesIndexRouteImport
-      parentRoute: typeof HomesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/homes/$slug': {
       id: '/homes/$slug'
-      path: '/$slug'
+      path: '/homes/$slug'
       fullPath: '/homes/$slug'
       preLoaderRoute: typeof HomesSlugRouteImport
-      parentRoute: typeof HomesRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/lots/': {
+      id: '/lots/'
+      path: '/'
+      fullPath: '/lots/'
+      preLoaderRoute: typeof LotsIndexRouteImport
+      parentRoute: typeof LotsRoute
+    }
+    '/lots/$slug': {
+      id: '/lots/$slug'
+      path: '/$slug'
+      fullPath: '/lots/$slug'
+      preLoaderRoute: typeof LotsSlugRouteImport
+      parentRoute: typeof LotsRoute
     }
     '/media/$id': {
       id: '/media/$id'
@@ -487,17 +527,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface HomesRouteChildren {
-  HomesSlugRoute: typeof HomesSlugRoute
-  HomesIndexRoute: typeof HomesIndexRoute
+interface LotsRouteChildren {
+  LotsSlugRoute: typeof LotsSlugRoute
+  LotsIndexRoute: typeof LotsIndexRoute
 }
 
-const HomesRouteChildren: HomesRouteChildren = {
-  HomesSlugRoute: HomesSlugRoute,
-  HomesIndexRoute: HomesIndexRoute,
+const LotsRouteChildren: LotsRouteChildren = {
+  LotsSlugRoute: LotsSlugRoute,
+  LotsIndexRoute: LotsIndexRoute,
 }
 
-const HomesRouteWithChildren = HomesRoute._addFileChildren(HomesRouteChildren)
+const LotsRouteWithChildren = LotsRoute._addFileChildren(LotsRouteChildren)
 
 interface PlansRouteChildren {
   PlansSlugRoute: typeof PlansSlugRoute
@@ -521,15 +561,17 @@ const rootRouteChildren: RootRouteChildren = {
   DesignStudioRoute: DesignStudioRoute,
   EditorRoute: EditorRoute,
   FaqRoute: FaqRoute,
-  HomesRoute: HomesRouteWithChildren,
   LegalRoute: LegalRoute,
   LoginRoute: LoginRoute,
+  LotsRoute: LotsRouteWithChildren,
   PlansRoute: PlansRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ProcessRoute: ProcessRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  HomesSlugRoute: HomesSlugRoute,
   MediaIdRoute: MediaIdRoute,
+  HomesIndexRoute: HomesIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

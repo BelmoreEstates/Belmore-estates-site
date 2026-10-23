@@ -24,3 +24,17 @@
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
 
 # Long-lived caching for hashed /assets/* is written by nitro (dist/_headers).
+
+# Round 7: the lots pages moved from /homes to /lots (Scout's SEO research §5.1).
+# Permanent redirects at the CDN; src/routes/homes.* redirect client-side too.
+[[redirects]]
+  from = "/homes"
+  to = "/lots"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/homes/*"
+  to = "/lots/:splat"
+  status = 301
+  force = true

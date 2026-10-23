@@ -281,11 +281,14 @@ export function PageIntro({
   eyebrow,
   title,
   lede,
+  note,
   imagePrefix,
 }: {
   eyebrow: ReactNode;
   title: ReactNode;
   lede: ReactNode;
+  /** Optional short line under the lede (Round 7: process timeline, studio "when"). */
+  note?: ReactNode;
   /** Keyed photo: `<prefix>.src` / `<prefix>.alt`. */
   imagePrefix: string;
 }) {
@@ -295,6 +298,11 @@ export function PageIntro({
         <p className="text-xs uppercase tracking-widest text-copper">{eyebrow}</p>
         <h1 className="mt-4 text-5xl leading-tight text-ink">{title}</h1>
         <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">{lede}</p>
+        {note ? (
+          <p className="mt-4 max-w-md border-l-2 border-copper pl-3 text-sm leading-relaxed text-muted">
+            {note}
+          </p>
+        ) : null}
       </div>
       <div className="relative min-h-72 lg:col-span-7">
         <Img

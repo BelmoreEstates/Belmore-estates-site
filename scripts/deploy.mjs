@@ -22,7 +22,8 @@
  *                     site up by name, so the ID is what gets passed.
  *   PREVIEW_URL       default https://preview--belmore-estates.netlify.app
  *   PRODUCTION_URL    default https://belmore-estates.netlify.app (set this to
- *                     the custom domain once it is live)
+ *                     the custom domain once it is live). Also baked in as
+ *                     SITE_ORIGIN: canonical URLs, og:url and sitemap.xml.
  *   DRY_RUN=1         print the command instead of running it
  *
  * NETLIFY_* / *_URL values may live in .env; BELMORE_PROD_APPROVED may not
@@ -91,6 +92,9 @@ const args = [
   `SITE_ENV=${siteEnv}`,
   "--env",
   `BETTER_AUTH_URL=${authUrl}`,
+  // Canonical URLs / sitemap always name the production origin (also on the preview).
+  "--env",
+  `SITE_ORIGIN=${productionUrl}`,
   "--message",
   `${siteEnv} deploy from ${process.env.USER || "cli"}`,
   // Production: --prod-if-unlocked, so a production deploy that Netlify has
@@ -108,6 +112,6 @@ console.log(
 );
 const result = spawnSync("npx", args, {
   stdio: "inherit",
-  env: { ...process.env, SITE_ENV: siteEnv, BETTER_AUTH_URL: authUrl },
+  env: { ...process.env, SITE_ENV: siteEnv, BETTER_AUTH_URL: authUrl, SITE_ORIGIN: productionUrl },
 });
 process.exit(result.status ?? 1);

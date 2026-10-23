@@ -1,36 +1,12 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { detailExists } from "@/server/public";
-import { lotVars, seoHead, useSiteData } from "@/components/site/text";
-import { homeBySlug } from "@/data/site";
-import { DetailContext } from "@/site/detail";
-import { PageView } from "@/site/page-view";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+/**
+ * Round 7: lot pages moved from /homes/{lot} to /lots/{lot} (301; netlify.toml
+ * redirects at the CDN too). Kept as a route so older links (and the site
+ * model's lot links) keep working on client-side navigation.
+ */
 export const Route = createFileRoute("/homes/$slug")({
-  // SSR only: unknown slugs answer with HTTP 404. Client-side navigation
-  // already has the data and renders the not-found view from the component.
-  loader: async ({ params }) => {
-    if (
-      typeof window === "undefined" &&
-      !(await detailExists({ data: { kind: "lot", slug: params.slug } }))
-    )
-      throw notFound();
+  beforeLoad: ({ params }) => {
+    throw redirect({ to: "/lots/$slug", params: { slug: params.slug }, statusCode: 301 });
   },
-  component: HomeDetail,
-  head: seoHead("homes.detail", (params, data) => {
-    const lot = data.lots.find((l) => l.slug === params.slug) ?? homeBySlug(params.slug);
-    return lot ? lotVars(lot) : { lot: params.slug };
-  }),
 });
-
-/** Lot data comes from the Lots table; the sections around it from the site doc ("_lot"). */
-function HomeDetail() {
-  const { slug } = Route.useParams();
-  const { lots } = useSiteData();
-  const lot = lots.find((l) => l.slug === slug);
-  if (!lot) throw notFound();
-  return (
-    <DetailContext.Provider value={{ lot }}>
-      <PageView slug="_lot" />
-    </DetailContext.Provider>
-  );
-}

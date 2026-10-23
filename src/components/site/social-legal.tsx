@@ -183,18 +183,24 @@ export function FairHousingLink({
 
 function SopLink({ className }: { className?: string }) {
   const { blocks } = useSiteData();
-  const edit = useEditApi();
   const url = textOf(blocks, "global.footer.sop.url").trim();
-  if (!isSocialUrl(url)) {
-    if (!edit) return null;
+  // Round 7 (RPL §442-h): the SOP link always renders (homepage + footer). Until
+  // Joseph sets the brokerage's SOP URL it points to /legal#sop, which shows the
+  // "[SOP LINK — TO CONFIRM]" placeholder slot.
+  if (!isSocialUrl(url))
     return (
-      <span className={cn(className, "opacity-60")} title="Add the SOP link in “Social & footer”">
-        <Tx k="global.footer.sop.link" /> (link not set: hidden)
-      </span>
+      <Link to="/legal" hash="sop" className={className} data-sop-link="legal">
+        <Tx k="global.footer.sop.link" />
+      </Link>
     );
-  }
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className={className}>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+      data-sop-link="external"
+    >
       <Tx k="global.footer.sop.link" />
       <span className="sr-only">{EXTERNAL_NOTE}</span>
     </a>
@@ -268,6 +274,7 @@ export function HomeFairHousing() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-5 py-6 text-sm">
         <EhoLogo dark className="h-12 w-auto" />
         <FairHousingLink className="min-h-11 content-center font-medium underline underline-offset-2 hover:text-copper" />
+        <SopLink className="min-h-11 content-center underline underline-offset-2 hover:text-copper" />
         <Link
           to="/legal"
           className="min-h-11 content-center underline underline-offset-2 hover:text-copper"

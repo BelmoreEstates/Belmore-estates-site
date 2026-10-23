@@ -1,15 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import { PageIntro } from "@/components/site/chrome";
-import { Img, T, Tx } from "@/components/site/text";
+import { Img, T, Tx, useSiteData } from "@/components/site/text";
+import { PhraseLink } from "@/components/site/linked-text";
+import { hasText } from "@/lib/has-text";
 
 const picks = ["kitchen", "baths", "floors", "exterior"] as const;
 
 export function StudioIntro() {
+  const { blocks } = useSiteData();
   return (
     <PageIntro
       eyebrow={<Tx k="design-studio.intro.eyebrow" />}
       title={<Tx k="design-studio.intro.h2" />}
       lede={<T k="design-studio.intro.body" />}
+      // Round 7: "When it happens" note (empty on the published site).
+      note={
+        hasText(blocks, "design-studio.intro.when") ? (
+          <PhraseLink k="design-studio.intro.when" phrase="process page" to="/process" />
+        ) : null
+      }
       imagePrefix="design-studio.hero.image"
     />
   );
