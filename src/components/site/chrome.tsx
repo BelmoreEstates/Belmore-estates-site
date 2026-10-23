@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Img, RichText, T, Tx, useEditApi, useSiteData, useText } from "@/components/site/text";
-import { isExternalHref, navOf, safeImageSrc, type NavItem } from "@/site/doc";
+import { isExternalHref, menuKey, navOf, safeImageSrc, type NavItem } from "@/site/doc";
 import { cn } from "@/lib/cn";
 import {
   FooterLegal,
@@ -32,7 +32,9 @@ export function SiteFrame({ children }: { children: ReactNode }) {
       </a>
       <DraftBar />
       <Header />
-      <div id="content">{children}</div>
+      <main id="content" tabIndex={-1} className="focus:outline-none">
+        {children}
+      </main>
       <Footer />
     </div>
   );
@@ -44,25 +46,26 @@ function DraftBar() {
   // Nothing set (and not editing): exactly the original one-line bar.
   if (!anySocial && !edit)
     return (
-      <p className="bg-pine-deep px-5 py-2 text-center text-sm text-cream">
-        <T k="global.banner.text" />
-      </p>
+      <aside aria-label="Announcement">
+        <p className="bg-pine-deep px-5 py-2 text-center text-sm text-cream">
+          <T k="global.banner.text" />
+        </p>
+      </aside>
     );
   return (
-    <div className="bg-pine-deep px-5 py-1 text-sm text-cream" data-topbar>
+    <aside
+      aria-label="Announcement"
+      className="bg-pine-deep px-5 py-1 text-sm text-cream"
+      data-topbar
+    >
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-1 sm:flex-row sm:justify-between sm:gap-6">
         <p className="py-1 text-center sm:text-left">
           <T k="global.banner.text" />
         </p>
         <SocialIcons where="top" />
       </div>
-    </div>
+    </aside>
   );
-}
-
-/** Menu label key for a nav path, e.g. "/design-studio" → global.menu.design-studio. */
-function menuKey(to: string) {
-  return `global.menu.${to.replace(/^\//, "")}`;
 }
 
 /** The menu from the site doc (the original six links until the owner edits it). */
@@ -137,8 +140,10 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-        <Link to="/" className="leading-tight" aria-label={t("global.wordmark.aria")}>
+        {/* Accessible name = the visible wordmark + "home" (WCAG 2.5.3 label in name). */}
+        <Link to="/" className="leading-tight">
           <Logo />
+          <span className="sr-only">, home</span>
         </Link>
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">
           {nav.map((item) => (

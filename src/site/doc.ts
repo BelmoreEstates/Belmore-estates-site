@@ -254,11 +254,15 @@ export function pagePath(slug: string) {
 
 /* -------------------------------------------------------------------- nav */
 
-const menuKey = (to: string) => `global.menu.${to.replace(/^\//, "")}`;
+/** Menu label key for a nav path. /lots keeps the original global.menu.homes key (keys were not renamed). */
+export const menuKey = (to: string) => {
+  const slug = to.replace(/^\//, "");
+  return `global.menu.${slug === "lots" ? "homes" : slug}`;
+};
 
 export function defaultNav(): NavItem[] {
   return defaultNavLinks.map((item) => ({
-    id: `nav-${item.to.slice(1)}`,
+    id: `nav-${item.to === "/lots" ? "homes" : item.to.slice(1)}`,
     href: item.to,
     labelKey: menuKey(item.to),
   }));

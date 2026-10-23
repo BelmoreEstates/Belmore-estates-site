@@ -100,3 +100,25 @@
 .rich-text hr {
   border-color: var(--color-line);
 }
+
+/*
+ * Copper text contrast (WCAG 1.4.3, 4.5:1). The brand copper (#a5683c) stays for
+ * borders, dots and focus rings; copper *text* uses a darker tone on light
+ * backgrounds and a lighter tone on the pine backgrounds. The nearest painted
+ * ancestor wins because the custom property inherits.
+ */
+:root,
+.bg-paper,
+.bg-paper-deep,
+.bg-cream,
+.bg-white {
+  --copper-text: #8a5631;
+}
+.bg-pine,
+.bg-pine-deep,
+.bg-ink {
+  --copper-text: #d9a273;
+}
+.text-copper {
+  color: var(--copper-text);
+}

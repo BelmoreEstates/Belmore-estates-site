@@ -80,7 +80,7 @@ export function Placeholder({ children }: { children: ReactNode }) {
   return (
     <span
       data-placeholder=""
-      className="whitespace-nowrap border border-dashed border-copper px-1 text-copper"
+      className="border border-dashed border-copper px-1 text-copper [box-decoration-break:clone] [overflow-wrap:anywhere]"
       title="To come: this detail is not confirmed yet"
     >
       {children}
