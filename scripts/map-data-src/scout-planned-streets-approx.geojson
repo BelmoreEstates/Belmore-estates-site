@@ -1,0 +1,93 @@
+{
+ "type": "FeatureCollection",
+ "name": "belmore-planned-streets-approx",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Belmore Way",
+    "row_ft": 60,
+    "status": "existing stub north of parcel; planned within",
+    "accuracy": "approximate, from preliminary plat"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.68574093778068,
+      43.26478945386289
+     ],
+     [
+      -77.6857646702423,
+      43.263804326652355
+     ],
+     [
+      -77.68578368973999,
+      43.26353583546799
+     ],
+     [
+      -77.6858199799226,
+      43.263384056254075
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Shelby Circle",
+    "row_ft": 60,
+    "status": "planned; ends in cul-de-sac",
+    "accuracy": "approximate, from preliminary plat"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.68576445449729,
+      43.26381328235509
+     ],
+     [
+      -77.68491877048558,
+      43.26380115355248
+     ],
+     [
+      -77.68471823060001,
+      43.26378931769419
+     ],
+     [
+      -77.68456895932081,
+      43.26373342315046
+     ],
+     [
+      -77.68444607836088,
+      43.26362415432535
+     ],
+     [
+      -77.68440938240347,
+      43.263480286976055
+     ],
+     [
+      -77.68443227174322,
+      43.26253098280697
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Shelby Circle cul-de-sac center",
+    "status": "planned",
+    "accuracy": "approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -77.68442223632329,
+     43.26253074920953
+    ]
+   }
+  }
+ ]
+}

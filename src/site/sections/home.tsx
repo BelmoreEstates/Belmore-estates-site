@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { buttonStyles } from "@/components/site/chrome";
-import { SiteModel } from "@/components/site/site-model";
+import { LotMap } from "@/components/map/lot-map";
 import { GlaLink, PlanImage } from "@/components/site/plan-image";
 import {
   Img,
@@ -304,7 +304,7 @@ export function HomeSiteModel() {
           <Tx k="home.sitemodel.link" />
         </Link>
       </div>
-      <SiteModel />
+      <LotMap />
     </section>
   );
 }

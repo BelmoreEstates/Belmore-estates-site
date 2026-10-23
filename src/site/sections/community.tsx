@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { PageIntro } from "@/components/site/chrome";
-import { SiteModel } from "@/components/site/site-model";
+import { LotMap } from "@/components/map/lot-map";
 import { T, Tx, textOf, useSiteData } from "@/components/site/text";
 
 const facts = ["place", "developer", "lots", "streets", "schools", "office"] as const;
@@ -58,7 +58,7 @@ export function CommunityModel() {
           <T k="community.model.body" />
         </p>
         <div className="mt-8">
-          <SiteModel hintKey="community.model.hint" captionKey="community.model.caption" />
+          <LotMap hintKey="community.model.hint" captionKey="community.model.caption" />
         </div>
       </div>
     </section>

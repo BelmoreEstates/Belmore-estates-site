@@ -10,7 +10,7 @@ import { Link } from "@tanstack/react-router";
 import { buttonStyles } from "@/components/site/chrome";
 import { InquiryForm } from "@/components/site/inquiry-form";
 import { GlaLink, PlanImage } from "@/components/site/plan-image";
-import { SiteModel } from "@/components/site/site-model";
+import { LotMap } from "@/components/map/lot-map";
 import {
   LotStatusBadge,
   Placeholder,
@@ -422,7 +422,7 @@ export function LotList(p: LotListProps) {
         <Head heading={p.heading} intro={p.intro} dark={dark(p)} />
         {p.view === "map" ? (
           <div className="mt-8 text-ink">
-            <SiteModel />
+            <LotMap />
           </div>
         ) : (
           <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
