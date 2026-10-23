@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { signInWithGoogle } from "@/lib/auth/client";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { useText } from "@/components/site/text";
 
@@ -15,8 +14,6 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const t = useText();
   const { user, isPending } = useCurrentUserState();
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
   return (
     <section className="mx-auto max-w-xl px-5 py-20">
       <p className="text-xs uppercase tracking-widest text-copper">Belmore Estates</p>
@@ -27,25 +24,7 @@ function LoginPage() {
           Open admin
         </Link>
       ) : (
-        <div className="mt-8 grid max-w-sm gap-2">
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setBusy(true);
-              setError(null);
-              signInWithGoogle({ callbackURL: "/admin", errorCallbackURL: "/login" })
-                .catch((e: unknown) => {
-                  setError(e instanceof Error ? e.message : "Sign-in failed");
-                  setBusy(false);
-                });
-            }}
-            className="inline-flex min-h-11 items-center justify-center border border-ink bg-cream px-5 text-sm disabled:opacity-60"
-          >
-            Continue with Google
-          </button>
-          {error ? <p className="text-sm text-copper" role="alert">{error}</p> : null}
-        </div>
+        <GoogleSignInButton callbackURL="/admin" className="mt-8" />
       )}
     </section>
   );

@@ -2,7 +2,7 @@
  * /admin — owner/admin console. The UI is a convenience only: every server
  * function in src/server/admin.ts re-checks the session and the allowlist.
  */
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   addAdmin,
@@ -28,6 +28,7 @@ import {
 import { LEAD_STATUSES, LEAD_TYPES, leadTypeLabel, type LeadStatus, type LeadType } from "@/server/lead-schema";
 import { LOT_STATUSES, type LotStatus, type PhaseLot, type Plan } from "@/data/site";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in";
 import { signOut } from "@/lib/auth/client";
 import { LotStatusBadge } from "@/components/site/text";
 import { cn } from "@/lib/cn";
@@ -66,9 +67,7 @@ function AdminPage() {
       <Shell>
         <div data-admin-state="signed_out">
           <p>You need to sign in to use the admin.</p>
-          <Link to="/login" className={cn(primary, "mt-6")}>
-            Sign in
-          </Link>
+          <GoogleSignInButton callbackURL="/admin" className="mt-6" />
         </div>
       </Shell>
     );
