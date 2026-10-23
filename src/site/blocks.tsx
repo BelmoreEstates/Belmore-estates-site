@@ -227,9 +227,11 @@ export function Hero(p: HeroProps) {
         >
           <Head eyebrow={p.eyebrow} />
           {filled(p.heading) ? (
-            <h1 className="mt-4 text-5xl leading-tight">
+            // h2, not h1: every page already has its one H1 (system pages in their
+            // intro section, custom pages a visually hidden title in routes/$.tsx).
+            <h2 className="mt-4 text-5xl leading-tight">
               <Show v={p.heading} />
-            </h1>
+            </h2>
           ) : null}
           {filled(p.body) ? (
             <p

@@ -15,6 +15,7 @@
  */
 import { copyDefaults } from "./copy.generated";
 import { round6Blocks } from "./copy-round6";
+import { seoBlocks } from "./copy-seo";
 
 export type BlockDef = {
   key: string;
@@ -82,6 +83,7 @@ const extraBlocks: BlockDef[] = [
   // goes live on Publish). Quill's v2 keys are in copy-round6.ts.
   { key: "global.legal.enabled", value: "" },
   ...round6Blocks,
+  ...seoBlocks,
   { key: "login.h1", value: "Owner sign-in" },
   {
     key: "login.body",

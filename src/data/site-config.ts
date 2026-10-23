@@ -7,6 +7,13 @@
  * the local-dev fallbacks used when a variable is unset.
  */
 
+/**
+ * Fallback for SITE_ORIGIN (canonical URLs, og:url, sitemap.xml): the
+ * production site. `npm run deploy:*` passes PRODUCTION_URL as SITE_ORIGIN;
+ * set PRODUCTION_URL to the custom domain once it is live.
+ */
+export const DEFAULT_SITE_ORIGIN = "https://belmore-estates.netlify.app";
+
 /** Fallback for CONTACT_EMAIL: the public contact address ({{CONTACT_EMAIL}} in the copy). */
 export const DEFAULT_CONTACT_EMAIL = "belmoreestates@gmail.com";
 /** Internal key the server uses to pass CONTACT_EMAIL to pages inside the content map. */

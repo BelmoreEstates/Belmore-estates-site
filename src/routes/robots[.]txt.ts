@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SITE_ORIGIN } from "@/lib/seo";
 import { isProductionSite } from "@/server/env";
 
 /**
@@ -9,10 +10,9 @@ import { isProductionSite } from "@/server/env";
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
-      GET: ({ request }) => {
-        const origin = new URL(request.url).origin;
+      GET: () => {
         const body = isProductionSite()
-          ? `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\nDisallow: /api/\n\nSitemap: ${origin}/sitemap.xml\n`
+          ? `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\nDisallow: /api/\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`
           : "User-agent: *\nDisallow: /\n";
         return new Response(body, {
           headers: {

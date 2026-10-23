@@ -25,6 +25,11 @@ export function PlanImage({
 }) {
   const src = slot === "rendering" ? plan.renderingImage : plan.floorPlanImage;
   const pending = plan.imagesPending || !src || src === PLAN_PLACEHOLDER;
+  // The floor-plan slot's placeholder repeats the rendering slot's placeholder
+  // on the same page: decorative (alt=""), so screen readers don't hear it twice.
+  // A real floor plan uses `alt`; only the rendering uses plan.renderingAlt.
+  const altText =
+    slot === "floorPlan" ? (pending ? "" : alt) : pending ? alt : plan.renderingAlt || alt;
   return (
     <div
       className={cn("relative overflow-hidden bg-cream", className)}
@@ -32,7 +37,7 @@ export function PlanImage({
     >
       <img
         src={pending ? PLAN_PLACEHOLDER : src}
-        alt={pending ? alt : plan.renderingAlt || alt}
+        alt={altText}
         className="absolute inset-0 h-full w-full object-cover"
       />
       {pending && caption ? (

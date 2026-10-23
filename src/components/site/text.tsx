@@ -14,6 +14,8 @@ import { blockDefaults, fill } from "@/data/content";
 import { CONTACT_EMAIL_KEY, DEFAULT_CONTACT_EMAIL } from "@/data/site-config";
 import { lotAreaLabel, type LotStatus, type PhaseLot, type Plan } from "@/data/site";
 import { staticPublicData, type PublicData } from "@/server/public";
+import { absoluteUrl, canonicalPath, seoTags } from "@/lib/seo";
+import { isAboveFoldImageKey, PHOTO_SIZES, responsiveImage } from "@/lib/images";
 
 const rootApi = getRouteApi("__root__");
 
@@ -152,8 +154,39 @@ export function Img({
   const { blocks } = useSiteData();
   if (edit)
     return <edit.Image srcKey={srcKey} altKey={altKey} altVars={altVars} className={className} />;
+  const src = textOf(blocks, srcKey);
+  const alt = textOf(blocks, altKey, altVars);
+  const eager = isAboveFoldImageKey(srcKey);
+  const loading = eager ? "eager" : "lazy";
+  const fetchPriority = eager ? "high" : "auto";
+  const r = responsiveImage(src);
+  if (!r)
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        loading={loading}
+        fetchPriority={fetchPriority}
+        decoding="async"
+      />
+    );
+  // Bundled photo: WebP srcset with the JPG as fallback; width/height reserve
+  // the aspect ratio (object-cover classes still size the box).
   return (
-    <img src={textOf(blocks, srcKey)} alt={textOf(blocks, altKey, altVars)} className={className} />
+    <picture>
+      <source type="image/webp" srcSet={r.srcSet} sizes={PHOTO_SIZES} />
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        width={r.width}
+        height={r.height}
+        loading={loading}
+        fetchPriority={fetchPriority}
+        decoding="async"
+      />
+    </picture>
   );
 }
 
@@ -227,23 +260,62 @@ export function withValue(template: string, value: string | undefined | null) {
   return re.test(template) ? template.replace(re, String(value)) : template;
 }
 
-/** <head> meta for a page from `<prefix>.seo.title` / `.seo.description`. */
+/** Site-wide social defaults (og:site_name, share image) from the keyed texts. */
+export function socialDefaults(blocks: Record<string, string>) {
+  return {
+    siteName: textOf(blocks, "global.og.site_name").trim() || textOf(blocks, "global.seo.title"),
+    image: textOf(blocks, "global.og.image").trim(),
+    imageAlt: textOf(blocks, "global.og.image.alt").trim(),
+  };
+}
+
+type HeadCtx = {
+  matches: Array<{ routeId: string; pathname?: string; loaderData?: unknown }>;
+  params: Record<string, string>;
+};
+
+/** The URL path of the deepest matched route (for canonical / og:url). */
+export const headPath = (ctx: HeadCtx) => ctx.matches[ctx.matches.length - 1]?.pathname ?? "/";
+
+/**
+ * <head> tags for a page from `<prefix>.seo.title` / `.seo.description`
+ * (+ `<prefix>.og.*` when set): canonical, Open Graph, Twitter card and
+ * optional JSON-LD. See src/lib/seo.ts.
+ */
 export function seoHead(
   prefix: string,
   vars?: (params: Record<string, string>, data: PublicData) => Vars,
+  jsonLd?: (params: Record<string, string>, data: PublicData, url: string) => unknown[],
 ) {
-  return (ctx: {
-    matches: Array<{ routeId: string; loaderData?: unknown }>;
-    params: Record<string, string>;
-  }) => {
+  return (ctx: HeadCtx) => {
     const root = ctx.matches.find((m) => m.routeId === "__root__")?.loaderData as
       PublicData | undefined;
     const data = root ?? staticPublicData;
     const blocks = data.blocks;
     const v = vars ? vars(ctx.params, data) : undefined;
-    const title = textOf(blocks, `${prefix}.seo.title`, v);
-    const description = textOf(blocks, `${prefix}.seo.description`, v);
-    return { meta: [{ title }, { name: "description", content: description }] };
+    const path = canonicalPath(headPath(ctx));
+    const tags = seoTags({
+      title: textOf(blocks, `${prefix}.seo.title`, v),
+      description: textOf(blocks, `${prefix}.seo.description`, v),
+      ogTitle: textOf(blocks, `${prefix}.og.title`, v),
+      ogDescription: textOf(blocks, `${prefix}.og.description`, v),
+      ...socialDefaults(blocks),
+      path,
+      jsonLd: jsonLd ? jsonLd(ctx.params, data, absoluteUrl(path)) : undefined,
+    });
+    // Preload the page's hero photo (the LCP element) when it has one.
+    const heroKey = `${prefix}.hero.image.src`;
+    const hero = heroKey in blockDefaults ? responsiveImage(textOf(blocks, heroKey)) : null;
+    if (hero)
+      tags.links.push({
+        rel: "preload",
+        as: "image",
+        type: "image/webp",
+        imageSrcSet: hero.srcSet,
+        imageSizes: PHOTO_SIZES,
+        fetchPriority: "high",
+      } as (typeof tags.links)[number]);
+    return tags;
   };
 }
 

@@ -16,6 +16,8 @@ test("preview uses the stable alias and never --prod", () => {
   assert.doesNotMatch(r.stdout, /--prod/);
   assert.match(r.stdout, /SITE_ENV=preview/);
   assert.match(r.stdout, /BETTER_AUTH_URL=https:\/\/preview--belmore-estates\.netlify\.app/);
+  // Canonical URLs on the preview still name the production origin.
+  assert.match(r.stdout, /SITE_ORIGIN=https:\/\/belmore-estates\.netlify\.app(?!\S*preview)/);
 });
 
 test("production refuses without explicit approval", () => {

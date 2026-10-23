@@ -77,6 +77,8 @@ export default defineConfig(({ command, isPreview, mode }) => {
   define: {
     __SITE_ENV__: JSON.stringify(process.env.SITE_ENV ?? ""),
     __BUILD_AUTH_URL__: JSON.stringify(process.env.BETTER_AUTH_URL ?? ""),
+    // Canonical / og:url origin (always the production site, also on the preview).
+    __SITE_ORIGIN__: JSON.stringify(process.env.SITE_ORIGIN ?? ""),
   },
   // router.tsx imports getGlobalStartContext (an isomorphic fn). Pre-bundling
   // start-client-core would skip the server/client split and drag
