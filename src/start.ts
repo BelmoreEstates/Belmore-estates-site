@@ -55,7 +55,16 @@ const securityHeaders = createMiddleware().server(async ({ next }) => {
   // local dev and anything unconfigured default to noindex.
   if (!isProductionSite()) headers.set("X-Robots-Tag", "noindex, nofollow");
   setResponseHeaders(headers);
-  return next({ context: { cspNonce: nonce } });
+  const result = await next({ context: { cspNonce: nonce } });
+  // Some responses (e.g. the router's 404 for unknown paths) are built without
+  // the headers set above; copy any that are missing onto the final response.
+  try {
+    const out = (result as { response?: Response }).response?.headers;
+    if (out) for (const [name, value] of headers) if (!out.has(name)) out.set(name, value);
+  } catch {
+    // Immutable headers (e.g. Response.redirect): leave as is.
+  }
+  return result;
 });
 
 export const startInstance = createStart(() => ({

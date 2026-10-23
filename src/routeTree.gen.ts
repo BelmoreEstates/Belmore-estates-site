@@ -21,6 +21,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PlansRouteImport } from './routes/plans'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProcessRouteImport } from './routes/process'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesSlugRouteImport } from './routes/homes.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
@@ -88,6 +90,16 @@ const ProcessRoute = ProcessRouteImport.update({
   path: '/process',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomesIndexRoute = HomesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -132,6 +144,8 @@ export interface FileRoutesByFullPath {
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
@@ -150,6 +164,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
@@ -171,6 +187,8 @@ export interface FileRoutesById {
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/homes/$slug': typeof HomesSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
@@ -193,6 +211,8 @@ export interface FileRouteTypes {
     | '/plans'
     | '/privacy'
     | '/process'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/homes/$slug'
     | '/media/$id'
     | '/plans/$slug'
@@ -211,6 +231,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/process'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/homes/$slug'
     | '/media/$id'
     | '/plans/$slug'
@@ -231,6 +253,8 @@ export interface FileRouteTypes {
     | '/plans'
     | '/privacy'
     | '/process'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/homes/$slug'
     | '/media/$id'
     | '/plans/$slug'
@@ -252,6 +276,8 @@ export interface RootRouteChildren {
   PlansRoute: typeof PlansRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ProcessRoute: typeof ProcessRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   MediaIdRoute: typeof MediaIdRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -342,6 +368,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProcessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/homes/': {
       id: '/homes/'
       path: '/'
@@ -424,6 +464,8 @@ const rootRouteChildren: RootRouteChildren = {
   PlansRoute: PlansRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ProcessRoute: ProcessRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   MediaIdRoute: MediaIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

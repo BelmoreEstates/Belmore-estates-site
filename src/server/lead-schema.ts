@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+// Zod probes for eval support with `new Function("")` when an object schema is
+// created. It catches the error, but the strict CSP (no 'unsafe-eval') still
+// reports a securitypolicyviolation on every page. jitless skips the probe;
+// validation behaves the same. Must run before any schema below is built.
+z.config({ jitless: true });
+
 /** Shared (client + server) lead validation. Server re-validates everything. */
 export const LEAD_TYPES = ["contact", "tour", "waitlist", "reservation"] as const;
 export type LeadType = (typeof LEAD_TYPES)[number];

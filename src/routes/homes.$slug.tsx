@@ -1,9 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { detailExists } from "@/server/public";
 import { InquiryForm } from "@/components/site/inquiry-form";
 import { LotStatusBadge, T, ValueText, lotVars, seoHead, useSiteData, useText } from "@/components/site/text";
 import { homeBySlug } from "@/data/site";
 
 export const Route = createFileRoute("/homes/$slug")({
+  // SSR only: unknown slugs answer with HTTP 404. Client-side navigation
+  // already has the data and renders the not-found view from the component.
+  loader: async ({ params }) => {
+    if (typeof window === "undefined" && !(await detailExists({ data: { kind: "lot", slug: params.slug } })))
+      throw notFound();
+  },
   component: HomeDetail,
   head: seoHead("homes.detail", (params, data) => {
     const lot = data.lots.find((l) => l.slug === params.slug) ?? homeBySlug(params.slug);

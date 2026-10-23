@@ -46,3 +46,24 @@ export const getPublicData = createServerFn({ method: "GET" }).handler(async ():
     };
   }
 });
+
+/**
+ * Does a lot / plan detail page exist? Used by the detail routes' loaders
+ * during SSR so a bad slug returns a real HTTP 404 (not a 200 "soft 404").
+ * Any DB failure says "exists" and lets the page fall back as before.
+ */
+export const detailExists = createServerFn({ method: "GET" })
+  .validator((d: { kind: "lot" | "plan"; slug: string }) => ({
+    kind: d.kind === "plan" ? ("plan" as const) : ("lot" as const),
+    slug: String(d.slug).slice(0, 100),
+  }))
+  .handler(async ({ data }): Promise<boolean> => {
+    try {
+      const sql = await getSql();
+      const { loadLots, loadPlans } = await import("./content.server");
+      const list = data.kind === "lot" ? await loadLots(sql) : await loadPlans(sql);
+      return list.some((item) => item.slug === data.slug);
+    } catch {
+      return true;
+    }
+  });

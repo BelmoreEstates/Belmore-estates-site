@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { detailExists } from "@/server/public";
 import { InquiryForm } from "@/components/site/inquiry-form";
 import { buttonStyles } from "@/components/site/chrome";
 import { GlaLink, PlanImage } from "@/components/site/plan-image";
@@ -6,6 +7,12 @@ import { T, ValueText, planVars, seoHead, useSiteData, useText } from "@/compone
 import { planBySlug } from "@/data/site";
 
 export const Route = createFileRoute("/plans/$slug")({
+  // SSR only: unknown slugs answer with HTTP 404. Client-side navigation
+  // already has the data and renders the not-found view from the component.
+  loader: async ({ params }) => {
+    if (typeof window === "undefined" && !(await detailExists({ data: { kind: "plan", slug: params.slug } })))
+      throw notFound();
+  },
   component: PlanPage,
   head: seoHead("plans.detail", (params, data) => {
     const plan = data.plans.find((p) => p.slug === params.slug) ?? planBySlug(params.slug);
