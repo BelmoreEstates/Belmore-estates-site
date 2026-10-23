@@ -17,8 +17,9 @@ export const ORTHO_TILES =
 
 export const LOTS_URL = "/map-data/belmore-lots.geojson";
 
+/** Lot-line source credit. Shown in the disclaimer under the map (not in the map overlay). */
 export const ATTRIBUTION_LOTS =
-  "Lot layout: Legends West Section 8 final plat &amp; LaDieu Associates preliminary plat (approximate, not a survey)";
+  "Lot layout: Legends West Section 8 final plat & LaDieu Associates preliminary plat (approximate, not a survey).";
 export const ATTRIBUTION_ORTHO =
   'Imagery: <a href="https://gis.ny.gov/orthoimagery" target="_blank" rel="noopener">NYS ITS Geospatial Services</a> (2023)';
 
@@ -74,9 +75,45 @@ export const MAP_STRINGS = {
   futureButton: "Future phase",
 } as const;
 
+/** Lot fills. Phase 1 green is a more saturated take on the site's pine (#243f34). */
 export const STATUS_COLORS = {
-  available: "#2f5a46",
-  reserved: "#b46a3c",
+  available: "#1d6f47",
+  reserved: "#c8702c",
   sold: "#3a3f3c",
-  future: "#d8cdb8",
+  future: "#e8b04b",
 } as const;
+
+/** Lot outlines and labels. White lot labels on the green fill are >= 4.8:1 (WCAG AA). */
+export const LOT_STYLE = {
+  line: "#ffffff",
+  futureLine: "#b07a1c",
+  futureDash: "#8a5a12",
+  accent: "#e8590c", // selected / hover outline
+  accentCasing: "#ffffff",
+  labelHalo: "#0f3d27",
+  phaseOpacity: 0.92,
+  futureOpacity: 0.55,
+} as const;
+
+/**
+ * Richer basemap colors, applied over OpenFreeMap "liberty" by layer id.
+ * Values are [paint property, liberty default -> ours].
+ */
+export const BASEMAP_PAINT: Record<string, Record<string, string>> = {
+  park: { "fill-color": "#b9dca0", "fill-outline-color": "#8cc474" },
+  park_outline: { "line-color": "#a3cf88" },
+  landcover_wood: { "fill-color": "hsla(110,42%,56%,0.75)" },
+  landcover_grass: { "fill-color": "#a6d38a" },
+  landuse_residential: { "fill-color": "hsla(35,55%,86%,0.55)" },
+  water: { "fill-color": "#6fa8e8" },
+  waterway_river: { "line-color": "#5b9bd9" },
+  waterway_other: { "line-color": "#5b9bd9" },
+  building: { "fill-color": "#e3cdb0", "fill-outline-color": "#c4a47c" },
+  road_minor_casing: { "line-color": "#b3aa9c" },
+  road_service_track_casing: { "line-color": "#bdb5a8" },
+  road_secondary_tertiary_casing: { "line-color": "#d4833f" },
+  road_trunk_primary_casing: { "line-color": "#d4833f" },
+  road_link_casing: { "line-color": "#d4833f" },
+  road_motorway_casing: { "line-color": "#cf7a35" },
+  road_motorway_link_casing: { "line-color": "#cf7a35" },
+};

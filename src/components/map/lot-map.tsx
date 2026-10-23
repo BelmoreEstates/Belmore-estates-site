@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { phaseLots } from "@/data/site";
 import { LotStatusBadge, T, Tx, lotVars, useSiteData, useText } from "@/components/site/text";
-import { MAP_STRINGS } from "./map-config";
+import { ATTRIBUTION_LOTS, MAP_STRINGS } from "./map-config";
 import type { MapHandle } from "./lot-map-gl";
 
 /**
@@ -244,7 +244,9 @@ export function LotMap(
             </button>
           </li>
         </ul>
-        <p className="mt-4 text-xs leading-relaxed text-muted">{MAP_STRINGS.disclaimer}</p>
+        <p className="mt-4 text-xs leading-relaxed text-muted">
+          {MAP_STRINGS.disclaimer} {ATTRIBUTION_LOTS}
+        </p>
       </aside>
     </div>
   );

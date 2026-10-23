@@ -3,6 +3,7 @@
  * scrolls near the viewport, so maplibre-gl stays out of the main bundle.
  */
 import maplibregl, {
+  type ExpressionSpecification,
   type FilterSpecification,
   type GeoJSONSource,
   type LngLatBoundsLike,
@@ -13,7 +14,8 @@ import type { FeatureCollection } from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
 import {
   AREA_BOUNDS,
-  ATTRIBUTION_LOTS,
+  BASEMAP_PAINT,
+  LOT_STYLE,
   ATTRIBUTION_ORTHO,
   HIDDEN_BASEMAP_STREET_NAMES,
   LOTS_URL,
@@ -75,6 +77,20 @@ function transformStyle(
       ) {
         return { ...layer, filter: withoutNames(layer.filter) };
       }
+      // Flat building footprints at every zoom from 13 (liberty switches to a
+      // 3D extrusion at z14, which reads as near-invisible with pitch locked at 0).
+      if (layer.id === "building-3d") {
+        return { ...layer, layout: { ...layer.layout, visibility: "none" } };
+      }
+      const paint = BASEMAP_PAINT[layer.id];
+      if (layer.id === "building" && layer.type === "fill") {
+        const { maxzoom: _drop, ...rest } = layer;
+        void _drop;
+        return { ...rest, paint: { ...rest.paint, ...paint } } as typeof layer;
+      }
+      if (paint && "paint" in layer) {
+        return { ...layer, paint: { ...layer.paint, ...paint } } as typeof layer;
+      }
       return layer;
     }),
   };
@@ -112,10 +128,9 @@ export function createLotMap(opts: Options): MapHandle {
   map.keyboard.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.addControl(
-    new maplibregl.AttributionControl({
-      compact: true,
-      customAttribution: [ATTRIBUTION_LOTS],
-    }),
+    // Required credits only (OpenFreeMap, OpenMapTiles, OSM, and NYS ITS when the aerial
+    // is on). Compact "i" toggle on narrow maps; the plat note lives under the map.
+    new maplibregl.AttributionControl({ compact: container.clientWidth < 640 }),
     "bottom-right",
   );
   map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left");
@@ -189,13 +204,18 @@ export function createLotMap(opts: Options): MapHandle {
         ],
         "fill-opacity": [
           "case",
-          ["boolean", ["feature-state", "selected"], false],
-          0.75,
-          ["boolean", ["feature-state", "hover"], false],
-          0.6,
           ["==", ["get", "status"], "future"],
-          0.35,
-          0.45,
+          [
+            "case",
+            ["boolean", ["feature-state", "selected"], false],
+            0.8,
+            ["boolean", ["feature-state", "hover"], false],
+            0.7,
+            LOT_STYLE.futureOpacity,
+          ],
+          ["boolean", ["feature-state", "selected"], false],
+          0.97,
+          LOT_STYLE.phaseOpacity,
         ],
       },
     });
@@ -207,20 +227,42 @@ export function createLotMap(opts: Options): MapHandle {
       paint: {
         "line-color": [
           "case",
-          ["boolean", ["feature-state", "selected"], false],
-          "#b46a3c",
           ["==", ["get", "status"], "future"],
-          "#8a7d66",
-          "#f7f3ea",
+          LOT_STYLE.futureLine,
+          LOT_STYLE.line,
         ],
-        "line-width": [
-          "case",
-          ["boolean", ["feature-state", "selected"], false],
-          3,
-          ["boolean", ["feature-state", "hover"], false],
-          2.2,
-          1.2,
-        ],
+        "line-width": 1.4,
+      },
+    });
+    // Selected / hover: bold accent outline over a white casing so it reads on
+    // green, amber and the aerial alike.
+    const active: ExpressionSpecification = [
+      "any",
+      ["boolean", ["feature-state", "selected"], false],
+      ["boolean", ["feature-state", "hover"], false],
+    ];
+    map.addLayer({
+      id: "atlas-lots-accent-casing",
+      type: "line",
+      source: "lots",
+      filter: isLot,
+      layout: { "line-join": "round" },
+      paint: {
+        "line-color": LOT_STYLE.accentCasing,
+        "line-width": ["case", ["boolean", ["feature-state", "selected"], false], 7, 5],
+        "line-opacity": ["case", active, 1, 0],
+      },
+    });
+    map.addLayer({
+      id: "atlas-lots-accent",
+      type: "line",
+      source: "lots",
+      filter: isLot,
+      layout: { "line-join": "round" },
+      paint: {
+        "line-color": LOT_STYLE.accent,
+        "line-width": ["case", ["boolean", ["feature-state", "selected"], false], 4, 2.5],
+        "line-opacity": ["case", active, 1, 0],
       },
     });
     map.addLayer({
@@ -228,8 +270,9 @@ export function createLotMap(opts: Options): MapHandle {
       type: "line",
       source: "lots",
       filter: ["all", isLot, ["==", ["get", "status"], "future"]],
-      paint: { "line-color": "#5e5444", "line-width": 1, "line-dasharray": [2, 2] },
+      paint: { "line-color": LOT_STYLE.futureDash, "line-width": 1, "line-dasharray": [2, 2] },
     });
+    map.moveLayer("atlas-future-dash", "atlas-lots-accent-casing");
     map.addLayer({
       id: STREET_LABEL,
       type: "symbol",
@@ -256,9 +299,19 @@ export function createLotMap(opts: Options): MapHandle {
         "text-size": ["interpolate", ["linear"], ["zoom"], 15.5, 11, 18, 16],
         "text-allow-overlap": true,
       },
-      paint: { "text-color": "#ffffff", "text-halo-color": "#1a2420", "text-halo-width": 1.4 },
+      paint: {
+        "text-color": "#ffffff",
+        "text-halo-color": LOT_STYLE.labelHalo,
+        "text-halo-width": 1.4,
+      },
     });
 
+    // Narrow maps: start with attribution collapsed behind the "i" toggle.
+    if (container.clientWidth < 640) {
+      container
+        .querySelector(".maplibregl-ctrl-attrib")
+        ?.classList.remove("maplibregl-compact-show");
+    }
     applyFeatureState();
     opts.onReady();
   });
