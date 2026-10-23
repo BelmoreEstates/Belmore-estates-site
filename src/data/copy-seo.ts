@@ -6,7 +6,7 @@
  *   global.og.site_name                -> global.seo.title
  *   global.og.image                    -> /og.jpg (1200x630, public/og.jpg)
  *   global.og.image.alt                -> no og:image:alt
- * `home.sitemodel.canvas.label`: accessible name for the 3D site-model canvas
+ * `home.sitemodel.canvas.label`: accessible name for the lot map canvas
  * (wired by the map owner; see /workspace/belmore/map-handoff.md).
  */
 import type { BlockDef } from "./content";
@@ -21,5 +21,8 @@ export const seoBlocks: BlockDef[] = [
   { key: "community.og.description", value: "", multiline: true },
   { key: "plans.og.title", value: "" },
   { key: "plans.og.description", value: "", multiline: true },
-  { key: "home.sitemodel.canvas.label", value: "" },
+  {
+    key: "home.sitemodel.canvas.label",
+    value: "Interactive lot map of Phase 1, lots 801–807, traced from the Section 8 plat.",
+  },
 ];

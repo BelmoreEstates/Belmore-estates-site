@@ -55,12 +55,13 @@ export const copyDefaults: Record<string, string> = {
   "community.facts.schools.value": "Greece Central School District · verify for your lot",
   "community.facts.office.label": "Developer office",
   "community.facts.office.value": "45 Radford Way, Rochester",
-  "community.model.h2": "Belmore Estates in three dimensions",
+  "community.model.h2": "Belmore Estates in Phases",
   "community.model.body":
-    "Orbit the model. The seven lots with houses are Phase 1. The pale block east of Shelby Circle is the future section. Emery Run and Barclay Court are the existing roads around it.",
-  "community.model.hint": "Drag to orbit · scroll to zoom · tap a lot",
+    "The seven outlined lots on Belmore Way and Shelby Circle are Phase 1, lots 801–807. The shaded area is the future phase, and details for it are still to be determined. Emery Run and Barclay Court are the existing streets of Legends West. Click a lot to see its details, or switch to the aerial view.",
+  "community.model.hint":
+    "Click a lot for details · drag to move · scroll to zoom · switch to aerial",
   "community.model.caption":
-    "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
+    "Lot lines are traced from the approved Section 8 plat and are approximate. This is a preliminary layout to help you get your bearings, not a survey. The aerial photo comes from New York State and may be older than the current site work.",
   "community.ground.eyebrow": "On the ground",
   "community.ground.item1.title": "Belmore Way",
   "community.ground.item1.body":
@@ -151,9 +152,9 @@ export const copyDefaults: Record<string, string> = {
   "faq.q5.question": "What do the homes cost?",
   "faq.q5.answer":
     "Pricing: [PRICING — TBD]. Ask for it in writing: each plan's base price, what that price includes, and any premium for your lot ([LOT PREMIUM — TBD]).",
-  "faq.q6.question": "Is the 3D model a survey?",
+  "faq.q6.question": "Is the lot map a survey?",
   "faq.q6.answer":
-    "No. It's a massing model traced from the Section 8 plat so you can orbit lots 801–807. The signed plans control boundaries, bearings, and areas.",
+    "No. It's a preliminary layout traced from the Section 8 plat, so the lot lines are approximate. The signed plat controls boundaries, bearings, and areas.",
   "faq.q7.question": "What warranty comes with a new home in New York?",
   "faq.q7.answer":
     "State law sets a floor. Under General Business Law Article 36-B, a new home carries a housing merchant implied warranty: 1 year for workmanship, 2 years for plumbing, electrical, heating, cooling, and ventilation, and 6 years for material defects. A builder may swap it for a written limited warranty only if that warranty is at least as long, and you get it before you sign. Belmore Estates warranty details: [WARRANTY TERMS — TBD].",
@@ -342,7 +343,7 @@ export const copyDefaults: Record<string, string> = {
     "Community · Floor Plans · Phase 1 Lots · Design Studio · Our Process · About · Questions · Privacy",
   "global.footer.block4.eyebrow": "THE FINE PRINT",
   "global.footer.block4.body":
-    "Lot areas are the figures on the approved Section 8 plat. The 3D model is a massing, not a survey. Plans, pricing, and availability can change, so confirm details before you sign. [BROKER DISCLOSURE — TO CONFIRM]",
+    "Plans, pricing, and availability may change at any time. Lot areas come from the approved Section 8 plat, and the lot map is a preliminary layout with approximate lot lines, not a survey.",
   "global.footer.copyright":
     "© 2026 Schram Family Realty, LLC. Belmore Estates at Legends West, Section 8, Town of Greece, NY.",
   "global.cta.call": "Call [SALES PHONE — TO COME]",
@@ -421,17 +422,18 @@ export const copyDefaults: Record<string, string> = {
     "Talk with our sales team about more plans, lot fit, and custom options.",
   "home.plans.agent_cta.button1": "Contact our team",
   "home.plans.agent_cta.button2": "Book a tour",
-  "home.sitemodel.eyebrow": "Site model",
+  "home.sitemodel.eyebrow": "Lot Map",
   "home.sitemodel.h2": "Lots 801–807, up close",
   "home.sitemodel.link": "Full community page",
-  "home.sitemodel.hint": "Drag to orbit · scroll to zoom · tap a lot",
+  "home.sitemodel.hint":
+    "Click a lot for details · drag to move · scroll to zoom · switch to aerial",
   "home.sitemodel.panel.eyebrow": "Phase 1 · Lot {lot}",
   "home.sitemodel.panel.street": "{street}",
   "home.sitemodel.panel.note": "{note}",
   "home.sitemodel.panel.area": "Plat area {area}",
   "home.sitemodel.panel.release": "Phase 1 · 7 of 24 lots",
   "home.sitemodel.caption":
-    "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
+    "Lot lines are traced from the approved Section 8 plat and are approximate. This is a preliminary layout to help you get your bearings, not a survey. The aerial photo comes from New York State and may be older than the current site work.",
   "home.phase1.eyebrow": "Phase 1",
   "home.phase1.h2": "The first seven lots",
   "home.phase1.card.link": "Lot details",
@@ -546,7 +548,7 @@ export const copyDefaults: Record<string, string> = {
   "homes.detail.specs.price.value": "[PRICING — TBD]",
   "homes.detail.specs.footnote":
     "Area is the plat figure. Greece Central School District; confirm the assignment for this lot before you sign.",
-  "homes.detail.button1": "See it on the site model",
+  "homes.detail.button1": "See It on the Lot Map",
   "homes.detail.button2": "Request lot {lot}",
   "homes.detail.form.h3": "Request lot {lot}",
   "plans.seo.title": "Floor Plans | Belmore Estates, Greece NY",
@@ -757,6 +759,6 @@ export const copyDefaults: Record<string, string> = {
     "Construction runs on [BUILD TIMELINE — TBD]. New York's 1-2-6 implied warranty (1 year workmanship, 2 years plumbing, electrical, heating, cooling, and ventilation, 6 years material defects) is the baseline. After closing, register for the STAR credit, and know that assessments follow the home's condition on March 1.",
   "process.cta.h3": "Start with the model.",
   "process.cta.body":
-    "Phase 1 starts at lot 801, on the Belmore Way curve. Orbit it, then book a tour.",
+    "Phase 1 starts at lot 801 on the Belmore Way curve. Find it on the lot map, then book a tour.",
   "process.cta.button": "Open the lot map",
 };

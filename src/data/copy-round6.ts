@@ -166,7 +166,7 @@ export const round6Blocks: BlockDef[] = [
   {
     key: "legal.disclaimer.body",
     value:
-      "Plans, pricing, and availability may change at any time. Lot areas come from the approved Section 8 plat, the 3D model is for orientation only and is not a survey, and plan images are placeholders for plans by GLA Architecture. Nothing on this site is an offer to sell or a contract.",
+      "Plans, pricing, and availability may change at any time. Lot areas come from the approved Section 8 plat, the lot map is a preliminary layout with approximate lot lines and is not a survey, and plan images are placeholders for plans by GLA Architecture. Nothing on this site is an offer to sell or a contract.",
     multiline: true,
   },
   { key: "process.warranty.h3", value: "" },
