@@ -4,7 +4,8 @@
  *
  * - `{{CONTACT_EMAIL}}` renders as a mailto link to the CONTACT_EMAIL env value
  *   (the server injects it into the blocks map under CONTACT_EMAIL_KEY).
- * - `[THING — TO COME | TBD | TO CONFIRM]` renders as a styled placeholder so
+ * - `[THING — TO COME | TBD | TO CONFIRM]`, `[PLACEHOLDER]` and
+ *   `[PLACEHOLDER — note]` render as a styled placeholder so
  *   unknowns are obvious on the page; the admin lists every one still showing.
  */
 import { Fragment, createContext, useContext, type ComponentType, type ReactNode } from "react";
@@ -16,8 +17,10 @@ import { staticPublicData, type PublicData } from "@/server/public";
 
 const rootApi = getRouteApi("__root__");
 
-export const PLACEHOLDER_RE = /\[[^[\]]*? — (?:TO COME|TBD|TO CONFIRM)\]/g;
-const TOKEN_RE = /(\{\{CONTACT_EMAIL\}\}|\[[^[\]]*? — (?:TO COME|TBD|TO CONFIRM)\])/g;
+export const PLACEHOLDER_RE =
+  /\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\]/g;
+const TOKEN_RE =
+  /(\{\{CONTACT_EMAIL\}\}|\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\])/g;
 
 /**
  * The visual editor renders pages from the unsaved draft: it provides the
@@ -98,7 +101,9 @@ export function RichText({ text, emailClassName }: { text: string; emailClassNam
               {email}
             </a>
           );
-        if (/^\[[^[\]]*? — (?:TO COME|TBD|TO CONFIRM)\]$/.test(part))
+        if (
+          /^\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\]$/.test(part)
+        )
           return <Placeholder key={i}>{part}</Placeholder>;
         return <Fragment key={i}>{part}</Fragment>;
       })}

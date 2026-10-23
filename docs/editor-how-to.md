@@ -64,3 +64,10 @@ Your work saves itself as a draft. Visitors see nothing until you click **Publis
 4. Check it, then **Publish** to make it live. Changed your mind? Click **Undo**.
 
 **Tip:** If you see "changed in another window", close the other editor tab and reload.
+
+## Social icons, footer notices and the legal page (Round 6)
+- **Social icons:** open **Social & footer** (left bar) and paste each profile address (must start with `https://`). Icons appear in the top bar once an address is set. Leave a box empty to hide that icon. You can do the same in /admin → **Social & legal**.
+- **Fair Housing & legal (footer):** in the same panel, **Show/Hide** turns on the footer notices (Equal Housing Opportunity logo, Privacy Notice, Fair Housing Notice link) and the /legal page. Paste the NY DOS Fair Housing Notice address there (when empty, the link goes to the Legal page), plus the brokerage SOP address (when empty, that link is hidden).
+- **Text:** click any notice text on the page to edit it, or search for "legal" or "footer" in **All text**.
+- **Testimonial on Home:** visitors only see it once the quote and name are real (no `[brackets]`).
+- Nothing reaches visitors until you click **Publish…**.

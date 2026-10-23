@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { PageIntro } from "@/components/site/chrome";
 import { SiteModel } from "@/components/site/site-model";
-import { T, Tx } from "@/components/site/text";
+import { T, Tx, textOf, useSiteData } from "@/components/site/text";
 
 const facts = ["place", "developer", "lots", "streets", "schools", "office"] as const;
+/** Round 6 rows: shown only once their label has text (empty by default). */
+const optionalFacts = ["utilities", "builder", "hoa"] as const;
 
 export function CommunityIntro() {
   return (
@@ -17,6 +19,11 @@ export function CommunityIntro() {
 }
 
 export function CommunityPlat() {
+  const { blocks } = useSiteData();
+  const rows = [
+    ...facts,
+    ...optionalFacts.filter((f) => textOf(blocks, `community.facts.${f}.label`).trim() !== ""),
+  ];
   return (
     <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-12">
       <div className="lg:col-span-5">
@@ -28,7 +35,7 @@ export function CommunityPlat() {
         </p>
       </div>
       <dl className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:col-span-7">
-        {facts.map((f) => (
+        {rows.map((f) => (
           <Fact
             key={f}
             k={<Tx k={`community.facts.${f}.label`} />}

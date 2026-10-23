@@ -18,6 +18,7 @@ import * as planDetail from "./sections/plan-detail";
 import * as plans from "./sections/plans";
 import * as privacy from "./sections/privacy";
 import * as process from "./sections/process";
+import * as legal from "@/components/site/social-legal";
 import { Frame, LIBRARY, type SectionStyle } from "./blocks";
 import { isLibraryType, type Block } from "./doc";
 
@@ -29,6 +30,12 @@ export const ORIGINAL_SECTIONS: Record<string, { label: string; Component: Compo
   HomePhase1: { label: "Phase 1 lots", Component: home.HomePhase1 },
   HomeStudio: { label: "Design studio teaser", Component: home.HomeStudio },
   HomeProcess: { label: "How it works", Component: home.HomeProcess },
+  HomeTrust: { label: "Why Belmore Estates (trust band)", Component: legal.HomeTrust },
+  HomeTestimonial: {
+    label: "Buyer story (hidden until a real quote)",
+    Component: legal.HomeTestimonial,
+  },
+  HomeFairHousing: { label: "Fair Housing Notice line", Component: legal.HomeFairHousing },
   CommunityIntro: { label: "Community intro", Component: community.CommunityIntro },
   CommunityPlat: { label: "Plat & lots", Component: community.CommunityPlat },
   CommunityModel: { label: "Site map", Component: community.CommunityModel },
@@ -52,6 +59,7 @@ export const ORIGINAL_SECTIONS: Record<string, { label: string; Component: Compo
   AboutTeam: { label: "Team", Component: about.AboutTeam },
   FaqList: { label: "Questions & answers", Component: faq.FaqList },
   PrivacyPolicy: { label: "Privacy policy", Component: privacy.PrivacyPolicy },
+  LegalNotices: { label: "Fair housing & legal notices", Component: legal.LegalPage },
   ContactMain: { label: "Contact form & details", Component: contact.ContactMain },
   PlanDetailHero: {
     label: "Plan photos & facts (from Plans)",

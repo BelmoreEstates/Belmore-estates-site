@@ -14,6 +14,7 @@
  * `{{CONTACT_EMAIL}}` is swapped for CONTACT_EMAIL (env; default in site-config.ts) at render.
  */
 import { copyDefaults } from "./copy.generated";
+import { round6Blocks } from "./copy-round6";
 
 export type BlockDef = {
   key: string;
@@ -67,6 +68,20 @@ const extraBlocks: BlockDef[] = [
       "To stop spam, the site keeps a one-way, salted hash of your IP address (not the address itself) for up to one day, and a form that is filled in too fast or contains a hidden spam field is discarded.",
     multiline: true,
   },
+  // Social links in the top bar and footer (round 6). Empty = icon hidden.
+  // Must be an https:// URL (checked by validateDoc). Edited in the editor's
+  // "Social & footer" panel or the /admin "Social & legal" tab.
+  { key: "global.social.facebook", value: "" },
+  { key: "global.social.instagram", value: "" },
+  { key: "global.social.youtube", value: "" },
+  { key: "global.social.linkedin", value: "" },
+  { key: "global.social.tiktok", value: "" },
+  { key: "global.social.x", value: "" },
+  // Round 6 footer legal row, /legal page, homepage Fair Housing line. Hidden
+  // from visitors until `global.legal.enabled` is "on" (set in the draft;
+  // goes live on Publish). Quill's v2 keys are in copy-round6.ts.
+  { key: "global.legal.enabled", value: "" },
+  ...round6Blocks,
   { key: "login.h1", value: "Owner sign-in" },
   {
     key: "login.body",

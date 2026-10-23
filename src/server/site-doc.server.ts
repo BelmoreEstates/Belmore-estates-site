@@ -3,6 +3,7 @@
  * the shape and migrations/0008_site_editor.sql for the tables.
  */
 import sanitizeHtml from "sanitize-html";
+import { SOCIAL_NETWORKS, isSocialUrl, socialKey } from "@/site/social-icons";
 import { z } from "zod";
 import type { Sql } from "@/lib/db";
 import { blockDefByKey } from "@/data/content";
@@ -212,6 +213,29 @@ export function validateDoc(input: unknown): SiteDoc {
     }
     if (def.image && value && !/^(\/(?!\/)|https:\/\/)/.test(value))
       throw new Error(`Photo for ${key} must be an uploaded photo or https:// address`);
+    if (key.startsWith("global.social.")) {
+      const url = value.trim();
+      const name = SOCIAL_NETWORKS.find((n) => socialKey(n.id) === key)?.label ?? key;
+      if (url && !isSocialUrl(url))
+        throw new Error(
+          `${name} link must be a full https:// address (e.g. https://www.example.com/yourpage), or empty to hide the icon`,
+        );
+      doc.texts[key] = url;
+    }
+    if (key === "global.footer.fairhousing.url" || key === "global.footer.sop.url") {
+      const url = value.trim();
+      if (url && !isSocialUrl(url))
+        throw new Error(
+          `${key.includes("sop") ? "Standardized Operating Procedures" : "Fair Housing Notice"} link must be a full https:// address, or empty`,
+        );
+      doc.texts[key] = url;
+    }
+    if (key === "global.legal.enabled") {
+      const v = value.trim().toLowerCase();
+      if (v !== "" && v !== "on" && v !== "off")
+        throw new Error('Legal notices setting must be "on" or empty');
+      doc.texts[key] = v === "on" ? "on" : "";
+    }
   }
   const slugs = Object.keys(doc.pages);
   if (slugs.length > 60) throw new Error("Too many pages");

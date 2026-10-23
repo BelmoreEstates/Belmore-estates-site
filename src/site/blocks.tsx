@@ -695,6 +695,163 @@ export function RichTextBlock(p: RichTextBlockProps) {
   );
 }
 
+/* ------------------------------------------------------------- Highlights */
+/** A short row of key facts (e.g. "24 · homesites"). Only real, confirmed facts. */
+export type HighlightsProps = SectionStyle & {
+  id: string;
+  heading?: Txt;
+  items?: { value?: string; label?: string }[];
+};
+export function Highlights(p: HighlightsProps) {
+  const style: SectionStyle = { ...p, bg: p.bg ?? "deep" };
+  const onDark = dark(style);
+  const items = (p.items ?? []).filter((it) => filled(it.value) || filled(it.label));
+  return (
+    <Frame style={style} library>
+      <div className="mx-auto max-w-6xl px-5">
+        {filled(p.heading) ? (
+          <h2 className="text-center text-2xl">
+            <Show v={p.heading} />
+          </h2>
+        ) : null}
+        {items.length === 0 ? <EditorHint>Add facts in the panel on the right.</EditorHint> : null}
+        <ul
+          className={cn("grid gap-3 sm:grid-cols-2 lg:grid-cols-4", filled(p.heading) && "mt-6")}
+          data-highlights
+        >
+          {items.map((it, i) => (
+            <li
+              key={i}
+              className={cn(
+                "border px-5 py-6 text-center",
+                onDark ? "border-cream/30" : "border-line",
+              )}
+            >
+              {filled(it.value) ? (
+                <p className="font-display text-3xl">
+                  <Show v={it.value} />
+                </p>
+              ) : null}
+              {filled(it.label) ? (
+                <p className={cn("mt-1 text-sm", onDark ? "text-paper-deep" : "text-muted")}>
+                  <Show v={it.label} />
+                </p>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Frame>
+  );
+}
+
+/* -------------------------------------------------------------- LinkTiles */
+/** Photo tiles that link to the main pages ("Explore Belmore"). */
+export type LinkTilesProps = SectionStyle & {
+  id: string;
+  eyebrow?: Txt;
+  heading?: Txt;
+  items?: (Pic & { title?: string; href?: string })[];
+};
+export function LinkTiles(p: LinkTilesProps) {
+  const items = p.items ?? [];
+  const edit = useEditApi();
+  return (
+    <Frame style={p} library>
+      <div className="mx-auto max-w-6xl px-5">
+        <Head eyebrow={p.eyebrow} heading={p.heading} dark={dark(p)} />
+        {items.length === 0 ? <EditorHint>Add tiles in the panel on the right.</EditorHint> : null}
+        <ul className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3" data-link-tiles>
+          {items.map((it, i) => {
+            const src = safeImageSrc(it.src);
+            const label = filled(it.title) ? <Show v={it.title} /> : null;
+            return (
+              <li key={i} className="relative aspect-[4/3] overflow-hidden bg-pine-deep">
+                {edit ? (
+                  <>
+                    <Photo
+                      id={p.id}
+                      field="items"
+                      index={i}
+                      pic={it}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-ink/80 to-transparent p-4 font-display text-xl text-cream">
+                      {label}
+                    </span>
+                  </>
+                ) : (
+                  <a href={safeHref(it.href)} className="group block h-full w-full">
+                    {src ? (
+                      <img
+                        src={src}
+                        alt=""
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : null}
+                    <span className="absolute inset-0 bg-linear-to-t from-ink/80 via-ink/20 to-transparent" />
+                    <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-4 font-display text-xl text-cream sm:text-2xl">
+                      {label}
+                      <span aria-hidden className="text-base">
+                        →
+                      </span>
+                    </span>
+                  </a>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </Frame>
+  );
+}
+
+/* -------------------------------------------------------------- Statement */
+/** A centered intro ("About the builder"): label, heading, text and a button. */
+export type StatementProps = SectionStyle & {
+  id: string;
+  eyebrow?: Txt;
+  heading?: Txt;
+  body?: Txt;
+  button?: Btn;
+};
+export function Statement(p: StatementProps) {
+  const onDark = dark(p);
+  return (
+    <Frame style={p} library>
+      <div className="mx-auto max-w-3xl px-5 text-center" data-statement>
+        {filled(p.eyebrow) ? (
+          <p className="text-xs uppercase tracking-widest text-copper">
+            <Show v={p.eyebrow} />
+          </p>
+        ) : null}
+        {filled(p.heading) ? (
+          <h2 className="mt-3 text-4xl">
+            <Show v={p.heading} />
+          </h2>
+        ) : null}
+        {filled(p.body) ? (
+          <p
+            className={cn(
+              "mx-auto mt-4 max-w-2xl text-lg",
+              onDark ? "text-paper-deep" : "text-muted",
+            )}
+          >
+            <Show v={p.body} />
+          </p>
+        ) : null}
+        {p.button && filled(p.button.label) ? (
+          <div className="mt-6 flex justify-center">
+            <Button b={p.button} onDark={onDark} />
+          </div>
+        ) : null}
+      </div>
+    </Frame>
+  );
+}
+
 export const LIBRARY: Record<LibraryType, (p: any) => ReactNode> = {
   Hero,
   TextImage,
@@ -709,4 +866,7 @@ export const LIBRARY: Record<LibraryType, (p: any) => ReactNode> = {
   Video,
   Spacer,
   RichTextBlock,
+  Highlights,
+  LinkTiles,
+  Statement,
 };

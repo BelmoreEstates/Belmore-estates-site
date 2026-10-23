@@ -71,8 +71,11 @@ export type SystemPage = {
   path: string;
   /** `<prefix>.seo.title` / `.seo.description` text keys. */
   seoPrefix: string;
-  /** Original section types, in order. */
+  /** Original section types, in order (the default layout). */
   sections: string[];
+  /** Extra original sections that belong to this page but are NOT in the
+   *  default layout (added from the editor's "Original sections" list). */
+  optional?: string[];
   /** Data-driven template (one page per plan / lot). */
   template?: "plan" | "lot";
 };
@@ -92,6 +95,7 @@ export const SYSTEM_PAGES: SystemPage[] = [
       "HomeStudio",
       "HomeProcess",
     ],
+    optional: ["HomeTrust", "HomeTestimonial", "HomeFairHousing"],
   },
   {
     slug: "community",
@@ -149,6 +153,14 @@ export const SYSTEM_PAGES: SystemPage[] = [
     path: "/privacy",
     seoPrefix: "privacy",
     sections: ["PrivacyPolicy"],
+  },
+  {
+    // Round 6. /legal answers 404 to visitors until `global.legal.enabled` is "on".
+    slug: "legal",
+    title: "Fair Housing & Legal",
+    path: "/legal",
+    seoPrefix: "legal",
+    sections: ["LegalNotices"],
   },
   {
     slug: "contact",
@@ -578,12 +590,15 @@ export const LIBRARY_TYPES = [
   "Video",
   "Spacer",
   "RichTextBlock",
+  "Highlights",
+  "LinkTiles",
+  "Statement",
 ] as const;
 export type LibraryType = (typeof LIBRARY_TYPES)[number];
 
 /** Original section type → the page it belongs to. */
 export const ORIGINAL_PAGE: Record<string, string> = Object.fromEntries(
-  SYSTEM_PAGES.flatMap((p) => p.sections.map((type) => [type, p.slug])),
+  SYSTEM_PAGES.flatMap((p) => [...p.sections, ...(p.optional ?? [])].map((type) => [type, p.slug])),
 );
 
 export const isLibraryType = (type: string): type is LibraryType =>

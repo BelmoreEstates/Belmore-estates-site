@@ -25,6 +25,7 @@ import { Dialog, EditorDialogs, errorText } from "./dialogs";
 import {
   HistoryPanel,
   PagesPanel,
+  SettingsPanel,
   TextsPanel,
   ThemePanel,
   pageList,
@@ -360,6 +361,12 @@ const PLUGINS: Plugin[] = [
   { name: "pages", label: "Pages & menu", icon: icon("📄"), render: () => <PagesPanel /> },
   { name: "theme", label: "Colors & fonts", icon: icon("🎨"), render: () => <ThemePanel /> },
   { name: "texts", label: "All text", icon: icon("🔤"), render: () => <TextsPanel /> },
+  {
+    name: "settings",
+    label: "Social & footer",
+    icon: icon("⚙️"),
+    render: () => <SettingsPanel />,
+  },
   { name: "history", label: "Versions", icon: icon("🕘"), render: () => <HistoryPanel /> },
 ];
 

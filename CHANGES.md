@@ -3,6 +3,35 @@
 This repository is a fresh, self-hostable port of the original build (original baseline commit `d4eaac8`). Rounds 1–3 below describe work done before the port; anything they say about the old host has been replaced by Round 4.
 Nothing was deployed or published. No service was signed up for and nobody was contacted. There is no `.env` file.
 
+## Round 6: social icons, footer notices, /legal, Quill copy (draft only)
+Nothing was published, nothing went to production, and no domains were changed. Code was deployed to the preview only. Full Faber notes: `/workspace/belmore/faber-review.md`.
+
+**Social icons (top bar).**
+- Inline-SVG icons for Facebook, Instagram, YouTube, LinkedIn, TikTok and X (`src/site/social-icons.ts`).
+- URLs are settings (`global.social.*`) in Editor → Social & footer and in /admin → Social & legal.
+- https only (validated on the server). Links use `target=_blank`, `rel="noopener noreferrer"` and aria-labels.
+- Each icon is hidden until its URL is set. Edit mode shows the empty slots.
+
+**Footer notices.**
+- The `FooterLegal` block holds the official HUD Equal Housing Opportunity logo (vectorized from HUD's public-domain `fheo200.tif`, saved as `public/images/equal-housing-opportunity*.svg`, alt "Equal Housing Opportunity").
+- It also has the editable EHO statement, a Privacy Notice summary linking to /privacy, Fair Housing Notice / SOP / Legal links, and broker lines.
+- It is controlled by `global.legal.enabled` (Show/Hide), so it stays off on the published site until a publish.
+
+**NY 19 NYCRR §175.29.**
+- A homepage `HomeFairHousing` line plus a footer link to the NY DOS Fair Housing Notice.
+- The URL setting is `global.footer.fairhousing.url`. While it is empty, the link falls back to /legal#dos.
+
+**New /legal page** ("Fair Housing & Legal", system page `legal`, 31 `legal.*` keys). It returns 404 unless `global.legal.enabled` is on.
+
+**Quill copy v2.**
+- 63 new keys are in `src/data/copy-round6.ts`.
+- Code defaults for new public sections are empty, so they render only when set (the published site is unchanged). Quill's text was written into the draft.
+- New optional home sections: `HomeTrust`, `HomeTestimonial` (hidden publicly until a real quote and name exist), `HomeFairHousing`.
+- Conditional additions: community facts (utilities, builder, HOA), a Process warranty box, the FAQ intro plus groups, and `home.sitemodel.intro`.
+- Joseph's 31 overridden keys were not touched. Quill's proposals for them are in `/workspace/belmore/round-6-proposed-override-changes.md`.
+
+**Library blocks (Faber-inspired).** Key facts strip, Photo link tiles, Centered intro. All start with `[PLACEHOLDER]`s.
+
 ## Round 5: visual editor (Wix-style, built on Puck)
 **How to use it:** see `docs/editor-how-to.md` (plain English; also at `/workspace/belmore/editor-how-to.md`).
 

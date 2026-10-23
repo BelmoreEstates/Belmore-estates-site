@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { PageIntro } from "@/components/site/chrome";
-import { T, Tx } from "@/components/site/text";
+import { T, Tx, textOf, useSiteData } from "@/components/site/text";
 
 export function ProcessIntro() {
   return (
@@ -14,24 +14,41 @@ export function ProcessIntro() {
 }
 
 export function ProcessSteps() {
+  const { blocks } = useSiteData();
+  // Round 6 warranty note: shown only once it has text (empty by default).
+  const warranty = textOf(blocks, "process.warranty.h3").trim() !== "";
   return (
-    <ol className="mx-auto max-w-3xl px-5 py-16">
-      {[1, 2, 3, 4, 5].map((n) => (
-        <li key={n} className="grid grid-cols-12 gap-4 border-t border-line py-8">
-          <p className="col-span-3 font-display text-3xl text-copper sm:col-span-2">
-            <Tx k={`process.step${n}.number`} />
-          </p>
-          <div className="col-span-9 sm:col-span-10">
+    <>
+      <ol className="mx-auto max-w-3xl px-5 py-16">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <li key={n} className="grid grid-cols-12 gap-4 border-t border-line py-8">
+            <p className="col-span-3 font-display text-3xl text-copper sm:col-span-2">
+              <Tx k={`process.step${n}.number`} />
+            </p>
+            <div className="col-span-9 sm:col-span-10">
+              <h2 className="text-3xl">
+                <Tx k={`process.step${n}.title`} />
+              </h2>
+              <p className="mt-3 leading-relaxed text-muted">
+                <T k={`process.step${n}.body`} />
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      {warranty ? (
+        <div className="mx-auto max-w-3xl px-5 pb-16" data-process-warranty>
+          <div className="border border-line bg-cream p-6 sm:p-8">
             <h2 className="text-3xl">
-              <Tx k={`process.step${n}.title`} />
+              <Tx k="process.warranty.h3" />
             </h2>
             <p className="mt-3 leading-relaxed text-muted">
-              <T k={`process.step${n}.body`} />
+              <T k="process.warranty.body" />
             </p>
           </div>
-        </li>
-      ))}
-    </ol>
+        </div>
+      ) : null}
+    </>
   );
 }
 

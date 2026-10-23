@@ -401,6 +401,78 @@ const lib: Record<
     },
     defaultProps: { html: "<h2>[Heading — TO COME]</h2><p>[Text — TO COME]</p>", width: "narrow" },
   },
+  Highlights: {
+    label: "Key facts strip (real facts only)",
+    fields: {
+      heading: text("Heading (optional)"),
+      items: {
+        type: "array",
+        label: "Facts — only confirmed ones (no made-up numbers)",
+        max: 8,
+        getItemSummary: (it: { value?: string; label?: string }, i?: number) =>
+          [it.value, it.label].filter(Boolean).join(" · ") || `Fact ${(i ?? 0) + 1}`,
+        defaultItemProps: { value: "[PLACEHOLDER]", label: "[PLACEHOLDER]" },
+        arrayFields: {
+          value: { type: "text", label: "Big text (e.g. 24)" },
+          label: { type: "text", label: "Small text below (e.g. homesites)" },
+        },
+      },
+    },
+    defaultProps: {
+      heading: "",
+      items: [
+        { value: "[PLACEHOLDER]", label: "[PLACEHOLDER]" },
+        { value: "[PLACEHOLDER]", label: "[PLACEHOLDER]" },
+        { value: "[PLACEHOLDER]", label: "[PLACEHOLDER]" },
+      ],
+      bg: "deep",
+      padTop: "s",
+      padBottom: "s",
+    },
+  },
+  LinkTiles: {
+    label: "Photo link tiles (explore the site)",
+    fields: {
+      eyebrow: text("Small label above"),
+      heading: text("Heading"),
+      items: {
+        type: "array",
+        label: "Tiles (click a photo on the page to change it)",
+        max: 9,
+        getItemSummary: (it: { title?: string }, i?: number) => it.title || `Tile ${(i ?? 0) + 1}`,
+        defaultItemProps: { title: "[PLACEHOLDER]", href: "/", src: "", alt: "" },
+        arrayFields: {
+          title: { type: "text", label: "Tile name" },
+          href: link("Tile"),
+          src: { type: "text", label: "Photo (click the photo on the page to upload)" },
+        },
+      },
+    },
+    defaultProps: {
+      eyebrow: "",
+      heading: "[PLACEHOLDER]",
+      items: [
+        { title: "Community", href: "/community", src: "/images/street.jpg", alt: "" },
+        { title: "Floor plans", href: "/plans", src: "/images/living.jpg", alt: "" },
+        { title: "Contact", href: "/contact", src: "/images/porch.jpg", alt: "" },
+      ],
+    },
+  },
+  Statement: {
+    label: "Centered intro (e.g. about the builder)",
+    fields: {
+      eyebrow: text("Small label above"),
+      heading: text("Heading"),
+      body: area("Text"),
+      button: button("Button"),
+    },
+    defaultProps: {
+      eyebrow: "",
+      heading: "[PLACEHOLDER]",
+      body: "[PLACEHOLDER]",
+      button: { label: "", href: "" },
+    },
+  },
 };
 
 function libraryComponent(type: LibraryType): ComponentConfig {
@@ -499,7 +571,9 @@ export function buildConfig(base: PublicData, slug: string, pageSections: string
   for (const type of LIBRARY_TYPES) components[type] = libraryComponent(type);
   for (const type of Object.keys(ORIGINAL_SECTIONS)) components[type] = originalComponent(type);
   const sys = systemPageBySlug[slug];
-  const missing = (sys?.sections ?? []).filter((t) => !pageSections.includes(t));
+  const missing = [...(sys?.sections ?? []), ...(sys?.optional ?? [])].filter(
+    (t) => !pageSections.includes(t),
+  );
   const rest = Object.keys(ORIGINAL_SECTIONS).filter((t) => !missing.includes(t));
   return {
     components,

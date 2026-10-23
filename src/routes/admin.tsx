@@ -48,7 +48,16 @@ export const Route = createFileRoute("/admin")({
   }),
 });
 
-const TABS = ["Leads", "Content", "Photos", "Lots", "Future section", "Plans", "Admins"] as const;
+const TABS = [
+  "Leads",
+  "Content",
+  "Photos",
+  "Lots",
+  "Future section",
+  "Social & legal",
+  "Plans",
+  "Admins",
+] as const;
 type Tab = (typeof TABS)[number];
 
 const input = "min-h-11 border border-line bg-cream px-3 text-sm";
@@ -164,7 +173,16 @@ function AdminPage() {
       <div className="mt-8">
         {tab === "Leads" ? <LeadsTab /> : null}
         {tab === "Content" ? (
-          <ContentTab filter={(k) => !k.startsWith("homes.future.") && !k.endsWith(".image.src")} />
+          <ContentTab
+            filter={(k) =>
+              !k.startsWith("homes.future.") &&
+              !k.endsWith(".image.src") &&
+              !k.startsWith("global.social.") &&
+              !k.startsWith("global.legal.") &&
+              !k.startsWith("global.footer.fairhousing.") &&
+              !k.startsWith("global.footer.sop.")
+            }
+          />
         ) : null}
         {tab === "Photos" ? <PhotosTab /> : null}
         {tab === "Lots" ? <LotsTab /> : null}
@@ -176,6 +194,17 @@ function AdminPage() {
               k === "global.status.future"
             }
             intro="The future-section card on /homes and the waitlist form. Set 'homes.future.open' to 'no' to hide the card. Waitlist sign-ups are in Leads (type: waitlist)."
+          />
+        ) : null}
+        {tab === "Social & legal" ? (
+          <ContentTab
+            filter={(k) =>
+              k.startsWith("global.social.") ||
+              k.startsWith("global.legal.") ||
+              k.startsWith("global.footer.fairhousing.") ||
+              k.startsWith("global.footer.sop.")
+            }
+            intro="Social links show as icons in the top bar and footer once set (full https:// address; leave empty to hide). The footer Fair Housing / privacy row, the homepage Fair Housing line and the /legal page appear when 'global.legal.enabled' is 'on'. The Fair Housing Notice and SOP links take full https:// addresses (empty Fair Housing link = the /legal page; empty SOP link = hidden). The rest of the footer and /legal text is in Content. Changes save to the draft; they go live when you publish in the editor."
           />
         ) : null}
         {tab === "Plans" ? <PlansTab /> : null}

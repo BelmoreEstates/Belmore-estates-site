@@ -26,6 +26,7 @@ import { makeRoot, rootOf, setText, useRoot, useSiteUpdater } from "./context";
 import { errorText } from "./dialogs";
 import { docFromData, useSession } from "./session";
 import { askConfirm, openImageDialog, toast } from "./store";
+import { SOCIAL_NETWORKS, isSocialUrl, socialKey } from "@/site/social-icons";
 
 const uid = (p: string) => `${p}-${Math.random().toString(36).slice(2, 10)}`;
 
@@ -1191,6 +1192,113 @@ export function TextsPanel() {
           Words in curly braces like {"{name}"} are filled in automatically — keep them as they are.
         </p>
       ) : null}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------ social & footer */
+
+function SocialUrlInput({
+  label,
+  example,
+  value,
+  onCommit,
+  emptyHint = "Empty: icon hidden",
+}: {
+  label: string;
+  example: string;
+  value: string;
+  onCommit: (v: string) => void;
+  emptyHint?: string;
+}) {
+  const [v, setV] = useState(value);
+  const [err, setErr] = useState("");
+  useEffect(() => {
+    setV(value);
+    setErr("");
+  }, [value]);
+  const commit = () => {
+    const url = v.trim();
+    if (url && !isSocialUrl(url)) {
+      setErr(`Use the full https:// address, e.g. ${example}`);
+      return;
+    }
+    setErr("");
+    if (url !== value) onCommit(url);
+  };
+  return (
+    <label className="be-field" data-social-input={label}>
+      <span>{label}</span>
+      <input
+        className="be-input"
+        type="url"
+        inputMode="url"
+        placeholder={example}
+        value={v}
+        aria-invalid={err ? true : undefined}
+        onChange={(e) => setV(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => e.key === "Enter" && (e.currentTarget as HTMLInputElement).blur()}
+      />
+      {err ? <small className="be-err">{err}</small> : <small>{value ? "Shown" : emptyHint}</small>}
+    </label>
+  );
+}
+
+/** Site-wide settings: social links (top bar + footer) and the footer legal notices. */
+export function SettingsPanel() {
+  const { site } = useRoot();
+  const update = useSiteUpdater();
+  const val = (key: string) => site.texts[key] ?? blockDefaults[key] ?? "";
+  const legalOn = val("global.legal.enabled").trim().toLowerCase() === "on";
+  return (
+    <div className="be-panel" data-panel="settings">
+      <Section
+        title="Social links"
+        help="Icons show in the top bar and the footer, on every page, once a link is set. Leave a box empty to hide that icon. Links open in a new tab."
+      >
+        {SOCIAL_NETWORKS.map((n) => (
+          <SocialUrlInput
+            key={n.id}
+            label={n.label}
+            example={n.example}
+            value={val(socialKey(n.id))}
+            onCommit={(v) => update((s) => setText(s, socialKey(n.id), v))}
+          />
+        ))}
+      </Section>
+      <Section
+        title="Fair Housing & legal (footer)"
+        help="The footer row with the Equal Housing Opportunity logo and notice, the privacy summary, the Fair Housing / SOP / legal links and the brokerage line; the homepage Fair Housing line; and the /legal page. Click any of that text on the page to edit it."
+      >
+        <label className="be-field">
+          <span>Show to visitors?</span>
+          <select
+            className="be-input"
+            value={legalOn ? "on" : ""}
+            onChange={(e) => update((s) => setText(s, "global.legal.enabled", e.target.value))}
+            data-legal-toggle
+          >
+            <option value="on">Show</option>
+            <option value="">Hide</option>
+          </select>
+          <small>Like everything else, this goes live only when you publish.</small>
+        </label>
+        <SocialUrlInput
+          label="NY Fair Housing Notice link"
+          example="https://dos.ny.gov/…"
+          value={val("global.footer.fairhousing.url")}
+          onCommit={(v) => update((s) => setText(s, "global.footer.fairhousing.url", v))}
+          emptyHint="Empty: links to the /legal page"
+        />
+        <SocialUrlInput
+          label="Standardized Operating Procedures link"
+          example="https://…"
+          value={val("global.footer.sop.url")}
+          onCommit={(v) => update((s) => setText(s, "global.footer.sop.url", v))}
+          emptyHint="Empty: link hidden"
+        />
+      </Section>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   Tx,
   lotVars,
   planVars,
+  textOf,
   useSiteData,
   useText,
 } from "@/components/site/text";
@@ -275,6 +276,7 @@ export function HomePlans() {
 }
 
 export function HomeSiteModel() {
+  const { blocks } = useSiteData();
   // Home shows ONLY the flagged model home + up to 3 featured plans, never the
   // rest of the collection (even when the admin makes more plans visible).
 
@@ -288,6 +290,12 @@ export function HomeSiteModel() {
           <h2 className="mt-3 text-4xl">
             <Tx k="home.sitemodel.h2" />
           </h2>
+          {/* Round 6: optional line under the heading (empty by default). */}
+          {textOf(blocks, "home.sitemodel.intro").trim() ? (
+            <p className="mt-3 max-w-2xl text-muted">
+              <T k="home.sitemodel.intro" />
+            </p>
+          ) : null}
         </div>
         <Link
           to="/community"

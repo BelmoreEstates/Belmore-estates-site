@@ -2,9 +2,15 @@ import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Img, RichText, T, Tx, useSiteData, useText } from "@/components/site/text";
+import { Img, RichText, T, Tx, useEditApi, useSiteData, useText } from "@/components/site/text";
 import { isExternalHref, navOf, safeImageSrc, type NavItem } from "@/site/doc";
 import { cn } from "@/lib/cn";
+import {
+  FooterLegal,
+  SocialIcons,
+  useLegalEnabled,
+  useSocialLinks,
+} from "@/components/site/social-legal";
 
 const primary =
   "inline-flex min-h-11 items-center justify-center bg-pine px-5 text-sm text-cream transition-colors hover:bg-pine-deep";
@@ -33,10 +39,24 @@ export function SiteFrame({ children }: { children: ReactNode }) {
 }
 
 function DraftBar() {
+  const edit = useEditApi();
+  const anySocial = useSocialLinks().some((l) => l.url);
+  // Nothing set (and not editing): exactly the original one-line bar.
+  if (!anySocial && !edit)
+    return (
+      <p className="bg-pine-deep px-5 py-2 text-center text-sm text-cream">
+        <T k="global.banner.text" />
+      </p>
+    );
   return (
-    <p className="bg-pine-deep px-5 py-2 text-center text-sm text-cream">
-      <T k="global.banner.text" />
-    </p>
+    <div className="bg-pine-deep px-5 py-1 text-sm text-cream" data-topbar>
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-1 sm:flex-row sm:justify-between sm:gap-6">
+        <p className="py-1 text-center sm:text-left">
+          <T k="global.banner.text" />
+        </p>
+        <SocialIcons where="top" />
+      </div>
+    </div>
   );
 }
 
@@ -189,7 +209,8 @@ function Lines({ text }: { text: string }) {
 function Footer() {
   const { blocks } = useSiteData();
   const nav = useNav();
-  const extra: NavItem[] = ["/faq", "/privacy"].map((to) => ({
+  const legalOn = useLegalEnabled();
+  const extra: NavItem[] = ["/faq", "/privacy", ...(legalOn ? ["/legal"] : [])].map((to) => ({
     id: `footer-${to}`,
     href: to,
     labelKey: menuKey(to),
@@ -204,6 +225,7 @@ function Footer() {
           <p className="mt-3 text-sm text-paper-deep">
             <T k="global.footer.block1.body" />
           </p>
+          <SocialIcons where="footer" />
         </div>
         <div>
           <p className="text-xs uppercase tracking-widest text-copper">
@@ -242,6 +264,7 @@ function Footer() {
           </p>
         </div>
       </div>
+      <FooterLegal />
       <div className="border-t border-pine px-5 py-4 text-center text-xs text-paper-deep">
         <T k="global.footer.copyright" />
       </div>

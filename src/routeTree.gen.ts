@@ -19,6 +19,7 @@ import { Route as DesignStudioRouteImport } from './routes/design-studio'
 import { Route as EditorRouteImport } from './routes/editor'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HomesRouteImport } from './routes/homes'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PlansRouteImport } from './routes/plans'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -80,6 +81,11 @@ const FaqRoute = FaqRouteImport.update({
 const HomesRoute = HomesRouteImport.update({
   id: '/homes',
   path: '/homes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -154,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
   '/homes': typeof HomesRouteWithChildren
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/design-studio': typeof DesignStudioRoute
   '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/process': typeof ProcessRoute
@@ -201,6 +209,7 @@ export interface FileRoutesById {
   '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
   '/homes': typeof HomesRouteWithChildren
+  '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/plans': typeof PlansRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/editor'
     | '/faq'
     | '/homes'
+    | '/legal'
     | '/login'
     | '/plans'
     | '/privacy'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/design-studio'
     | '/editor'
     | '/faq'
+    | '/legal'
     | '/login'
     | '/privacy'
     | '/process'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/editor'
     | '/faq'
     | '/homes'
+    | '/legal'
     | '/login'
     | '/plans'
     | '/privacy'
@@ -298,6 +310,7 @@ export interface RootRouteChildren {
   EditorRoute: typeof EditorRoute
   FaqRoute: typeof FaqRoute
   HomesRoute: typeof HomesRouteWithChildren
+  LegalRoute: typeof LegalRoute
   LoginRoute: typeof LoginRoute
   PlansRoute: typeof PlansRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       path: '/homes'
       fullPath: '/homes'
       preLoaderRoute: typeof HomesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -502,6 +522,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditorRoute: EditorRoute,
   FaqRoute: FaqRoute,
   HomesRoute: HomesRouteWithChildren,
+  LegalRoute: LegalRoute,
   LoginRoute: LoginRoute,
   PlansRoute: PlansRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
