@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { phaseLots } from "@/data/site";
 import { LotStatusBadge, T, Tx, lotVars, useSiteData, useText } from "@/components/site/text";
 import { ATTRIBUTION_LOTS } from "./map-config";
-import type { MapHandle } from "./lot-map-gl";
+import type { MapFailure, MapHandle } from "./lot-map-gl";
 
 /**
  * Interactive lot map (replaces the three.js massing model).
@@ -28,7 +29,7 @@ export function LotMap(
   const [selectedId, setSelectedId] = useState("801");
   const [visible, setVisible] = useState(false);
   const [ready, setReady] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<MapFailure | null>(null);
   const [aerial, setAerial] = useState(false);
   const { lots } = useSiteData();
   const t = useText();
@@ -86,9 +87,14 @@ export function LotMap(
               : tRef.current("map.future.label"),
           onSelect: (id) => setSelectedId(id),
           onReady: () => setReady(true),
+          onError: (reason) => {
+            if (!dead) setFailed(reason);
+          },
+          label: tRef.current("map.label"),
         });
       })
-      .catch(() => setFailed(true));
+      // The map chunk itself failed to load (offline, blocked).
+      .catch(() => setFailed("load"));
     return () => {
       dead = true;
       handle.current?.dispose();
@@ -106,8 +112,16 @@ export function LotMap(
     handle.current?.setAerial(aerial);
   }, [aerial, ready]);
 
+  // Icon-only on phones (one compact row, name via sr-only text + tooltip); icon + text from sm.
   const btn =
-    "min-h-11 border border-line bg-cream/95 px-2 text-xs shadow-sm sm:px-3 sm:text-sm hover:bg-paper focus-visible:outline focus-visible:outline-2";
+    "inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 border border-line bg-cream/95 px-2 text-sm shadow-sm sm:px-3 hover:bg-paper focus-visible:outline focus-visible:outline-2";
+  const control = (label: string, icon: ReactNode) => (
+    <>
+      {icon}
+      <span className="sr-only sm:not-sr-only">{label}</span>
+    </>
+  );
+  const aerialLabel = aerial ? t("map.control.street") : t("map.control.aerial");
 
   return (
     <div className="grid gap-4 lg:grid-cols-12">
@@ -117,13 +131,25 @@ export function LotMap(
         data-map-root
       >
         {/* Reserved height: 440px on phones, min 520px (or the panel height) on wider screens. */}
+        {/* MapLibre labels its own canvas as the region ("map.label"), so the host is a
+            plain div: no nested region landmarks. */}
         <div
           ref={host}
           // Inline style: maplibre-gl.css sets .maplibregl-map { position: relative }.
           style={{ position: "absolute", inset: 0 }}
-          aria-label="Map of Belmore Estates lots"
-          role="region"
         />
+        {failed ? (
+          <div
+            role="status"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-paper-deep p-6 text-center"
+            data-map-error={failed}
+          >
+            <p className="max-w-sm text-base">
+              {failed === "webgl" ? t("map.error.webgl") : t("map.error")}
+            </p>
+            <p className="max-w-sm text-sm text-muted">{t("map.error.fallback")}</p>
+          </div>
+        ) : null}
         {!ready && !failed ? (
           <div
             aria-busy="true"
@@ -134,20 +160,31 @@ export function LotMap(
           </div>
         ) : null}
         {ready ? (
-          <div className="absolute left-2 right-12 top-2 flex flex-wrap gap-1.5 sm:gap-2">
-            <button type="button" className={btn} onClick={() => handle.current?.fitSubdivision()}>
-              {t("map.control.fit")}
-            </button>
-            <button type="button" className={btn} onClick={() => handle.current?.showArea()}>
-              {t("map.control.area")}
+          <div className="absolute left-2 top-2 flex gap-1.5 sm:right-12 sm:flex-wrap sm:gap-2">
+            <button
+              type="button"
+              className={btn}
+              title={t("map.control.fit")}
+              onClick={() => handle.current?.fitSubdivision()}
+            >
+              {control(t("map.control.fit"), <IconFit />)}
             </button>
             <button
               type="button"
               className={btn}
+              title={t("map.control.area")}
+              onClick={() => handle.current?.showArea()}
+            >
+              {control(t("map.control.area"), <IconArea />)}
+            </button>
+            <button
+              type="button"
+              className={btn}
+              title={aerialLabel}
               aria-pressed={aerial}
               onClick={() => setAerial((a) => !a)}
             >
-              {aerial ? t("map.control.street") : t("map.control.aerial")}
+              {control(aerialLabel, aerial ? <IconStreet /> : <IconAerial />)}
             </button>
           </div>
         ) : null}
@@ -155,63 +192,65 @@ export function LotMap(
       <aside
         className="border border-line bg-cream p-5 lg:col-span-4"
         data-model-panel={isFuture ? "future" : lot.id}
-        aria-live="polite"
       >
-        {isFuture ? (
-          <>
-            <h3 className="text-2xl">{t("map.future.label")}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{t("map.future.note")}</p>
-          </>
-        ) : (
-          <>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs uppercase tracking-widest text-copper">
-                <Tx k="home.sitemodel.panel.eyebrow" vars={vars} />
-              </p>
-              <LotStatusBadge status={lot.status} />
-            </div>
-            <h3 className="mt-2 text-3xl">
-              <T k="home.sitemodel.panel.street" vars={vars} />
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">
-              <T k="home.sitemodel.panel.note" vars={vars} />
-            </p>
-            <dl className="mt-5 grid gap-3 text-sm">
-              <div>
-                <dt className="text-muted">
-                  <Tx k="homes.detail.specs.area.label" />
-                </dt>
-                <dd>
-                  <T k="home.sitemodel.panel.area" vars={vars} />
-                </dd>
+        {/* Only the lot details are announced when the selection changes. */}
+        <div aria-live="polite">
+          {isFuture ? (
+            <>
+              <h3 className="text-2xl">{t("map.future.label")}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{t("map.future.note")}</p>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs uppercase tracking-widest text-copper">
+                  <Tx k="home.sitemodel.panel.eyebrow" vars={vars} />
+                </p>
+                <LotStatusBadge status={lot.status} />
               </div>
-              {lot.frontage ? (
+              <h3 className="mt-2 text-3xl">
+                <T k="home.sitemodel.panel.street" vars={vars} />
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                <T k="home.sitemodel.panel.note" vars={vars} />
+              </p>
+              <dl className="mt-5 grid gap-3 text-sm">
                 <div>
-                  <dt className="text-muted">Frontage · depth</dt>
+                  <dt className="text-muted">
+                    <Tx k="homes.detail.specs.area.label" />
+                  </dt>
                   <dd>
-                    {lot.frontage} · {lot.depth}
+                    <T k="home.sitemodel.panel.area" vars={vars} />
                   </dd>
                 </div>
-              ) : null}
-              <div>
-                <dt className="text-muted">
-                  <Tx k="homes.detail.specs.release.label" />
-                </dt>
-                <dd>
-                  <T k="home.sitemodel.panel.release" vars={vars} />
-                </dd>
-              </div>
-            </dl>
-            {/* /homes is being renamed to /lots (301s from /homes). Plain link until the
-                /lots route lands, so this does not depend on the generated route types. */}
-            <a
-              href={`/lots/${encodeURIComponent(lot.slug)}`}
-              className="mt-4 inline-flex min-h-11 items-center text-sm underline"
-            >
-              <Tx k="home.phase1.card.link" />
-            </a>
-          </>
-        )}
+                {lot.frontage ? (
+                  <div>
+                    <dt className="text-muted">Frontage · depth</dt>
+                    <dd>
+                      {lot.frontage} · {lot.depth}
+                    </dd>
+                  </div>
+                ) : null}
+                <div>
+                  <dt className="text-muted">
+                    <Tx k="homes.detail.specs.release.label" />
+                  </dt>
+                  <dd>
+                    <T k="home.sitemodel.panel.release" vars={vars} />
+                  </dd>
+                </div>
+              </dl>
+              {/* /lots/$slug: slug is the lot number ("801"), as in the /lots route. */}
+              <Link
+                to="/lots/$slug"
+                params={{ slug: lot.slug }}
+                className="mt-4 inline-flex min-h-11 items-center text-sm underline"
+              >
+                <Tx k="home.phase1.card.link" />
+              </Link>
+            </>
+          )}
+        </div>
         <p className="sr-only">{t("map.list.heading")}</p>
         <ul className="mt-4 grid grid-cols-4 gap-2">
           {lots.map((item) => (
@@ -251,5 +290,54 @@ export function LotMap(
         </p>
       </aside>
     </div>
+  );
+}
+
+const svg = {
+  width: 20,
+  height: 20,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.8,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+  focusable: "false" as const,
+};
+/** Frame corners: fit to the subdivision. */
+function IconFit() {
+  return (
+    <svg {...svg}>
+      <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+      <rect x="9" y="9" width="6" height="6" />
+    </svg>
+  );
+}
+/** Pin in a wider area: show North Greece. */
+function IconArea() {
+  return (
+    <svg {...svg}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 8.5a2.5 2.5 0 0 1 2.5 2.5c0 2-2.5 4.5-2.5 4.5S9.5 13 9.5 11A2.5 2.5 0 0 1 12 8.5z" />
+    </svg>
+  );
+}
+/** Stacked layers: switch to the aerial. */
+function IconAerial() {
+  return (
+    <svg {...svg}>
+      <path d="M12 4 3 8.5l9 4.5 9-4.5L12 4z" />
+      <path d="m3 12.5 9 4.5 9-4.5M3 16.5 12 21l9-4.5" />
+    </svg>
+  );
+}
+/** Folded map: back to the street map. */
+function IconStreet() {
+  return (
+    <svg {...svg}>
+      <path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4z" />
+      <path d="M9 4v13.5M15 6.5V20" />
+    </svg>
   );
 }

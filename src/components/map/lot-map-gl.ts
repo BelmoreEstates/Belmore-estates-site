@@ -47,6 +47,35 @@ type Options = {
   hoverLabel: (f: { id: string; lot: string | null; status: string }) => string;
   onSelect: (id: string) => void;
   onReady: () => void;
+  /** The map cannot be shown: no WebGL, or the style / lot data failed or timed out. */
+  onError: (reason: MapFailure) => void;
+  /** Accessible name for the map canvas (MapLibre puts role="region" on it). */
+  label: string;
+};
+
+export type MapFailure = "webgl" | "load";
+
+/** Give up on a map that has not finished loading after this long. */
+const LOAD_TIMEOUT_MS = 15000;
+/** Room for the overlay buttons above the lots at the default fit. */
+const FIT_PADDING = { top: 64, right: 24, bottom: 28, left: 24 };
+
+export function hasWebGL(): boolean {
+  try {
+    const c = document.createElement("canvas");
+    return Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
+  } catch {
+    return false;
+  }
+}
+
+const NOOP_HANDLE: MapHandle = {
+  select() {},
+  setStatuses() {},
+  setAerial() {},
+  fitSubdivision() {},
+  showArea() {},
+  dispose() {},
 };
 
 const LOT_FILL = "atlas-lots-fill";
@@ -103,34 +132,70 @@ export function createLotMap(opts: Options): MapHandle {
   let selectedId: string | null = null;
   let disposed = false;
   let lotsData: FeatureCollection | null = null;
+  let ready = false;
+  let failed = false;
 
-  const map = new maplibregl.Map({
-    container,
-    bounds: SUBDIVISION_BOUNDS as LngLatBoundsLike,
-    fitBoundsOptions: { padding: 24 },
-    maxBounds: MAX_BOUNDS as LngLatBoundsLike,
-    minZoom: MIN_ZOOM,
-    maxZoom: MAX_ZOOM,
-    // Glitches 1 & 2: page scrolls normally; two fingers / ctrl+wheel move the map.
-    cooperativeGestures: true,
-    // Flat, north-up map: no accidental rotate/pitch jitter.
-    dragRotate: false,
-    pitchWithRotate: false,
-    touchPitch: false,
-    // Glitch 5: a slightly shaky tap still counts as a tap.
-    clickTolerance: 8,
-    attributionControl: false,
-    renderWorldCopies: false,
-    fadeDuration: reducedMotion ? 0 : 300,
+  if (!hasWebGL()) {
+    opts.onError("webgl");
+    return NOOP_HANDLE;
+  }
+
+  let map: maplibregl.Map;
+  try {
+    map = createMap();
+  } catch {
+    // MapLibre throws when it cannot create a WebGL context.
+    opts.onError("webgl");
+    return NOOP_HANDLE;
+  }
+
+  const timeout = setTimeout(() => fail("load"), LOAD_TIMEOUT_MS);
+  function fail(reason: MapFailure) {
+    if (ready || failed || disposed) return;
+    failed = true;
+    clearTimeout(timeout);
+    opts.onError(reason);
+  }
+  // Before the map is ready, a style/source error is fatal (blocked style, CSP, offline).
+  // Later tile errors (e.g. one aerial tile) are left to MapLibre's own retry/skip.
+  map.on("error", (e) => {
+    if (!ready) {
+      console.warn("[lot-map]", e.error?.message ?? e);
+      if (!map.isStyleLoaded()) fail("load");
+    }
   });
+
+  function createMap() {
+    return new maplibregl.Map({
+      container,
+      bounds: SUBDIVISION_BOUNDS as LngLatBoundsLike,
+      fitBoundsOptions: { padding: FIT_PADDING },
+      maxBounds: MAX_BOUNDS as LngLatBoundsLike,
+      minZoom: MIN_ZOOM,
+      maxZoom: MAX_ZOOM,
+      // Glitches 1 & 2: page scrolls normally; two fingers / ctrl+wheel move the map.
+      cooperativeGestures: true,
+      // Flat, north-up map: no accidental rotate/pitch jitter.
+      dragRotate: false,
+      pitchWithRotate: false,
+      touchPitch: false,
+      // Glitch 5: a slightly shaky tap still counts as a tap.
+      clickTolerance: 8,
+      attributionControl: false,
+      renderWorldCopies: false,
+      fadeDuration: reducedMotion ? 0 : 300,
+      locale: { "Map.Title": opts.label },
+    });
+  }
   map.setStyle(MAP_STYLE_URL, { transformStyle });
   map.touchZoomRotate.disableRotation();
   map.keyboard.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.addControl(
     // Required credits only (OpenFreeMap, OpenMapTiles, OSM, and NYS ITS when the aerial
-    // is on). Compact "i" toggle on narrow maps; the plat note lives under the map.
-    new maplibregl.AttributionControl({ compact: container.clientWidth < 640 }),
+    // is on); the plat note lives under the map. MapLibre's default compact behavior:
+    // on narrow maps the "i" toggle starts expanded and collapses on first interaction.
+    new maplibregl.AttributionControl(),
     "bottom-right",
   );
   map.addControl(new maplibregl.ScaleControl({ unit: "imperial" }), "bottom-left");
@@ -174,9 +239,16 @@ export function createLotMap(opts: Options): MapHandle {
       before,
     );
 
-    const res = await fetch(LOTS_URL);
-    lotsData = (await res.json()) as FeatureCollection;
-    if (disposed) return;
+    try {
+      const res = await fetch(LOTS_URL);
+      if (!res.ok) throw new Error(`lot data HTTP ${res.status}`);
+      lotsData = (await res.json()) as FeatureCollection;
+    } catch (err) {
+      console.warn("[lot-map]", err);
+      fail("load");
+      return;
+    }
+    if (disposed || failed) return;
     // promoteId: stable string ids ("801", "future-03") for feature-state.
     map.addSource("lots", {
       type: "geojson",
@@ -306,13 +378,9 @@ export function createLotMap(opts: Options): MapHandle {
       },
     });
 
-    // Narrow maps: start with attribution collapsed behind the "i" toggle.
-    if (container.clientWidth < 640) {
-      container
-        .querySelector(".maplibregl-ctrl-attrib")
-        ?.classList.remove("maplibregl-compact-show");
-    }
     applyFeatureState();
+    ready = true;
+    clearTimeout(timeout);
     opts.onReady();
   });
 
@@ -404,13 +472,14 @@ export function createLotMap(opts: Options): MapHandle {
       map.setLayoutProperty("nys-ortho", "visibility", on ? "visible" : "none");
     },
     fitSubdivision() {
-      map.fitBounds(SUBDIVISION_BOUNDS as LngLatBoundsLike, { padding: 24, duration });
+      map.fitBounds(SUBDIVISION_BOUNDS as LngLatBoundsLike, { padding: FIT_PADDING, duration });
     },
     showArea() {
       map.fitBounds(AREA_BOUNDS as LngLatBoundsLike, { padding: 0, duration });
     },
     dispose() {
       disposed = true;
+      clearTimeout(timeout);
       if (raf) cancelAnimationFrame(raf);
       popup.remove();
       map.remove();
