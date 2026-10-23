@@ -15,6 +15,8 @@ import { CONTACT_EMAIL_KEY, DEFAULT_CONTACT_EMAIL } from "@/data/site-config";
 import { lotAreaLabel, type LotStatus, type PhaseLot, type Plan } from "@/data/site";
 import { staticPublicData, type PublicData } from "@/server/public";
 import { absoluteUrl, canonicalPath, seoTags } from "@/lib/seo";
+import { siteGraphLd } from "@/lib/jsonld";
+import { socialProfiles } from "@/site/social-icons";
 import { isAboveFoldImageKey, PHOTO_SIZES, responsiveImage } from "@/lib/images";
 
 const rootApi = getRouteApi("__root__");
@@ -22,7 +24,7 @@ const rootApi = getRouteApi("__root__");
 export const PLACEHOLDER_RE =
   /\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\]/g;
 const TOKEN_RE =
-  /(\{\{CONTACT_EMAIL\}\}|\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\])/g;
+  /(\{\{CONTACT_EMAIL\}\}|\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — [^[\]]*?(?:TO COME|TBD|TO CONFIRM|TO FILL)[^[\]]*?)\])/g;
 
 /**
  * The visual editor renders pages from the unsaved draft: it provides the
@@ -104,7 +106,10 @@ export function RichText({ text, emailClassName }: { text: string; emailClassNam
             </a>
           );
         if (
-          /^\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — (?:TO COME|TBD|TO CONFIRM))\]$/.test(part)
+          // Also "[DEVELOPER NAME — SHOW OR HIDE? JOSEPH TO CONFIRM]", "[… — JOSEPH TO FILL]".
+          /^\[(?:PLACEHOLDER(?: — [^[\]]*?)?|[^[\]]*? — [^[\]]*?(?:TO COME|TBD|TO CONFIRM|TO FILL)[^[\]]*?)\]$/.test(
+            part,
+          )
         )
           return <Placeholder key={i}>{part}</Placeholder>;
         return <Fragment key={i}>{part}</Fragment>;
@@ -301,7 +306,11 @@ export function seoHead(
       ogDescription: textOf(blocks, `${prefix}.og.description`, v),
       ...socialDefaults(blocks),
       path,
-      jsonLd: jsonLd ? jsonLd(ctx.params, data, absoluteUrl(path)) : undefined,
+      // Sitewide entity graph on every page, then the page's own markup.
+      jsonLd: [
+        siteGraphLd({ siteName: socialDefaults(blocks).siteName, sameAs: socialProfiles(blocks) }),
+        ...(jsonLd ? jsonLd(ctx.params, data, absoluteUrl(path)) : []),
+      ],
     });
     // Preload the page's hero photo (the LCP element) when it has one.
     const heroKey = `${prefix}.hero.image.src`;

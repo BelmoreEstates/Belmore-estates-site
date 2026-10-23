@@ -1,9 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { seoHead } from "@/components/site/text";
-import { PageView } from "@/site/page-view";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-/** Sections come from the site doc (src/site/sections/* + editor blocks). */
+/** Round 7: the lots index moved from /homes to /lots (301; netlify.toml redirects at the CDN too). */
 export const Route = createFileRoute("/homes/")({
-  component: () => <PageView slug="homes" />,
-  head: seoHead("homes"),
+  beforeLoad: () => {
+    throw redirect({ to: "/lots", statusCode: 301 });
+  },
 });

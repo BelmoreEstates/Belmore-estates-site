@@ -44,7 +44,7 @@ const VIEWPORTS = [
 function visitorPath(slug: string, base: PublicData) {
   const tpl = systemPageBySlug[slug]?.template;
   if (tpl === "plan") return base.plans[0] ? `/plans/${base.plans[0].slug}` : "/plans";
-  if (tpl === "lot") return base.lots[0] ? `/homes/${base.lots[0].slug}` : "/homes";
+  if (tpl === "lot") return base.lots[0] ? `/lots/${base.lots[0].slug}` : "/lots";
   return pagePath(slug);
 }
 

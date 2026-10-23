@@ -431,7 +431,7 @@ export function LotList(p: LotListProps) {
             {lots.map((lot) => (
               <li key={lot.slug}>
                 <Link
-                  to="/homes/$slug"
+                  to="/lots/$slug"
                   params={{ slug: lot.slug }}
                   className="flex min-h-11 flex-col gap-1 border border-line bg-paper p-4 text-ink hover:border-copper"
                 >

@@ -4,7 +4,7 @@ import { RichText, T, Tx, textOf, useSiteData } from "@/components/site/text";
 /** Round 6 (Quill): optional FAQ groups, used only once a group label has text. */
 const GROUPS: { label: string; questions: number[] }[] = [
   { label: "faq.group1.label", questions: [1, 2, 3, 4, 6] },
-  { label: "faq.group2.label", questions: [5, 11, 13] },
+  { label: "faq.group2.label", questions: [5, 11, 13, 14, 15, 16, 17] },
   { label: "faq.group3.label", questions: [7, 8, 9, 10, 12] },
 ];
 

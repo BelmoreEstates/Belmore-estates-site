@@ -40,7 +40,7 @@ export function HomeHero() {
             <Link to="/contact" search={{ form: "tour" }} className={buttonStyles("primary")}>
               <Tx k="home.hero.button1" />
             </Link>
-            <Link to="/homes" className={buttonStyles("quiet")}>
+            <Link to="/lots" className={buttonStyles("quiet")}>
               <Tx k="home.hero.button2" />
             </Link>
           </div>
@@ -340,7 +340,7 @@ export function HomePhase1() {
               </h3>
               <p className="mt-2 text-sm text-muted">{lotAreaLabel(lot)}</p>
               <Link
-                to="/homes/$slug"
+                to="/lots/$slug"
                 params={{ slug: lot.slug }}
                 className="mt-4 inline-flex min-h-11 items-center text-sm underline"
               >

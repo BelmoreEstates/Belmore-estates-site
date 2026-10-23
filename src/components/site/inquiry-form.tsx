@@ -6,7 +6,7 @@
  * per key in WEB3FORMS_ACCESS_KEYS (server-side by default; see README).
  */
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { getFormToken, markLeadNotified, submitLead } from "@/server/leads";
 import { LEAD_TYPES, RESERVABLE_LOTS, TOUR_WINDOWS, type LeadType } from "@/server/lead-schema";
 import { RichText, T, Tx, useSiteData, useText } from "@/components/site/text";
@@ -611,6 +611,15 @@ export function InquiryForm({
               <p className="mt-2 text-sm text-muted">
                 <T k={`${sp}.success.body`} />
               </p>
+              {/* Round 7: "What happens after you sign" → /process (reserve form; empty by default). */}
+              {(blocks[`${sp}.success.link`] ?? "").trim() ? (
+                <Link
+                  to="/process"
+                  className="mt-3 inline-flex min-h-11 items-center text-sm underline"
+                >
+                  <Tx k={`${sp}.success.link`} />
+                </Link>
+              ) : null}
             </div>
           ) : status === "error" ? (
             <div

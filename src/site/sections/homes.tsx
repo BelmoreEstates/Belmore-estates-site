@@ -9,6 +9,7 @@ import {
   useSiteData,
   useText,
 } from "@/components/site/text";
+import { hasText } from "@/lib/has-text";
 
 export function HomesLots() {
   const t = useText();
@@ -45,6 +46,16 @@ export function HomesLots() {
           <RichText text={body} />
         )}
       </p>
+      {hasText(blocks, "homes.index.next") ? (
+        <p className="mt-6 max-w-2xl border-l-2 border-copper pl-3 text-sm leading-relaxed text-muted">
+          <T k="homes.index.next" />{" "}
+          {hasText(blocks, "global.cta.process") ? (
+            <Link to="/process" className="whitespace-nowrap underline underline-offset-2">
+              <Tx k="global.cta.process" />
+            </Link>
+          ) : null}
+        </p>
+      ) : null}
       <ul className="mt-8 grid gap-4 md:grid-cols-2">
         {lots.map((lot) => {
           const v = lotVars(lot);
@@ -58,7 +69,7 @@ export function HomesLots() {
                 <LotStatusBadge status={lot.status} />
               </div>
               <h2 className="mt-2 text-4xl">
-                <Link to="/homes/$slug" params={{ slug: lot.slug }} className="hover:text-copper">
+                <Link to="/lots/$slug" params={{ slug: lot.slug }} className="hover:text-copper">
                   <Tx k="homes.card.title" vars={v} />
                 </Link>
               </h2>
@@ -82,7 +93,7 @@ export function HomesLots() {
                 </span>
               </p>
               <Link
-                to="/homes/$slug"
+                to="/lots/$slug"
                 params={{ slug: lot.slug }}
                 hash="request"
                 className="mt-4 inline-flex min-h-11 items-center text-sm underline"

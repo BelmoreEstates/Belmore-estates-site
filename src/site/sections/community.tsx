@@ -84,7 +84,7 @@ export function CommunityGround() {
         ))}
       </ul>
       <Link
-        to="/homes"
+        to="/lots"
         className="mt-10 inline-flex min-h-11 items-center bg-pine px-5 text-sm text-cream"
       >
         <Tx k="community.ground.button" />

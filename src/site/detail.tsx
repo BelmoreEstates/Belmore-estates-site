@@ -3,7 +3,7 @@ import { useSiteData } from "@/components/site/text";
 import { modelPlan, type PhaseLot, type Plan } from "@/data/site";
 
 /**
- * The plan / lot a detail page is about. /plans/$slug and /homes/$slug provide
+ * The plan / lot a detail page is about. /plans/$slug and /lots/$slug provide
  * it; in the editor (no route) the templates show a sample record instead.
  */
 export const DetailContext = createContext<{ plan?: Plan; lot?: PhaseLot }>({});

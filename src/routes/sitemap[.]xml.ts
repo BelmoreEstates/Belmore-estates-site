@@ -6,7 +6,7 @@ import { isValidCustomSlug } from "@/site/doc";
 const STATIC_PATHS = [
   "/",
   "/plans",
-  "/homes",
+  "/lots",
   "/community",
   "/design-studio",
   "/process",
@@ -52,7 +52,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...(legalOn ? ["/legal"] : []),
           ...custom,
           ...plans.map((p) => `/plans/${encodeURIComponent(p.slug)}`),
-          ...lots.map((l) => `/homes/${encodeURIComponent(l.slug)}`),
+          ...lots.map((l) => `/lots/${encodeURIComponent(l.slug)}`),
         ];
         const body =
           `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +

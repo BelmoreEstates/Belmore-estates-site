@@ -1,7 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useDetailLot } from "@/site/detail";
 import { InquiryForm } from "@/components/site/inquiry-form";
-import { Img, LotStatusBadge, T, Tx, ValueText, lotVars } from "@/components/site/text";
+import {
+  Img,
+  LotStatusBadge,
+  T,
+  Tx,
+  ValueText,
+  lotVars,
+  useSiteData,
+} from "@/components/site/text";
+import { hasText } from "@/lib/has-text";
 
 export function LotDetailHero() {
   const lot = useDetailLot();
@@ -92,6 +101,7 @@ export function LotDetailForm() {
             lotId={lot.id}
           />
         </div>
+        <LotNextSteps vars={v} />
       </div>
     </section>
   );
@@ -102,6 +112,37 @@ function Spec({ label, children }: { label: React.ReactNode; children: React.Rea
     <div>
       <dt className="text-muted">{label}</dt>
       <dd>{children}</dd>
+    </div>
+  );
+}
+
+/** Round 7: "After you request lot {lot}", three short steps + a link to /process. Hidden until it has text. */
+function LotNextSteps({ vars }: { vars: ReturnType<typeof lotVars> }) {
+  const { blocks } = useSiteData();
+  if (!hasText(blocks, "homes.detail.next.h3")) return null;
+  const steps = [1, 2, 3].filter((n) => hasText(blocks, `homes.detail.next.step${n}`));
+  return (
+    <div className="mt-10 max-w-3xl border-t border-line pt-6" data-lot-next>
+      <h3 className="text-2xl">
+        <Tx k="homes.detail.next.h3" vars={vars} />
+      </h3>
+      <ol className="mt-4 grid gap-3 text-sm leading-relaxed text-muted">
+        {steps.map((n) => (
+          <li key={n} className="flex gap-3">
+            <span className="font-display text-lg text-copper" aria-hidden>
+              {n}
+            </span>
+            <span>
+              <T k={`homes.detail.next.step${n}`} vars={vars} />
+            </span>
+          </li>
+        ))}
+      </ol>
+      {hasText(blocks, "homes.detail.next.link") ? (
+        <Link to="/process" className="mt-4 inline-flex min-h-11 items-center text-sm underline">
+          <Tx k="homes.detail.next.link" vars={vars} />
+        </Link>
+      ) : null}
     </div>
   );
 }
