@@ -15,7 +15,7 @@ export type PublicData = {
   plans: Plan[];
   /** True when content came from the static defaults because the DB failed. */
   fallback: boolean;
-  /** Robots noindex: true everywhere except SITE_ENV=production. */
+  /** Robots noindex: true unless SITE_ENV=production and SITE_INDEXING=on. */
   noindex: boolean;
   site: SiteLayout;
   /** True when an admin is previewing the unpublished draft. */
@@ -52,25 +52,25 @@ export const getPublicData = createServerFn({ method: "GET" }).handler(
         loadLots(sql),
         loadPlans(sql),
       ]);
-      const { contactEmail, isProductionSite } = await import("./env");
+      const { contactEmail, allowIndexing } = await import("./env");
       const { texts, pages, nav, theme } = stored.doc;
       return {
         blocks: { ...blockDefaults, ...texts, [CONTACT_EMAIL_KEY]: contactEmail() },
         lots,
         plans,
         fallback: false,
-        noindex: !isProductionSite(),
+        noindex: !allowIndexing(),
         site: { pages: pages ?? {}, nav: nav ?? null, theme: theme ?? {} },
         preview,
       };
     } catch (err) {
       const { logServerError } = await import("./log");
       logServerError("belmore", err, { fallback: "static content" });
-      const { contactEmail, isProductionSite } = await import("./env");
+      const { contactEmail, allowIndexing } = await import("./env");
       return {
         ...staticPublicData,
         blocks: { ...staticPublicData.blocks, [CONTACT_EMAIL_KEY]: contactEmail() },
-        noindex: !isProductionSite(),
+        noindex: !allowIndexing(),
       };
     }
   },

@@ -9,7 +9,7 @@ import {
   DEFAULT_OWNER_EMAILS,
   DEFAULT_WEB3FORMS_ACCESS_KEYS,
   DEFAULT_WEB3FORMS_MODE,
-} from "@/data/site-config";
+} from "../data/site-config.ts";
 
 function env(key: string): string | undefined {
   if (typeof process === "undefined") return undefined;
@@ -53,3 +53,10 @@ export const ownerEmails = (): string[] =>
 export const siteEnv = (): string =>
   (typeof __SITE_ENV__ === "string" && __SITE_ENV__) || env("SITE_ENV") || "development";
 export const isProductionSite = (): boolean => siteEnv() === "production";
+
+/**
+ * Search indexing is a separate switch from SITE_ENV: even the production site
+ * stays noindex (robots meta, X-Robots-Tag, robots.txt "Disallow: /") until
+ * SITE_INDEXING=on is set at runtime. Joseph's go-live keeps it off.
+ */
+export const allowIndexing = (): boolean => isProductionSite() && env("SITE_INDEXING") === "on";

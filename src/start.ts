@@ -1,6 +1,6 @@
 import { createMiddleware, createStart } from "@tanstack/react-start";
 import { setResponseHeaders } from "@tanstack/react-start/server";
-import { isProductionSite } from "@/server/env";
+import { allowIndexing } from "@/server/env";
 
 /**
  * Content-Security-Policy. TanStack Start's hydration scripts are inline, so
@@ -55,9 +55,9 @@ const securityHeaders = createMiddleware().server(async ({ next }) => {
     "X-Frame-Options": "DENY",
   });
   if (import.meta.env.PROD) headers.set("Content-Security-Policy", contentSecurityPolicy(nonce));
-  // Only the production site (SITE_ENV=production) may be indexed; previews,
-  // local dev and anything unconfigured default to noindex.
-  if (!isProductionSite()) headers.set("X-Robots-Tag", "noindex, nofollow");
+  // Indexing needs SITE_ENV=production AND SITE_INDEXING=on; previews, local
+  // dev, anything unconfigured and production without the switch are noindex.
+  if (!allowIndexing()) headers.set("X-Robots-Tag", "noindex, nofollow");
   setResponseHeaders(headers);
   const result = await next({ context: { cspNonce: nonce } });
   // Some responses (e.g. the router's 404 for unknown paths) are built without
