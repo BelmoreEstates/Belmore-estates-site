@@ -64,7 +64,8 @@ export const getPublicData = createServerFn({ method: "GET" }).handler(
         preview,
       };
     } catch (err) {
-      console.error("[belmore] getPublicData fell back to static content:", err);
+      const { logServerError } = await import("./log");
+      logServerError("belmore", err, { fallback: "static content" });
       const { contactEmail, isProductionSite } = await import("./env");
       return {
         ...staticPublicData,

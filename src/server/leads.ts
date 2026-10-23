@@ -1,9 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { getSql } from "@/lib/db";
+import { authMiddleware } from "@/lib/auth/middleware";
 import { AGENT_ATTRIBUTION, SPAM, TURNSTILE_ENABLED } from "@/data/site-config";
 import { maskKey, web3formsAccessKeys, web3formsMode } from "./env";
 import { countLinks, leadInputSchema, leadTypeLabel } from "./lead-schema";
+import { logServerError } from "./log";
 
 /** Issued when a form mounts; the signed timestamp enforces a minimum fill time. */
 export const getFormToken = createServerFn({ method: "GET" }).handler(async () => {
@@ -153,19 +155,23 @@ async function verifyTurnstile(token: string | undefined, ip: string): Promise<b
   return json.success === true;
 }
 
+function validateLeadInput(input: unknown) {
+  const parsed = leadInputSchema.safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    const invalid: { error: string; field: string } = {
+      error: issue?.message ?? "Check the form.",
+      field: String(issue?.path[0] ?? ""),
+    };
+    return { invalid, lead: null };
+  }
+  return { invalid: null, lead: parsed.data };
+}
+
+// authMiddleware here only blocks cross-site browser requests (Fetch Metadata); the forms stay public.
 export const submitLead = createServerFn({ method: "POST" })
-  .validator((input: unknown) => {
-    const parsed = leadInputSchema.safeParse(input);
-    if (!parsed.success) {
-      const issue = parsed.error.issues[0];
-      const invalid: { error: string; field: string } = {
-        error: issue?.message ?? "Check the form.",
-        field: String(issue?.path[0] ?? ""),
-      };
-      return { invalid, lead: null };
-    }
-    return { invalid: null, lead: parsed.data };
-  })
+  .middleware([authMiddleware])
+  .validator(validateLeadInput)
   .handler(async ({ data }): Promise<SubmitResult> => {
     if (data.invalid) return { ok: false, error: data.invalid.error, field: data.invalid.field };
     const lead = data.lead;
@@ -188,27 +194,45 @@ export const submitLead = createServerFn({ method: "POST" })
     if (TURNSTILE_ENABLED && !(await verifyTurnstile(lead.turnstileToken, ip)))
       return { ok: false, error: "The spam check failed. Please try again." };
 
-    const sql = await getSql();
-    const ipHash = sec.hashIp(ip);
-    await sql`delete from form_rate_limits where created_at < now() - interval '1 day'`;
-    const [{ n }] = await sql<{ n: number }>`
+    try {
+      return await saveAndNotify(lead, sec, ip);
+    } catch (err) {
+      // The lead may not be saved. Log without any submitted data; the form shows its error state.
+      logServerError("leads", err, { type: lead.type });
+      throw new Error("The form could not be sent.");
+    }
+  });
+
+type ParsedLead = NonNullable<
+  Extract<ReturnType<typeof validateLeadInput>, { lead: object }>["lead"]
+>;
+
+async function saveAndNotify(
+  lead: ParsedLead,
+  sec: typeof import("./security.server"),
+  ip: string,
+): Promise<SubmitResult> {
+  const sql = await getSql();
+  const ipHash = sec.hashIp(ip);
+  await sql`delete from form_rate_limits where created_at < now() - interval '1 day'`;
+  const [{ n }] = await sql<{ n: number }>`
       select count(*)::int as n from form_rate_limits
       where ip_hash = ${ipHash}
         and created_at > now() - make_interval(mins => ${SPAM.rateLimitWindowMinutes})`;
-    if (n >= SPAM.rateLimitMax)
-      return {
-        ok: false,
-        error: "Too many requests from this connection. Please try again in a few minutes.",
-      };
-    await sql`insert into form_rate_limits (ip_hash) values (${ipHash})`;
+  if (n >= SPAM.rateLimitMax)
+    return {
+      ok: false,
+      error: "Too many requests from this connection. Please try again in a few minutes.",
+    };
+  await sql`insert into form_rate_limits (ip_hash) values (${ipHash})`;
 
-    const keys = web3formsAccessKeys();
-    const mode = web3formsMode();
-    const configured = keys.length > 0;
-    const notifyToken = configured && mode === "client" ? sec.randomToken() : null;
-    const initialStatus = !configured ? "not_configured" : mode === "client" ? "client" : "pending";
+  const keys = web3formsAccessKeys();
+  const mode = web3formsMode();
+  const configured = keys.length > 0;
+  const notifyToken = configured && mode === "client" ? sec.randomToken() : null;
+  const initialStatus = !configured ? "not_configured" : mode === "client" ? "client" : "pending";
 
-    const [row] = await sql<{ id: number }>`
+  const [row] = await sql<{ id: number }>`
       insert into leads (
         type, name, email, phone, interest, lot_id, lot2_id, plan_slug, tour_date, tour_window, tour_lots,
         move_timeline, bedrooms, phase1_news, financing, ack_nonbinding,
@@ -230,35 +254,35 @@ export const submitLead = createServerFn({ method: "POST" })
         ${initialStatus}, ${notifyToken}
       ) returning id`;
 
-    if (!configured) return { ok: true, id: row.id };
-    const payload = buildNotification({ id: row.id, ...lead });
+  if (!configured) return { ok: true, id: row.id };
+  const payload = buildNotification({ id: row.id, ...lead });
 
-    if (mode === "client" && notifyToken)
-      return {
-        ok: true,
-        id: row.id,
-        notify: { leadId: row.id, token: notifyToken, payload, keys },
-      };
+  if (mode === "client" && notifyToken)
+    return {
+      ok: true,
+      id: row.id,
+      notify: { leadId: row.id, token: notifyToken, payload, keys },
+    };
 
-    // Server mode: one submission per key, in parallel. The lead is already
-    // saved, so a failed send is recorded (and shown in /admin), never fatal.
-    const results = await sendToAllKeys(keys, payload);
-    const status = overallStatus(results);
-    const error = errorSummary(results);
-    if (error)
-      console.error(`[leads] Web3Forms notification ${status} for lead #${row.id}: ${error}`);
-    await sql`
+  // Server mode: one submission per key, in parallel. The lead is already
+  // saved, so a failed send is recorded (and shown in /admin), never fatal.
+  const results = await sendToAllKeys(keys, payload);
+  const status = overallStatus(results);
+  const error = errorSummary(results);
+  if (error) logServerError("leads", new Error(error), { notify: status, lead: row.id });
+  await sql`
       update leads set
         notify_status = ${status},
         notify_error = ${error},
         notify_results = ${JSON.stringify(results)}::jsonb,
         notified_at = ${results.some((r) => r.ok) ? new Date().toISOString() : null}
       where id = ${row.id}`;
-    return { ok: true, id: row.id };
-  });
+  return { ok: true, id: row.id };
+}
 
 /** Browser reports the per-key Web3Forms results (client mode). Token is single-use. */
 export const markLeadNotified = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .validator(
     z.object({
       leadId: z.number().int().positive(),
@@ -281,8 +305,7 @@ export const markLeadNotified = createServerFn({ method: "POST" })
     const results: NotifyResult[] = data.results.map((r) => ({ ...r, at }));
     const status = overallStatus(results);
     const error = errorSummary(results);
-    if (error)
-      console.error(`[leads] Web3Forms notification ${status} for lead #${data.leadId}: ${error}`);
+    if (error) logServerError("leads", new Error(error), { notify: status, lead: data.leadId });
     await sql`
       update leads set
         notify_status = ${status},

@@ -21,11 +21,28 @@ export const leadTypeLabel: Record<LeadType, string> = {
   reservation: "Request a lot reservation",
 };
 
+// Single-line fields: no newlines or other control characters (they would let a
+// submitter fake extra "Label: value" lines in the notification email).
+// eslint-disable-next-line no-control-regex -- matching control characters is the point
+const SINGLE_LINE_BAD = /[\u0000-\u001f\u007f]/;
+// Multi-line fields (the note): newlines and tabs are fine, other control characters are not.
+// eslint-disable-next-line no-control-regex -- matching control characters is the point
+const MULTI_LINE_BAD = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/;
+
 const trimmed = (max: number) => z.string().trim().max(max);
-const optional = (max: number) =>
+const optional = (max: number, multiline = false) =>
   trimmed(max)
+    .refine((v) => !(multiline ? MULTI_LINE_BAD : SINGLE_LINE_BAD).test(v), "Check the form.")
     .optional()
     .transform((v) => (v ? v : undefined));
+
+/** A real calendar date (YYYY-MM-DD) from yesterday (time-zone slack) to a year out. */
+export function tourDateInRange(v: string, now = Date.now()): boolean {
+  const t = Date.parse(`${v}T00:00:00Z`);
+  if (!Number.isFinite(t) || new Date(t).toISOString().slice(0, 10) !== v) return false;
+  const day = 24 * 60 * 60 * 1000;
+  return t >= now - 2 * day && t <= now + 366 * day;
+}
 
 // Loose international phone: digits, spaces, + ( ) - . and optional extension.
 const PHONE_RE = /^\+?[0-9 ().-]{7,20}(?:\s*(?:x|ext\.?)\s*[0-9]{1,6})?$/i;
@@ -33,7 +50,9 @@ const PHONE_RE = /^\+?[0-9 ().-]{7,20}(?:\s*(?:x|ext\.?)\s*[0-9]{1,6})?$/i;
 export const leadInputSchema = z
   .object({
     type: z.enum(LEAD_TYPES),
-    name: trimmed(80).min(2, "This one's required."),
+    name: trimmed(80)
+      .min(2, "This one's required.")
+      .refine((v) => !SINGLE_LINE_BAD.test(v), "Please enter your name."),
     email: z
       .string()
       .trim()
@@ -48,7 +67,7 @@ export const leadInputSchema = z
     lotId: optional(8),
     planSlug: optional(80),
     tourDate: optional(10).refine(
-      (v) => v === undefined || /^\d{4}-\d{2}-\d{2}$/.test(v),
+      (v) => v === undefined || (/^\d{4}-\d{2}-\d{2}$/.test(v) && tourDateInRange(v)),
       "Please pick a date.",
     ),
     tourWindow: optional(40),
@@ -64,9 +83,10 @@ export const leadInputSchema = z
     realtor: z.boolean().default(false),
     agentName: optional(80),
     brokerage: optional(120),
-    note: optional(2000),
+    note: optional(2000, true),
     consent: z.literal(true, { error: "Please confirm before sending." }),
-    sourcePage: optional(200),
+    // The page path the form was sent from (shown in the email); anything else is dropped.
+    sourcePage: optional(200).transform((v) => (v && /^\/[^\s]*$/.test(v) ? v : undefined)),
     // Spam fields
     website: z.string().max(200).optional(), // honeypot: must stay empty
     formToken: z.string().max(200),
