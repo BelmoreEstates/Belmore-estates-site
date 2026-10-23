@@ -1,0 +1,26 @@
+# Netlify config. Deploys are made from a local checkout with netlify-cli
+# (`npm run deploy:preview`; production only via `npm run deploy:prod` after
+# Joseph approves). See README.md.
+#
+# The nitro "netlify" preset (vite.config.ts) writes the static site to dist/
+# and the server (SSR + server functions + /api/auth) to
+# .netlify/v1/functions, which Netlify picks up automatically.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Static files. Dynamic pages get the full header set (incl. CSP) from
+# src/start.ts; these cover files served straight from the CDN.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Long-lived caching for hashed /assets/* is written by nitro (dist/_headers).

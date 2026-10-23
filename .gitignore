@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.output/
+.nitro/
+.netlify/
+.tanstack/
+*.tsbuildinfo
+
+# local data, backups, QA scratch
+.pglite/
+backups/
+.csp-check.mjs
+*.log
+
+# secrets: never commit real env files (the template is .env.example)
+.env
+.env.*
+!.env.example
+
+# legacy / other hosts
+.grok/
+.vercel/
+
+# editors / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

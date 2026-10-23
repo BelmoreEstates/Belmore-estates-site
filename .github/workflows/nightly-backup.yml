@@ -1,0 +1,48 @@
+# Nightly database backup — DISABLED by default.
+#
+# As shipped it only runs when started by hand (Actions → "Nightly database
+# backup" → Run workflow). To run it every night, uncomment the `schedule`
+# block below. Setup (see README → Backups):
+#   1. Repo → Settings → Secrets and variables → Actions → New repository
+#      secret: BACKUP_DATABASE_URL = your Neon connection string (a read-only
+#      Neon role is ideal).
+#   2. Backups are uploaded as a workflow artifact (kept 14 days). They contain
+#      lead contact details, so keep the repository PRIVATE.
+name: Nightly database backup
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "17 7 * * *" # 07:17 UTC daily (about 3am in Greece, NY)
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install PostgreSQL client (pg_dump)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -qq postgresql-client  # latest from PGDG; must be >= the Neon server version
+      - run: npm ci --no-audit --no-fund
+      - name: Back up
+        env:
+          DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then echo "BACKUP_DATABASE_URL secret is not set"; exit 1; fi
+          npm run db:backup -- --out backups
+      - uses: actions/upload-artifact@v4
+        with:
+          name: belmore-backup-${{ github.run_id }}
+          path: backups/
+          retention-days: 14
