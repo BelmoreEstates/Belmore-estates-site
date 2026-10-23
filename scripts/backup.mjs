@@ -3,7 +3,8 @@
  * Back up the database: `npm run db:backup [-- --out backups]`.
  *
  * Always writes a JSON export of the business tables (leads, lots, plans,
- * content_blocks, admins, media metadata + data) to
+ * site_docs + site_versions (the visual editor's draft, published site and
+ * version history), admins, media metadata + data) to
  * backups/belmore-<timestamp>.json. When `pg_dump` is on PATH it ALSO writes a
  * full plain-SQL dump (backups/belmore-<timestamp>.sql) that can be restored
  * with `psql "$DATABASE_URL" -f file.sql`. Use `--json-only` to skip pg_dump.
@@ -17,7 +18,16 @@ import { join, resolve } from "node:path";
 import { pgFor } from "./pg.mjs";
 import { databaseUrl as readDatabaseUrl } from "./env.mjs";
 
-const TABLES = ["leads", "lots", "plans", "content_blocks", "admins", "media"];
+const TABLES = [
+  "leads",
+  "lots",
+  "plans",
+  "site_docs",
+  "site_versions",
+  "content_blocks_legacy",
+  "admins",
+  "media",
+];
 
 const databaseUrl = readDatabaseUrl();
 if (!databaseUrl) {
@@ -59,9 +69,13 @@ if (!jsonOnly && process.exitCode !== 1) {
   const probe = spawnSync("pg_dump", ["--version"], { encoding: "utf8" });
   if (probe.status === 0) {
     const sqlPath = join(outDir, `belmore-${stamp}.sql`);
-    const dump = spawnSync("pg_dump", ["--no-owner", "--no-privileges", "--file", sqlPath, databaseUrl], {
-      encoding: "utf8",
-    });
+    const dump = spawnSync(
+      "pg_dump",
+      ["--no-owner", "--no-privileges", "--file", sqlPath, databaseUrl],
+      {
+        encoding: "utf8",
+      },
+    );
     if (dump.status === 0) console.log(`[backup] wrote ${sqlPath} (${probe.stdout.trim()})`);
     else {
       console.error("[backup] pg_dump failed:", dump.stderr.trim());

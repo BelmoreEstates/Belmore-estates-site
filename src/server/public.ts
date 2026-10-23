@@ -3,6 +3,11 @@ import { getSql } from "@/lib/db";
 import { blockDefaults } from "@/data/content";
 import { CONTACT_EMAIL_KEY } from "@/data/site-config";
 import { phaseLots, plans as defaultPlans, type PhaseLot, type Plan } from "@/data/site";
+import type { SiteDoc } from "@/site/doc";
+
+/** Pages, menu and theme from the site doc (texts are merged into `blocks`). */
+export type SiteLayout = Pick<SiteDoc, "pages" | "nav" | "theme">;
+export const PREVIEW_COOKIE = "belmore_preview";
 
 export type PublicData = {
   blocks: Record<string, string>;
@@ -12,6 +17,9 @@ export type PublicData = {
   fallback: boolean;
   /** Robots noindex: true everywhere except SITE_ENV=production. */
   noindex: boolean;
+  site: SiteLayout;
+  /** True when an admin is previewing the unpublished draft. */
+  preview: boolean;
 };
 
 export const staticPublicData: PublicData = {
@@ -20,32 +28,52 @@ export const staticPublicData: PublicData = {
   plans: defaultPlans.filter((p) => !p.hidden),
   fallback: true,
   noindex: true,
+  site: { pages: {}, nav: null, theme: {} },
+  preview: false,
 };
 
 /** Everything the public pages render. DB first; static defaults on any failure. */
-export const getPublicData = createServerFn({ method: "GET" }).handler(async (): Promise<PublicData> => {
-  try {
-    const sql = await getSql();
-    const { loadBlocks, loadLots, loadPlans } = await import("./content.server");
-    const [blocks, lots, plans] = await Promise.all([loadBlocks(sql), loadLots(sql), loadPlans(sql)]);
-    const { contactEmail, isProductionSite } = await import("./env");
-    return {
-      blocks: { ...blocks, [CONTACT_EMAIL_KEY]: contactEmail() },
-      lots,
-      plans,
-      fallback: false,
-      noindex: !isProductionSite(),
-    };
-  } catch (err) {
-    console.error("[belmore] getPublicData fell back to static content:", err);
-    const { contactEmail, isProductionSite } = await import("./env");
-    return {
-      ...staticPublicData,
-      blocks: { ...staticPublicData.blocks, [CONTACT_EMAIL_KEY]: contactEmail() },
-      noindex: !isProductionSite(),
-    };
-  }
-});
+export const getPublicData = createServerFn({ method: "GET" }).handler(
+  async (): Promise<PublicData> => {
+    try {
+      const sql = await getSql();
+      const { loadLots, loadPlans } = await import("./content.server");
+      const { loadDoc } = await import("./site-doc.server");
+      // Draft preview: only for a signed-in admin who switched Preview on.
+      let preview = false;
+      const { getCookie, setResponseHeader } = await import("@tanstack/react-start/server");
+      if (getCookie(PREVIEW_COOKIE) === "1") {
+        const { checkAdmin } = await import("./security.server");
+        preview = (await checkAdmin(sql)).ok;
+        if (preview) setResponseHeader("Cache-Control", "private, no-store");
+      }
+      const [stored, lots, plans] = await Promise.all([
+        loadDoc(sql, preview ? "draft" : "published"),
+        loadLots(sql),
+        loadPlans(sql),
+      ]);
+      const { contactEmail, isProductionSite } = await import("./env");
+      const { texts, pages, nav, theme } = stored.doc;
+      return {
+        blocks: { ...blockDefaults, ...texts, [CONTACT_EMAIL_KEY]: contactEmail() },
+        lots,
+        plans,
+        fallback: false,
+        noindex: !isProductionSite(),
+        site: { pages: pages ?? {}, nav: nav ?? null, theme: theme ?? {} },
+        preview,
+      };
+    } catch (err) {
+      console.error("[belmore] getPublicData fell back to static content:", err);
+      const { contactEmail, isProductionSite } = await import("./env");
+      return {
+        ...staticPublicData,
+        blocks: { ...staticPublicData.blocks, [CONTACT_EMAIL_KEY]: contactEmail() },
+        noindex: !isProductionSite(),
+      };
+    }
+  },
+);
 
 /**
  * Does a lot / plan detail page exist? Used by the detail routes' loaders

@@ -6,9 +6,10 @@
  *    belmoreestates@gmail.com + realtor.deleguardia@gmail.com) is upserted into `admins` as an owner.
  *  - Content: re-applies migrations/0005_seed_content.sql — the default lots
  *    and plans — with `on conflict do nothing`, so rows that already exist
- *    (including the owner's edits in /admin) are never overwritten. Copy
- *    (content_blocks) needs no seed: the site falls back to the keyed defaults
- *    in src/data/copy.generated.ts for any key without a saved override.
+ *    (including the owner's edits in /admin) are never overwritten. Site
+ *    content (site_docs, from migrations/0008) needs no seed: a doc without a
+ *    text, page, menu or theme falls back to the code defaults
+ *    (src/data/copy.generated.ts and src/site/doc.ts).
  *
  * Safe to re-run. Requires DATABASE_URL.
  */

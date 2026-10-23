@@ -11,8 +11,14 @@
  *   BETTER_AUTH_TRUSTED_ORIGINS — optional comma list; defaults to the
  *                        production and preview--belmore-estates Netlify URLs.
  *
- * Email/password is NOT enabled. Admin access is decided separately
- * (src/server/security.server.ts): verified Google email + the admins allowlist.
+ * Fallback: email + password sign-in for allowlisted admins, with PUBLIC
+ * SIGN-UP DISABLED — only an owner can create or reset a password account
+ * (/admin → Admins, src/server/admin.ts `setAdminPassword`). There are no
+ * self-service verification or "forgot password" emails. Sign-in attempts are
+ * rate limited (database-backed, shared by all serverless instances).
+ * Admin access is decided separately (src/server/security.server.ts):
+ * verified Google email or an owner-created password account, plus the
+ * admins allowlist.
  *
  * Database: Neon (DATABASE_URL) when set, else the local in-memory PGLite.
  */
@@ -40,7 +46,9 @@ if (isProduction && !env("BETTER_AUTH_SECRET")) {
   console.error("[auth] BETTER_AUTH_SECRET is not set; sign-in is disabled until it is.");
 }
 if (isProduction && !authConfigured) {
-  console.error("[auth] GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are not set; admin sign-in is unavailable.");
+  console.error(
+    "[auth] GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are not set; admin sign-in is unavailable.",
+  );
 }
 
 // Local dev only: a process-stable random secret (survives HMR, not restarts).
@@ -60,13 +68,20 @@ const DEFAULT_TRUSTED_ORIGINS = [
 // share runtime env vars, so `npm run deploy:*` bakes each build's own
 // BETTER_AUTH_URL in (vite.config.ts). A runtime BETTER_AUTH_URL is the
 // fallback; local dev defaults to localhost.
-const baseURL = (__BUILD_AUTH_URL__ || env("BETTER_AUTH_URL") || "http://localhost:8080").replace(/\/+$/, "");
+const baseURL = (__BUILD_AUTH_URL__ || env("BETTER_AUTH_URL") || "http://localhost:8080").replace(
+  /\/+$/,
+  "",
+);
 const trustedOrigins = [
-  ...new Set([
-    baseURL,
-    ...(env("BETTER_AUTH_TRUSTED_ORIGINS")?.split(",") ?? DEFAULT_TRUSTED_ORIGINS),
-    ...(isProduction ? [] : LOCAL_ORIGINS),
-  ].map((o) => o.trim().replace(/\/+$/, "")).filter(Boolean)),
+  ...new Set(
+    [
+      baseURL,
+      ...(env("BETTER_AUTH_TRUSTED_ORIGINS")?.split(",") ?? DEFAULT_TRUSTED_ORIGINS),
+      ...(isProduction ? [] : LOCAL_ORIGINS),
+    ]
+      .map((o) => o.trim().replace(/\/+$/, ""))
+      .filter(Boolean),
+  ),
 ];
 
 // Local PGLite: start the schema bootstrap early (errors surface on first use).
@@ -76,7 +91,7 @@ if (dbSource === "pglite") void ensureDbReady().catch(() => undefined);
 // Functions). Node 22+ has a global WebSocket; older Node uses `ws`.
 if (!neonConfig.webSocketConstructor) {
   neonConfig.webSocketConstructor =
-    ((globalThis as unknown as { WebSocket?: typeof ws }).WebSocket ?? ws);
+    (globalThis as unknown as { WebSocket?: typeof ws }).WebSocket ?? ws;
 }
 
 const database =
@@ -89,10 +104,23 @@ export const auth = betterAuth({
   // In production a missing secret must not silently fall back: use an
   // unguessable per-process value so no session can be forged (sign-ins just
   // won't persist across instances until the secret is set).
-  secret: env("BETTER_AUTH_SECRET") ?? (isProduction ? randomBytes(32).toString("hex") : devSecret()),
+  secret:
+    env("BETTER_AUTH_SECRET") ?? (isProduction ? randomBytes(32).toString("hex") : devSecret()),
   database,
   trustedOrigins,
-  emailAndPassword: { enabled: false },
+  emailAndPassword: {
+    enabled: true,
+    disableSignUp: true,
+    minPasswordLength: 12,
+    maxPasswordLength: 128,
+  },
+  rateLimit: {
+    enabled: true,
+    storage: "database",
+    // Better Auth's defaults already throttle /sign-in/* (3 per 10 s); add a
+    // longer window so password guessing stays slow.
+    customRules: { "/sign-in/email": { window: 15 * 60, max: 10 } },
+  },
   socialProviders: authConfigured
     ? {
         google: {
@@ -113,6 +141,8 @@ export const auth = betterAuth({
   advanced: {
     useSecureCookies: isProduction,
     defaultCookieAttributes: { sameSite: "lax", path: "/" },
+    // Netlify's real client IP (used by the rate limiter).
+    ipAddress: { ipAddressHeaders: ["x-nf-client-connection-ip", "x-forwarded-for"] },
   },
   // Bridges Better Auth's Set-Cookie into TanStack Start responses. Keep last.
   plugins: [tanstackStartCookies()],

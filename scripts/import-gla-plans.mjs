@@ -17,7 +17,11 @@ const garageLabel = (g) => {
   return m ? `${m[1]}-car` : String(g ?? "");
 };
 const slugOf = (p) =>
-  p.name.replace(/^The\s+/i, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  p.name
+    .replace(/^The\s+/i, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 const plans = raw.map((p, i) => ({
   slug: slugOf(p),

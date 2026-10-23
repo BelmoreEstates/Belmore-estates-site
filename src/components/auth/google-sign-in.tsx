@@ -2,7 +2,13 @@ import { useState } from "react";
 import { signInWithGoogle } from "@/lib/auth/client";
 
 /** "Continue with Google" (full-page redirect to Google, back to callbackURL). */
-export function GoogleSignInButton({ callbackURL = "/admin", className = "" }: { callbackURL?: string; className?: string }) {
+export function GoogleSignInButton({
+  callbackURL = "/admin",
+  className = "",
+}: {
+  callbackURL?: string;
+  className?: string;
+}) {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   return (

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { useRouterState } from "@tanstack/react-router";
 import { getFormToken, markLeadNotified, submitLead } from "@/server/leads";
 import { LEAD_TYPES, RESERVABLE_LOTS, TOUR_WINDOWS, type LeadType } from "@/server/lead-schema";
-import { RichText, T, useSiteData, useText } from "@/components/site/text";
+import { RichText, T, Tx, useSiteData, useText } from "@/components/site/text";
 import { cn } from "@/lib/cn";
 
 const prefix: Record<LeadType, string> = {
@@ -111,7 +111,7 @@ export function InquiryForm({
       ...blank,
       interest: interest ?? "",
       lotId: lotId ?? "",
-      planText: planSlug ? interest ?? planSlug : "",
+      planText: planSlug ? (interest ?? planSlug) : "",
       tourLots: lotId ? `Lot ${lotId}` : "",
     };
   }
@@ -142,8 +142,10 @@ export function InquiryForm({
   const phoneRequired = type === "tour" || type === "reservation";
 
   function messageFor(field: string, serverMessage: string) {
-    if (field === "email") return fields.email.trim() ? t("forms.shared.error.email") : t("forms.shared.error.required");
-    if (field === "phone") return fields.phone.trim() ? t("forms.shared.error.phone") : t("forms.shared.error.required");
+    if (field === "email")
+      return fields.email.trim() ? t("forms.shared.error.email") : t("forms.shared.error.required");
+    if (field === "phone")
+      return fields.phone.trim() ? t("forms.shared.error.phone") : t("forms.shared.error.required");
     if (field === "humanCheck") return t("forms.shared.error.antispam");
     if (field === "consent" || field === "ackNonbinding") return t("forms.shared.error.consent");
     if (field === "name" && fields.name.trim().length < 2) return t("forms.shared.error.required");
@@ -162,7 +164,12 @@ export function InquiryForm({
       email: fields.email,
       phone: fields.phone,
       interest: type === "contact" ? fields.interest : undefined,
-      lotId: type === "reservation" ? fields.lotId : lotOptions.includes(fields.lotId) ? fields.lotId : undefined,
+      lotId:
+        type === "reservation"
+          ? fields.lotId
+          : lotOptions.includes(fields.lotId)
+            ? fields.lotId
+            : undefined,
       lot2Id: type === "reservation" ? fields.lot2Id : undefined,
       planSlug: type === "reservation" ? fields.planText : planSlug,
       tourDate: type === "tour" ? fields.tourDate : undefined,
@@ -174,7 +181,8 @@ export function InquiryForm({
       financing: type === "reservation" ? fields.financing : undefined,
       ackNonbinding: type === "reservation" ? fields.ackNonbinding : false,
       realtor: type === "reservation" ? false : fields.realtor,
-      agentName: type === "reservation" ? fields.agentName : fields.realtor ? fields.agentName : undefined,
+      agentName:
+        type === "reservation" ? fields.agentName : fields.realtor ? fields.agentName : undefined,
       brokerage: fields.realtor && type !== "reservation" ? fields.brokerage : undefined,
       note: fields.note,
       humanCheck: fields.humanCheck,
@@ -210,10 +218,17 @@ export function InquiryForm({
 
   return (
     <div className="grid gap-8 lg:grid-cols-12">
-      <form onSubmit={onSubmit} className="grid gap-4 lg:col-span-7" noValidate data-lead-type={type}>
+      <form
+        onSubmit={onSubmit}
+        className="grid gap-4 lg:col-span-7"
+        noValidate
+        data-lead-type={type}
+      >
         {showTypes ? (
           <fieldset className="grid gap-2">
-            <legend className="text-sm">{t("forms.shared.type.label")}</legend>
+            <legend className="text-sm">
+              <Tx k="forms.shared.type.label" />
+            </legend>
             <div className="flex flex-wrap gap-2">
               {LEAD_TYPES.map((item) => (
                 <button
@@ -227,10 +242,12 @@ export function InquiryForm({
                   }}
                   className={cn(
                     "min-h-11 border px-4 text-sm",
-                    type === item ? "border-ink bg-ink text-cream" : "border-line bg-cream text-ink",
+                    type === item
+                      ? "border-ink bg-ink text-cream"
+                      : "border-line bg-cream text-ink",
                   )}
                 >
-                  {t(`${prefix[item]}.title`)}
+                  <Tx k={`${prefix[item]}.title`} />
                 </button>
               ))}
             </div>
@@ -239,9 +256,11 @@ export function InquiryForm({
         <p className="text-sm text-muted">
           <T k={`${p}.intro`} />
         </p>
-        <p className="text-xs text-muted">{t("forms.shared.required.legend")}</p>
+        <p className="text-xs text-muted">
+          <Tx k="forms.shared.required.legend" />
+        </p>
 
-        <Field label={t("forms.shared.name.label")} required error={errors.name}>
+        <Field label={<Tx k="forms.shared.name.label" />} required error={errors.name}>
           <input
             name="name"
             value={fields.name}
@@ -252,7 +271,7 @@ export function InquiryForm({
             className={input}
           />
         </Field>
-        <Field label={t("forms.shared.email.label")} required error={errors.email}>
+        <Field label={<Tx k="forms.shared.email.label" />} required error={errors.email}>
           <input
             name="email"
             type="email"
@@ -265,7 +284,11 @@ export function InquiryForm({
           />
         </Field>
         <Field
-          label={phoneRequired ? t(`${p}.phone.label`) || t("forms.shared.phone.label") : t("forms.shared.phone.optional.label")}
+          label={
+            phoneRequired
+              ? t(`${p}.phone.label`) || t("forms.shared.phone.label")
+              : t("forms.shared.phone.optional.label")
+          }
           required={phoneRequired}
           helper={phoneRequired ? t(`${p}.phone.helper`) : t("forms.shared.phone.helper")}
           error={errors.phone}
@@ -282,10 +305,20 @@ export function InquiryForm({
         </Field>
 
         {type === "contact" ? (
-          <Field label={t("forms.contact.interest.label")} helper={t("forms.contact.interest.helper")} error={errors.interest}>
-            <select name="interest" value={fields.interest} onChange={(e) => update("interest", e.target.value)} className={input}>
+          <Field
+            label={<Tx k="forms.contact.interest.label" />}
+            helper={t("forms.contact.interest.helper")}
+            error={errors.interest}
+          >
+            <select
+              name="interest"
+              value={fields.interest}
+              onChange={(e) => update("interest", e.target.value)}
+              className={input}
+            >
               <option value="">—</option>
-              {fields.interest && !options(blocks, "forms.contact.interest").includes(fields.interest) ? (
+              {fields.interest &&
+              !options(blocks, "forms.contact.interest").includes(fields.interest) ? (
                 <option value={fields.interest}>{fields.interest}</option>
               ) : null}
               {options(blocks, "forms.contact.interest").map((o) => (
@@ -297,7 +330,12 @@ export function InquiryForm({
 
         {type === "tour" ? (
           <>
-            <Field label={t("forms.tour.date.label")} required helper={<T k="forms.tour.date.helper" />} error={errors.tourDate}>
+            <Field
+              label={<Tx k="forms.tour.date.label" />}
+              required
+              helper={<T k="forms.tour.date.helper" />}
+              error={errors.tourDate}
+            >
               <input
                 name="tourDate"
                 type="date"
@@ -307,8 +345,13 @@ export function InquiryForm({
                 className={input}
               />
             </Field>
-            <Field label={t("forms.tour.time.label")} required error={errors.tourWindow}>
-              <select name="tourWindow" value={fields.tourWindow} onChange={(e) => update("tourWindow", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.tour.time.label" />} required error={errors.tourWindow}>
+              <select
+                name="tourWindow"
+                value={fields.tourWindow}
+                onChange={(e) => update("tourWindow", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {TOUR_WINDOWS.map((w, i) => (
                   <option key={w} value={w}>
@@ -317,8 +360,13 @@ export function InquiryForm({
                 ))}
               </select>
             </Field>
-            <Field label={t("forms.tour.lots.label")} error={errors.tourLots}>
-              <select name="tourLots" value={fields.tourLots} onChange={(e) => update("tourLots", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.tour.lots.label" />} error={errors.tourLots}>
+              <select
+                name="tourLots"
+                value={fields.tourLots}
+                onChange={(e) => update("tourLots", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {options(blocks, "forms.tour.lots").map((o) => (
                   <option key={o}>{o}</option>
@@ -330,30 +378,49 @@ export function InquiryForm({
 
         {type === "waitlist" ? (
           <>
-            <Field label={t("forms.waitlist.timeline.label")} error={errors.moveTimeline}>
-              <select name="moveTimeline" value={fields.moveTimeline} onChange={(e) => update("moveTimeline", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.waitlist.timeline.label" />} error={errors.moveTimeline}>
+              <select
+                name="moveTimeline"
+                value={fields.moveTimeline}
+                onChange={(e) => update("moveTimeline", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {options(blocks, "forms.waitlist.timeline").map((o) => (
                   <option key={o}>{o}</option>
                 ))}
               </select>
             </Field>
-            <Field label={t("forms.waitlist.beds.label")} error={errors.bedrooms}>
-              <select name="bedrooms" value={fields.bedrooms} onChange={(e) => update("bedrooms", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.waitlist.beds.label" />} error={errors.bedrooms}>
+              <select
+                name="bedrooms"
+                value={fields.bedrooms}
+                onChange={(e) => update("bedrooms", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {options(blocks, "forms.waitlist.beds").map((o) => (
                   <option key={o}>{o}</option>
                 ))}
               </select>
             </Field>
-            <Check checked={fields.phase1News} onChange={(v) => update("phase1News", v)} label={t("forms.waitlist.phase1.label")} />
+            <Check
+              checked={fields.phase1News}
+              onChange={(v) => update("phase1News", v)}
+              label={<Tx k="forms.waitlist.phase1.label" />}
+            />
           </>
         ) : null}
 
         {type === "reservation" ? (
           <>
-            <Field label={t("forms.reserve.lot.label")} required error={errors.lotId}>
-              <select name="lotId" value={fields.lotId} onChange={(e) => update("lotId", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.reserve.lot.label" />} required error={errors.lotId}>
+              <select
+                name="lotId"
+                value={fields.lotId}
+                onChange={(e) => update("lotId", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {RESERVABLE_LOTS.map((id, i) => (
                   <option key={id} value={id}>
@@ -362,8 +429,17 @@ export function InquiryForm({
                 ))}
               </select>
             </Field>
-            <Field label={t("forms.reserve.lot2.label")} helper={t("forms.reserve.lot2.helper")} error={errors.lot2Id}>
-              <select name="lot2Id" value={fields.lot2Id} onChange={(e) => update("lot2Id", e.target.value)} className={input}>
+            <Field
+              label={<Tx k="forms.reserve.lot2.label" />}
+              helper={t("forms.reserve.lot2.helper")}
+              error={errors.lot2Id}
+            >
+              <select
+                name="lot2Id"
+                value={fields.lot2Id}
+                onChange={(e) => update("lot2Id", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {RESERVABLE_LOTS.filter((id) => id !== fields.lotId).map((id) => (
                   <option key={id} value={id}>
@@ -372,7 +448,10 @@ export function InquiryForm({
                 ))}
               </select>
             </Field>
-            <Field label={t("forms.reserve.plan.label")} error={(errors as Record<string, string | undefined>).planSlug}>
+            <Field
+              label={<Tx k="forms.reserve.plan.label" />}
+              error={(errors as Record<string, string | undefined>).planSlug}
+            >
               <input
                 name="plan"
                 value={fields.planText}
@@ -382,15 +461,20 @@ export function InquiryForm({
                 className={input}
               />
             </Field>
-            <Field label={t("forms.reserve.financing.label")} error={errors.financing}>
-              <select name="financing" value={fields.financing} onChange={(e) => update("financing", e.target.value)} className={input}>
+            <Field label={<Tx k="forms.reserve.financing.label" />} error={errors.financing}>
+              <select
+                name="financing"
+                value={fields.financing}
+                onChange={(e) => update("financing", e.target.value)}
+                className={input}
+              >
                 <option value="">—</option>
                 {options(blocks, "forms.reserve.financing").map((o) => (
                   <option key={o}>{o}</option>
                 ))}
               </select>
             </Field>
-            <Field label={t("forms.reserve.agent.name.label")} error={errors.agentName}>
+            <Field label={<Tx k="forms.reserve.agent.name.label" />} error={errors.agentName}>
               <input
                 name="agentName"
                 value={fields.agentName}
@@ -405,23 +489,36 @@ export function InquiryForm({
             <Check
               checked={fields.realtor}
               onChange={(v) => update("realtor", v)}
-              label={t("forms.shared.agent.label")}
+              label={<Tx k="forms.shared.agent.label" />}
               helper={t("forms.shared.agent.helper")}
             />
             {fields.realtor ? (
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label={t("forms.shared.agent.name.label")} error={errors.agentName}>
-                  <input value={fields.agentName} onChange={(e) => update("agentName", e.target.value)} maxLength={80} className={input} />
+                <Field label={<Tx k="forms.shared.agent.name.label" />} error={errors.agentName}>
+                  <input
+                    value={fields.agentName}
+                    onChange={(e) => update("agentName", e.target.value)}
+                    maxLength={80}
+                    className={input}
+                  />
                 </Field>
-                <Field label={t("forms.shared.agent.brokerage.label")} error={errors.brokerage}>
-                  <input value={fields.brokerage} onChange={(e) => update("brokerage", e.target.value)} maxLength={120} className={input} />
+                <Field
+                  label={<Tx k="forms.shared.agent.brokerage.label" />}
+                  error={errors.brokerage}
+                >
+                  <input
+                    value={fields.brokerage}
+                    onChange={(e) => update("brokerage", e.target.value)}
+                    maxLength={120}
+                    className={input}
+                  />
                 </Field>
               </div>
             ) : null}
           </>
         )}
 
-        <Field label={t("forms.shared.note.label")} error={errors.note}>
+        <Field label={<Tx k="forms.shared.note.label" />} error={errors.note}>
           <textarea
             name="note"
             value={fields.note}
@@ -441,7 +538,7 @@ export function InquiryForm({
         {/* Honeypot (Web3Forms-style "botcheck"): hidden from people, filled by bots. */}
         <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
           <label>
-            {t("forms.shared.antispam.honeypot.label")}
+            <Tx k="forms.shared.antispam.honeypot.label" />
             <input
               name="website"
               tabIndex={-1}
@@ -452,7 +549,12 @@ export function InquiryForm({
           </label>
         </div>
 
-        <Field label={t("forms.shared.antispam.label")} required helper={t("forms.shared.antispam.helper")} error={errors.humanCheck}>
+        <Field
+          label={<Tx k="forms.shared.antispam.label" />}
+          required
+          helper={t("forms.shared.antispam.helper")}
+          error={errors.humanCheck}
+        >
           <input
             name="humanCheck"
             inputMode="text"
@@ -467,7 +569,7 @@ export function InquiryForm({
           <Check
             checked={fields.ackNonbinding}
             onChange={(v) => update("ackNonbinding", v)}
-            label={t("forms.reserve.ack.label")}
+            label={<Tx k="forms.reserve.ack.label" />}
             helper={t("forms.reserve.ack.helper")}
             error={errors.ackNonbinding}
             required
@@ -495,16 +597,30 @@ export function InquiryForm({
       <aside className="lg:col-span-5">
         <div ref={statusRef} tabIndex={-1} aria-live="polite" className="outline-none">
           {status === "sent" ? (
-            <div className="border border-line bg-cream px-4 py-4" role="status" data-form-result="sent">
-              <p className="text-xs uppercase tracking-widest text-copper">{t(`${sp}.title`)}</p>
-              <p className="mt-2 font-display text-2xl">{t(`${sp}.success.title`)}</p>
+            <div
+              className="border border-line bg-cream px-4 py-4"
+              role="status"
+              data-form-result="sent"
+            >
+              <p className="text-xs uppercase tracking-widest text-copper">
+                <Tx k={`${sp}.title`} />
+              </p>
+              <p className="mt-2 font-display text-2xl">
+                <Tx k={`${sp}.success.title`} />
+              </p>
               <p className="mt-2 text-sm text-muted">
                 <T k={`${sp}.success.body`} />
               </p>
             </div>
           ) : status === "error" ? (
-            <div className="border border-copper bg-cream px-4 py-4" role="alert" data-form-result="error">
-              <p className="font-display text-2xl">{t(`${p}.error.title`)}</p>
+            <div
+              className="border border-copper bg-cream px-4 py-4"
+              role="alert"
+              data-form-result="error"
+            >
+              <p className="font-display text-2xl">
+                <Tx k={`${p}.error.title`} />
+              </p>
               {errors.form ? <p className="mt-2 text-sm text-copper">{errors.form}</p> : null}
               <p className="mt-2 text-sm text-muted">
                 <T k={`${p}.error.body`} />
@@ -512,7 +628,9 @@ export function InquiryForm({
             </div>
           ) : (
             <>
-              <p className="text-xs uppercase tracking-widest text-copper">{t(`${p}.title`)}</p>
+              <p className="text-xs uppercase tracking-widest text-copper">
+                <Tx k={`${p}.title`} />
+              </p>
               {type === "reservation" ? (
                 <p className="mt-3 text-xs text-muted">
                   <T k="forms.reserve.ack.helper" />
@@ -526,7 +644,12 @@ export function InquiryForm({
   );
 }
 
-async function sendNotification(notify: { leadId: number; token: string; payload: Record<string, string>; keys: string[] }) {
+async function sendNotification(notify: {
+  leadId: number;
+  token: string;
+  payload: Record<string, string>;
+  keys: string[];
+}) {
   // Client mode (WEB3FORMS_MODE=client): one browser submission per inbox key,
   // in parallel; results are reported back so /admin shows any failure.
   const results = await Promise.all(
@@ -538,14 +661,23 @@ async function sendNotification(notify: { leadId: number; token: string; payload
           headers: { "content-type": "application/json", accept: "application/json" },
           body: JSON.stringify({ ...notify.payload, access_key: key, botcheck: "" }),
         });
-        const json = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
-        return { key: masked, ok: json.success === true, error: json.success ? null : String(json.message ?? res.status).slice(0, 300) };
+        const json = (await res.json().catch(() => ({}))) as {
+          success?: boolean;
+          message?: string;
+        };
+        return {
+          key: masked,
+          ok: json.success === true,
+          error: json.success ? null : String(json.message ?? res.status).slice(0, 300),
+        };
       } catch (err) {
         return { key: masked, ok: false, error: String(err).slice(0, 300) };
       }
     }),
   );
-  await markLeadNotified({ data: { leadId: notify.leadId, token: notify.token, results } }).catch(() => undefined);
+  await markLeadNotified({ data: { leadId: notify.leadId, token: notify.token, results } }).catch(
+    () => undefined,
+  );
 }
 
 function Field({

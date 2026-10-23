@@ -26,7 +26,10 @@ export function PlanImage({
   const src = slot === "rendering" ? plan.renderingImage : plan.floorPlanImage;
   const pending = plan.imagesPending || !src || src === PLAN_PLACEHOLDER;
   return (
-    <div className={cn("relative overflow-hidden bg-cream", className)} data-plan-image={pending ? "placeholder" : "image"}>
+    <div
+      className={cn("relative overflow-hidden bg-cream", className)}
+      data-plan-image={pending ? "placeholder" : "image"}
+    >
       <img
         src={pending ? PLAN_PLACEHOLDER : src}
         alt={pending ? alt : plan.renderingAlt || alt}

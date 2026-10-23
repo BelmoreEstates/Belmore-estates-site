@@ -79,10 +79,14 @@ export type AdminCheck =
 const isOwnerEmail = (email: string) => ownerEmails().includes(email.trim().toLowerCase());
 
 /**
- * Resolve the caller and check the allowlist. Only verified-email sign-ins
- * count: a linked Google account (`providerId = 'google'`) whose user row has
- * `emailVerified = true` (Better Auth copies Google's `email_verified`).
- * Emails are compared lowercase. Email/password sign-in is disabled.
+ * Resolve the caller and check the allowlist. Two sign-in kinds count:
+ *   - Google: a linked account (`providerId = 'google'`) whose user row has
+ *     `emailVerified = true` (Better Auth copies Google's `email_verified`).
+ *   - Password fallback: a `credential` account. Public sign-up is disabled,
+ *     so these only exist when an OWNER created them for an allowlisted email
+ *     (admin.ts `setAdminPassword`, which marks the email verified).
+ * Either way the email must still be an owner or in the admins table, checked
+ * on every request. Emails are compared lowercase.
  */
 export async function checkAdmin(sql: Sql): Promise<AdminCheck> {
   const { getSessionUser, authConfigured } = await import("@/lib/auth/verify.server");
@@ -92,8 +96,11 @@ export async function checkAdmin(sql: Sql): Promise<AdminCheck> {
   // from production bundles; it is also ignored whenever Google is configured.
   if (import.meta.env.DEV && !authConfigured && process.env.BELMORE_QA_AS) {
     const qaEmail = process.env.BELMORE_QA_AS.trim().toLowerCase();
-    if (isOwnerEmail(qaEmail)) return { ok: true, admin: { userId: "qa-user", email: qaEmail, role: "owner" } };
-    const [qaAdmin] = await sql<{ role: AdminRole }>`select role from admins where lower(email) = ${qaEmail}`;
+    if (isOwnerEmail(qaEmail))
+      return { ok: true, admin: { userId: "qa-user", email: qaEmail, role: "owner" } };
+    const [qaAdmin] = await sql<{
+      role: AdminRole;
+    }>`select role from admins where lower(email) = ${qaEmail}`;
     if (!qaAdmin) return { ok: false, reason: "not_allowlisted", email: qaEmail };
     return { ok: true, admin: { userId: "qa-user", email: qaEmail, role: qaAdmin.role } };
   }
@@ -103,9 +110,9 @@ export async function checkAdmin(sql: Sql): Promise<AdminCheck> {
 
   const [row] = await sql<{ verified: boolean | null }>`
     select "emailVerified" as verified from "user" where id = ${user.id}`;
-  const [google] = await sql<{ id: string }>`
-    select id from account where "userId" = ${user.id} and "providerId" = 'google' limit 1`;
-  const verified = Boolean(email) && Boolean(google) && row?.verified === true;
+  const [linked] = await sql<{ id: string }>`
+    select id from account where "userId" = ${user.id} and "providerId" in ('google', 'credential') limit 1`;
+  const verified = Boolean(email) && Boolean(linked) && row?.verified === true;
   if (!verified) return { ok: false, reason: "unverified", email: email || null };
 
   if (isOwnerEmail(email)) return { ok: true, admin: { userId: user.id, email, role: "owner" } };

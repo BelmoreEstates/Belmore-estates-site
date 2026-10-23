@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { nav } from "@/data/site";
-import { RichText, T, useSiteData, useText } from "@/components/site/text";
+import { Img, RichText, T, Tx, useSiteData, useText } from "@/components/site/text";
+import { isExternalHref, navOf, safeImageSrc, type NavItem } from "@/site/doc";
 import { cn } from "@/lib/cn";
 
 const primary =
@@ -45,10 +45,70 @@ function menuKey(to: string) {
   return `global.menu.${to.replace(/^\//, "")}`;
 }
 
+/** The menu from the site doc (the original six links until the owner edits it). */
+function useNav(): NavItem[] {
+  const { site } = useSiteData();
+  return navOf(site).filter((item) => !item.hidden);
+}
+
+function NavLabel({ item }: { item: NavItem }) {
+  return item.label ? <>{item.label}</> : item.labelKey ? <Tx k={item.labelKey} /> : null;
+}
+
+/** Internal links use the router; external ones open in a new tab. */
+function NavLink({
+  item,
+  className,
+  children,
+}: {
+  item: NavItem;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (isExternalHref(item.href) || item.external)
+    return (
+      <a href={item.href} className={className} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  return (
+    <Link to={item.href as "/"} className={className}>
+      {children}
+    </Link>
+  );
+}
+
+/** Wordmark (text) or the uploaded logo picked in the Theme panel. */
+function Logo() {
+  const { site } = useSiteData();
+  const logo = site.theme.logo;
+  const src = logo?.mode === "image" ? safeImageSrc(logo.src) : "";
+  if (src)
+    return (
+      <img
+        src={src}
+        alt={logo?.alt || "Belmore Estates"}
+        style={{ height: logo?.height ?? 44, width: "auto" }}
+        className="block"
+      />
+    );
+  return (
+    <>
+      <span className="block font-display text-2xl text-ink">
+        <Tx k="global.wordmark.line1" />
+      </span>
+      <span className="block text-xs uppercase tracking-widest text-muted">
+        <Tx k="global.wordmark.line2" />
+      </span>
+    </>
+  );
+}
+
 function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
   const t = useText();
+  const nav = useNav();
 
   useEffect(() => {
     setOpen(false);
@@ -58,24 +118,20 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="leading-tight" aria-label={t("global.wordmark.aria")}>
-          <span className="block font-display text-2xl text-ink">{t("global.wordmark.line1")}</span>
-          <span className="block text-xs uppercase tracking-widest text-muted">{t("global.wordmark.line2")}</span>
+          <Logo />
         </Link>
         <nav className="hidden items-center gap-5 xl:flex" aria-label="Primary">
           {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={cn(
-                "text-sm text-ink",
-                pathname === item.to && "text-copper",
-              )}
+            <NavLink
+              key={item.id}
+              item={item}
+              className={cn("text-sm text-ink", pathname === item.href && "text-copper")}
             >
-              {t(menuKey(item.to)) || item.label}
-            </Link>
+              <NavLabel item={item} />
+            </NavLink>
           ))}
           <Link to="/contact" className={primary}>
-            {t("global.menu.contact")}
+            <Tx k="global.menu.contact" />
           </Link>
         </nav>
         <button
@@ -90,18 +146,22 @@ function Header() {
         </button>
       </div>
       {open ? (
-        <nav id="mobile-nav" className="border-t border-line bg-paper px-5 py-4 xl:hidden" aria-label="Mobile">
+        <nav
+          id="mobile-nav"
+          className="border-t border-line bg-paper px-5 py-4 xl:hidden"
+          aria-label="Mobile"
+        >
           <ul className="grid gap-1">
             {nav.map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className="flex min-h-11 items-center text-lg">
-                  {t(menuKey(item.to)) || item.label}
-                </Link>
+              <li key={item.id}>
+                <NavLink item={item} className="flex min-h-11 items-center text-lg">
+                  <NavLabel item={item} />
+                </NavLink>
               </li>
             ))}
             <li className="pt-2">
               <Link to="/contact" className={primary}>
-                {t("global.menu.contact")}
+                <Tx k="global.menu.contact" />
               </Link>
             </li>
           </ul>
@@ -127,19 +187,28 @@ function Lines({ text }: { text: string }) {
 }
 
 function Footer() {
-  const t = useText();
   const { blocks } = useSiteData();
+  const nav = useNav();
+  const extra: NavItem[] = ["/faq", "/privacy"].map((to) => ({
+    id: `footer-${to}`,
+    href: to,
+    labelKey: menuKey(to),
+  }));
   return (
     <footer className="border-t border-line bg-pine-deep text-cream">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-3xl">{t("global.footer.block1.heading")}</p>
+          <p className="font-display text-3xl">
+            <Tx k="global.footer.block1.heading" />
+          </p>
           <p className="mt-3 text-sm text-paper-deep">
             <T k="global.footer.block1.body" />
           </p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-widest text-copper">{t("global.footer.block2.eyebrow")}</p>
+          <p className="text-xs uppercase tracking-widest text-copper">
+            <Tx k="global.footer.block2.eyebrow" />
+          </p>
           <p className="mt-3 text-sm">
             <Lines text={rawBlock("global.footer.block2.line1")} />
           </p>
@@ -151,19 +220,23 @@ function Footer() {
           </p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-widest text-copper">{t("global.footer.block3.eyebrow")}</p>
+          <p className="text-xs uppercase tracking-widest text-copper">
+            <Tx k="global.footer.block3.eyebrow" />
+          </p>
           <ul className="mt-3 grid gap-2 text-sm">
-            {[...nav.map((item) => item.to), "/faq", "/privacy"].map((to) => (
-              <li key={to}>
-                <Link to={to} className="underline-offset-2 hover:underline">
-                  {t(menuKey(to))}
-                </Link>
+            {[...nav, ...extra].map((item) => (
+              <li key={item.id}>
+                <NavLink item={item} className="underline-offset-2 hover:underline">
+                  <NavLabel item={item} />
+                </NavLink>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-widest text-copper">{t("global.footer.block4.eyebrow")}</p>
+          <p className="text-xs uppercase tracking-widest text-copper">
+            <Tx k="global.footer.block4.eyebrow" />
+          </p>
           <p className="mt-3 text-sm text-paper-deep">
             <T k="global.footer.block4.body" />
           </p>
@@ -185,14 +258,13 @@ export function PageIntro({
   eyebrow,
   title,
   lede,
-  image,
-  imageAlt,
+  imagePrefix,
 }: {
   eyebrow: ReactNode;
   title: ReactNode;
   lede: ReactNode;
-  image: string;
-  imageAlt: string;
+  /** Keyed photo: `<prefix>.src` / `<prefix>.alt`. */
+  imagePrefix: string;
 }) {
   return (
     <section className="grid border-b border-line lg:grid-cols-12">
@@ -202,7 +274,11 @@ export function PageIntro({
         <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">{lede}</p>
       </div>
       <div className="relative min-h-72 lg:col-span-7">
-        <img src={image} alt={imageAlt} className="absolute inset-0 h-full w-full object-cover" />
+        <Img
+          srcKey={`${imagePrefix}.src`}
+          altKey={`${imagePrefix}.alt`}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
       </div>
     </section>
   );

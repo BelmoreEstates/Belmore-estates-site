@@ -41,7 +41,9 @@ export const maskKey = (key: string): string => `…${key.slice(-4)}`;
 
 /** OWNER_EMAILS: comma-separated, lowercased; always-owner fallback. */
 export const ownerEmails = (): string[] =>
-  (env("OWNER_EMAILS")?.split(",") ?? [...DEFAULT_OWNER_EMAILS]).map((e) => e.trim().toLowerCase()).filter(Boolean);
+  (env("OWNER_EMAILS")?.split(",") ?? [...DEFAULT_OWNER_EMAILS])
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
 
 /**
  * SITE_ENV: "production" only for the real public site. Everything else (the

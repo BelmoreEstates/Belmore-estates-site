@@ -26,7 +26,9 @@ const KEY_RE = /^`([a-z0-9][a-z0-9._-]*)`(?:\s*\(.*\))?\s*$/;
 const out = {};
 const order = [];
 const dupes = [];
-for (const file of readdirSync(dir).filter((f) => f.endsWith(".md") && !SKIP.has(f)).sort()) {
+for (const file of readdirSync(dir)
+  .filter((f) => f.endsWith(".md") && !SKIP.has(f))
+  .sort()) {
   const lines = readFileSync(join(dir, file), "utf8").split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
     const m = lines[i].match(KEY_RE);

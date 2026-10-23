@@ -12,7 +12,7 @@ import { Pool as NeonPool, Client as NeonClient, neonConfig } from "@neondatabas
 import ws from "ws";
 
 /** @param {string} url */
-function useNeon(url) {
+function isNeonUrl(url) {
   if (process.env.DB_DRIVER === "pg") return false;
   if (process.env.DB_DRIVER === "neon") return true;
   try {
@@ -24,7 +24,7 @@ function useNeon(url) {
 
 /** @param {string} url */
 export function pgFor(url) {
-  if (!useNeon(url)) return { Pool: pgTcp.Pool, Client: pgTcp.Client };
+  if (!isNeonUrl(url)) return { Pool: pgTcp.Pool, Client: pgTcp.Client };
   neonConfig.webSocketConstructor = ws;
   return { Pool: NeonPool, Client: NeonClient };
 }

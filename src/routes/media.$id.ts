@@ -9,7 +9,10 @@ export const Route = createFileRoute("/media/$id")({
         const id = Number(params.id);
         if (!Number.isInteger(id) || id <= 0) return new Response("Not found", { status: 404 });
         const sql = await getSql();
-        const [row] = await sql<{ mime: string; data: string }>`select mime, data from media where id = ${id}`;
+        const [row] = await sql<{
+          mime: string;
+          data: string;
+        }>`select mime, data from media where id = ${id}`;
         if (!row) return new Response("Not found", { status: 404 });
         return new Response(Buffer.from(row.data, "base64"), {
           headers: {

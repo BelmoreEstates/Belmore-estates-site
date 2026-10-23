@@ -1,7 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getSql } from "@/lib/db";
 
-const STATIC_PATHS = ["/", "/plans", "/homes", "/community", "/design-studio", "/process", "/about", "/faq", "/contact", "/privacy"];
+const STATIC_PATHS = [
+  "/",
+  "/plans",
+  "/homes",
+  "/community",
+  "/design-studio",
+  "/process",
+  "/about",
+  "/faq",
+  "/contact",
+  "/privacy",
+];
 
 const xmlEscape = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -25,7 +36,10 @@ export const Route = createFileRoute("/sitemap.xml")({
           paths.map((p) => `  <url><loc>${xmlEscape(origin + p)}</loc></url>`).join("\n") +
           `\n</urlset>\n`;
         return new Response(body, {
-          headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" },
+          headers: {
+            "content-type": "application/xml; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
         });
       },
     },

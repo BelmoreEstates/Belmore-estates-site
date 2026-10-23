@@ -2,23 +2,30 @@
 // edit the copy .md files (or override in /admin) and re-run the script.
 export const copyDefaults: Record<string, string> = {
   "about.seo.title": "About | Belmore Estates, Greece NY",
-  "about.seo.description": "Belmore Estates is developed by Schram Family Realty, LLC and listed by Joseph Deleguardia of The Derek Pino Team, RE/MAX Realty Group, Rochester NY.",
-  "about.hero.image.alt": "A quiet living room with a limestone fireplace, oak floor, and linen sofa.",
+  "about.seo.description":
+    "Belmore Estates is developed by Schram Family Realty, LLC and listed by Joseph Deleguardia of The Derek Pino Team, RE/MAX Realty Group, Rochester NY.",
+  "about.hero.image.alt":
+    "A quiet living room with a limestone fireplace, oak floor, and linen sofa.",
   "about.intro.eyebrow": "Schram Family Realty, LLC",
   "about.intro.h2": "The people behind the street.",
-  "about.intro.body": "Schram Family Realty, LLC is the developer of Belmore Estates and the name on the Section 8 plat. Legends West is an established Greece neighborhood. Belmore Estates completes it, along Belmore Way and Shelby Circle.",
+  "about.intro.body":
+    "Schram Family Realty, LLC is the developer of Belmore Estates and the name on the Section 8 plat. Legends West is an established Greece neighborhood. Belmore Estates completes it, along Belmore Way and Shelby Circle.",
   "about.list.h3": "What we'll put in writing",
   "about.list.item1": "Who builds your home: [BUILDER — TO CONFIRM].",
   "about.list.item2": "The company story, in a paragraph: [COMPANY HISTORY — TO COME].",
   "about.list.item3": "Who signs your contract: [CONTRACT SIGNATORY — TO COME].",
-  "about.list.item4": "Your warranty: New York's 1-2-6 statutory baseline, plus any written warranty on top ([WARRANTY TERMS — TBD]).",
+  "about.list.item4":
+    "Your warranty: New York's 1-2-6 statutory baseline, plus any written warranty on top ([WARRANTY TERMS — TBD]).",
   "about.short.h3": "The short version",
-  "about.short.body1": "Schram Family Realty, LLC develops Belmore Estates from its office at 45 Radford Way, Rochester, NY 14612. Sales go through listing agent Joseph Deleguardia of The Derek Pino Team, RE/MAX Realty Group.",
-  "about.short.body2": "Have a question this page doesn't answer? Ask our sales team at [SALES PHONE — TO COME] or {{CONTACT_EMAIL}}.",
+  "about.short.body1":
+    "Schram Family Realty, LLC develops Belmore Estates from its office at 45 Radford Way, Rochester, NY 14612. Sales go through listing agent Joseph Deleguardia of The Derek Pino Team, RE/MAX Realty Group.",
+  "about.short.body2":
+    "Have a question this page doesn't answer? Ask our sales team at [SALES PHONE — TO COME] or {{CONTACT_EMAIL}}.",
   "about.team.h3": "Who you'll work with",
   "about.team.card1.eyebrow": "Sales",
   "about.team.card1.name": "Joseph Deleguardia",
-  "about.team.card1.body": "Listing agent, The Derek Pino Team, RE/MAX Realty Group. Tours, lot requests, and the first conversation.",
+  "about.team.card1.body":
+    "Listing agent, The Derek Pino Team, RE/MAX Realty Group. Tours, lot requests, and the first conversation.",
   "about.team.card2.eyebrow": "Construction",
   "about.team.card2.name": "[BUILDER — TO CONFIRM]",
   "about.team.card2.body": "The build schedule, site walks, and the punch list before closing.",
@@ -26,13 +33,16 @@ export const copyDefaults: Record<string, string> = {
   "about.team.card3.name": "[STUDIO PARTNER — TO COME]",
   "about.team.card3.body": "The studio appointment and your signed selection sheet.",
   "community.seo.title": "Community | Belmore Estates at Legends West, Greece NY",
-  "community.seo.description": "Belmore Estates completes Legends West in North Greece, NY: 24 lots on Belmore Way and Shelby Circle in the Greece Central School District.",
+  "community.seo.description":
+    "Belmore Estates completes Legends West in North Greece, NY: 24 lots on Belmore Way and Shelby Circle in the Greece Central School District.",
   "community.hero.image.alt": "A street of newer homes, like those already built in Legends West.",
   "community.intro.eyebrow": "North Greece, NY",
   "community.intro.h2": "Legends West, finished.",
-  "community.intro.body": "Belmore Estates is the final section of Legends West. Emery Run, Barclay Court, and Legends Way are already built around it; Belmore Way and Shelby Circle are the two new streets. Twenty-four lots in all. Phase 1 is 801 through 807.",
+  "community.intro.body":
+    "Belmore Estates is the final section of Legends West. Emery Run, Barclay Court, and Legends Way are already built around it; Belmore Way and Shelby Circle are the two new streets. Twenty-four lots in all. Phase 1 is 801 through 807.",
   "community.plat.h2": "Straight from the plat.",
-  "community.plat.body": "Final Plat Section No. 8, Legends West Subdivision, was prepared for Schram Family Realty, LLC and carries the Town of Greece approval signatures. The model below follows that sheet. Bearings and monuments stay on the signed plans, where they belong.",
+  "community.plat.body":
+    "Final Plat Section No. 8, Legends West Subdivision, was prepared for Schram Family Realty, LLC and carries the Town of Greece approval signatures. The model below follows that sheet. Bearings and monuments stay on the signed plans, where they belong.",
   "community.facts.place.label": "Place",
   "community.facts.place.value": "North Greece, NY",
   "community.facts.developer.label": "Developer",
@@ -46,21 +56,28 @@ export const copyDefaults: Record<string, string> = {
   "community.facts.office.label": "Developer office",
   "community.facts.office.value": "45 Radford Way, Rochester",
   "community.model.h2": "Belmore Estates in three dimensions",
-  "community.model.body": "Orbit the model. The seven lots with houses are Phase 1. The pale block east of Shelby Circle is the future section. Emery Run and Barclay Court are the existing roads around it.",
+  "community.model.body":
+    "Orbit the model. The seven lots with houses are Phase 1. The pale block east of Shelby Circle is the future section. Emery Run and Barclay Court are the existing roads around it.",
   "community.model.hint": "Drag to orbit · scroll to zoom · tap a lot",
-  "community.model.caption": "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
+  "community.model.caption":
+    "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
   "community.ground.eyebrow": "On the ground",
   "community.ground.item1.title": "Belmore Way",
-  "community.ground.item1.body": "The first street of Belmore Estates: a 60-foot right-of-way that ties into the existing Legends West roads.",
+  "community.ground.item1.body":
+    "The first street of Belmore Estates: a 60-foot right-of-way that ties into the existing Legends West roads.",
   "community.ground.item2.title": "Shelby Circle",
-  "community.ground.item2.body": "A cul-de-sac off the east side of Belmore Way. Lots 806 and 807 front it. Lot 805 sits just north, on Belmore Way.",
+  "community.ground.item2.body":
+    "A cul-de-sac off the east side of Belmore Way. Lots 806 and 807 front it. Lot 805 sits just north, on Belmore Way.",
   "community.ground.item3.title": "Phase 1",
-  "community.ground.item3.body": "Seven lots on the approved plat, 801 through 807. The other 17 make up the future section east of the circle.",
+  "community.ground.item3.body":
+    "Seven lots on the approved plat, 801 through 807. The other 17 make up the future section east of the circle.",
   "community.ground.item4.title": "Greece schools",
-  "community.ground.item4.body": "Greece Central School District; confirm the assignment for your lot. The site sits between Janes Road and Latta Road, east of Long Pond Road.",
+  "community.ground.item4.body":
+    "Greece Central School District; confirm the assignment for your lot. The site sits between Janes Road and Latta Road, east of Long Pond Road.",
   "community.ground.button": "See the Phase 1 lots",
   "contact.seo.title": "Contact | Belmore Estates, Greece NY",
-  "contact.seo.description": "Ask about Belmore Estates in North Greece, NY: book a tour, request a Phase 1 lot, or join the waitlist. Listing agent Joseph Deleguardia, RE/MAX.",
+  "contact.seo.description":
+    "Ask about Belmore Estates in North Greece, NY: book a tour, request a Phase 1 lot, or join the waitlist. Listing agent Joseph Deleguardia, RE/MAX.",
   "contact.intro.eyebrow": "Contact",
   "contact.intro.h2": "Ask about Belmore Estates.",
   "contact.details.developer.label": "Developer",
@@ -71,66 +88,93 @@ export const copyDefaults: Record<string, string> = {
   "contact.details.community.value": "Belmore Way and Shelby Circle, North Greece, NY",
   "contact.details.hours.label": "Hours",
   "contact.details.hours.value": "Tours at the homesite — [TOUR HOURS — TO COME]",
-  "contact.note": "Call our sales team at [SALES PHONE — TO COME], email {{CONTACT_EMAIL}}, or use the form. Realtors: mark your note as an introduction.",
-  "contact.form.notice": "Your message goes straight to our sales team. Our Privacy Policy explains what happens to it after that.",
+  "contact.note":
+    "Call our sales team at [SALES PHONE — TO COME], email {{CONTACT_EMAIL}}, or use the form. Realtors: mark your note as an introduction.",
+  "contact.form.notice":
+    "Your message goes straight to our sales team. Our Privacy Policy explains what happens to it after that.",
   "design-studio.seo.title": "Design Studio | Belmore Estates, Greece NY",
-  "design-studio.seo.description": "Choose cabinets, counters, floors, and fixtures for your semi-custom Belmore Estates home in North Greece, NY, once your lot and plan are set.",
-  "design-studio.hero.image.alt": "A bright kitchen with a white oak island, plaster hood, and brass faucet.",
+  "design-studio.seo.description":
+    "Choose cabinets, counters, floors, and fixtures for your semi-custom Belmore Estates home in North Greece, NY, once your lot and plan are set.",
+  "design-studio.hero.image.alt":
+    "A bright kitchen with a white oak island, plaster hood, and brass faucet.",
   "design-studio.intro.eyebrow": "Design Studio",
   "design-studio.intro.h2": "Finishes, without the fog.",
-  "design-studio.intro.body": "The structure is settled by the time you get here. What's left is the part you'll touch every day: cabinets, counters, floors, and the front door. Selections happen with [STUDIO PARTNER — TO COME].",
+  "design-studio.intro.body":
+    "The structure is settled by the time you get here. What's left is the part you'll touch every day: cabinets, counters, floors, and the front door. Selections happen with [STUDIO PARTNER — TO COME].",
   "design-studio.step1.number": "01",
   "design-studio.step1.title": "Bring a short list",
-  "design-studio.step1.body": "A few kitchens you love and an honest note about how you cook. An edited board beats a bottomless one, and the appointment goes faster.",
+  "design-studio.step1.body":
+    "A few kitchens you love and an honest note about how you cook. An edited board beats a bottomless one, and the appointment goes faster.",
   "design-studio.step2.number": "02",
   "design-studio.step2.title": "Work from the allowance",
-  "design-studio.step2.body": "Your finish allowance: [FINISH ALLOWANCE — TBD]. Ask for upgrade pricing in writing before you sign off, so nothing surprises you later.",
+  "design-studio.step2.body":
+    "Your finish allowance: [FINISH ALLOWANCE — TBD]. Ask for upgrade pricing in writing before you sign off, so nothing surprises you later.",
   "design-studio.step3.number": "03",
   "design-studio.step3.title": "Sign the selections",
-  "design-studio.step3.body": "Signed selections let the build move. Late changes are the classic reason schedules slip, so decide the tile once.",
+  "design-studio.step3.body":
+    "Signed selections let the build move. Late changes are the classic reason schedules slip, so decide the tile once.",
   "design-studio.image.alt": "Finish samples: stone, oak, brass hardware, linen, and a paint fan.",
   "design-studio.picks.h3": "What you'll actually choose",
   "design-studio.picks.kitchen.title": "Kitchen",
-  "design-studio.picks.kitchen.body": "Cabinets, counters, faucet, and hardware, from the standard selections or as priced upgrades.",
+  "design-studio.picks.kitchen.body":
+    "Cabinets, counters, faucet, and hardware, from the standard selections or as priced upgrades.",
   "design-studio.picks.baths.title": "Baths",
-  "design-studio.picks.baths.body": "Tile, vanity, and fixture finish. One metal finish through the house keeps things calm.",
+  "design-studio.picks.baths.body":
+    "Tile, vanity, and fixture finish. One metal finish through the house keeps things calm.",
   "design-studio.picks.floors.title": "Floors",
-  "design-studio.picks.floors.body": "Flooring for the main rooms and the bedrooms. What's standard: [STANDARD FEATURES — TO COME].",
+  "design-studio.picks.floors.body":
+    "Flooring for the main rooms and the bedrooms. What's standard: [STANDARD FEATURES — TO COME].",
   "design-studio.picks.exterior.title": "Exterior",
-  "design-studio.picks.exterior.body": "Siding and trim colors, masonry, and the front door, within any neighborhood guidelines ([HOA — TBD]).",
+  "design-studio.picks.exterior.body":
+    "Siding and trim colors, masonry, and the front door, within any neighborhood guidelines ([HOA — TBD]).",
   "design-studio.cta.h3": "Plan your studio visit",
-  "design-studio.cta.body": "Studio location and hours come with [STUDIO PARTNER — TO COME]. Send a note now, and we'll set the appointment once your lot and plan are chosen.",
+  "design-studio.cta.body":
+    "Studio location and hours come with [STUDIO PARTNER — TO COME]. Send a note now, and we'll set the appointment once your lot and plan are chosen.",
   "design-studio.cta.button": "Request a studio visit",
   "faq.seo.title": "Questions | Belmore Estates, Greece NY",
-  "faq.seo.description": "Answers on Belmore Estates in North Greece, NY: location, lots, schools, pricing, New York's 1-2-6 warranty, deposit escrow, STAR, and utilities.",
+  "faq.seo.description":
+    "Answers on Belmore Estates in North Greece, NY: location, lots, schools, pricing, New York's 1-2-6 warranty, deposit escrow, STAR, and utilities.",
   "faq.intro.eyebrow": "Questions",
   "faq.intro.h2": "Straight answers.",
   "faq.q1.question": "Where is Belmore Estates?",
-  "faq.q1.answer": "In North Greece, Town of Greece, Monroe County. It's the final section of Legends West, between Janes Road and Latta Road, east of Long Pond Road. The new lots front Belmore Way and Shelby Circle, reached from Emery Run, Barclay Court, and Legends Way.",
+  "faq.q1.answer":
+    "In North Greece, Town of Greece, Monroe County. It's the final section of Legends West, between Janes Road and Latta Road, east of Long Pond Road. The new lots front Belmore Way and Shelby Circle, reached from Emery Run, Barclay Court, and Legends Way.",
   "faq.q2.question": "Who is the developer?",
-  "faq.q2.answer": "Schram Family Realty, LLC, 45 Radford Way, Rochester, NY 14612, the developer named on the Section 8 plat. Homes are built by [BUILDER — TO CONFIRM]. Sales are handled by listing agent Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
+  "faq.q2.answer":
+    "Schram Family Realty, LLC, 45 Radford Way, Rochester, NY 14612, the developer named on the Section 8 plat. Homes are built by [BUILDER — TO CONFIRM]. Sales are handled by listing agent Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
   "faq.q3.question": "How many lots are there?",
-  "faq.q3.answer": "Twenty-four. Phase 1 is the seven lots on the approved Section 8 plat, numbered 801 through 807. The other 17 make up the future section east of Shelby Circle. Join the waitlist to hear when they're released.",
+  "faq.q3.answer":
+    "Twenty-four. Phase 1 is the seven lots on the approved Section 8 plat, numbered 801 through 807. The other 17 make up the future section east of Shelby Circle. Join the waitlist to hear when they're released.",
   "faq.q4.question": "Which school district?",
-  "faq.q4.answer": "Belmore Estates is in the Greece Central School District, as is every existing home on Belmore Way. Not all of North Greece is, since district lines don't follow town lines or mailing addresses, so confirm the assignment for your lot with the district before you sign.",
+  "faq.q4.answer":
+    "Belmore Estates is in the Greece Central School District, as is every existing home on Belmore Way. Not all of North Greece is, since district lines don't follow town lines or mailing addresses, so confirm the assignment for your lot with the district before you sign.",
   "faq.q5.question": "What do the homes cost?",
-  "faq.q5.answer": "Pricing: [PRICING — TBD]. Ask for it in writing: each plan's base price, what that price includes, and any premium for your lot ([LOT PREMIUM — TBD]).",
+  "faq.q5.answer":
+    "Pricing: [PRICING — TBD]. Ask for it in writing: each plan's base price, what that price includes, and any premium for your lot ([LOT PREMIUM — TBD]).",
   "faq.q6.question": "Is the 3D model a survey?",
-  "faq.q6.answer": "No. It's a massing model traced from the Section 8 plat so you can orbit lots 801–807. The signed plans control boundaries, bearings, and areas.",
+  "faq.q6.answer":
+    "No. It's a massing model traced from the Section 8 plat so you can orbit lots 801–807. The signed plans control boundaries, bearings, and areas.",
   "faq.q7.question": "What warranty comes with a new home in New York?",
-  "faq.q7.answer": "State law sets a floor. Under General Business Law Article 36-B, a new home carries a housing merchant implied warranty: 1 year for workmanship, 2 years for plumbing, electrical, heating, cooling, and ventilation, and 6 years for material defects. A builder may swap it for a written limited warranty only if that warranty is at least as long, and you get it before you sign. Belmore Estates warranty details: [WARRANTY TERMS — TBD].",
+  "faq.q7.answer":
+    "State law sets a floor. Under General Business Law Article 36-B, a new home carries a housing merchant implied warranty: 1 year for workmanship, 2 years for plumbing, electrical, heating, cooling, and ventilation, and 6 years for material defects. A builder may swap it for a written limited warranty only if that warranty is at least as long, and you get it before you sign. Belmore Estates warranty details: [WARRANTY TERMS — TBD].",
   "faq.q8.question": "Is my deposit protected?",
-  "faq.q8.answer": "New York Lien Law §71-a lets you require that the deposit on a lot-and-home contract go into an interest-bearing New York escrow account, or that the builder post a surety bond instead. The contract has to say so in bold. Deposit amounts and timing: [RESERVATION TERMS — TBD].",
+  "faq.q8.answer":
+    "New York Lien Law §71-a lets you require that the deposit on a lot-and-home contract go into an interest-bearing New York escrow account, or that the builder post a surety bond instead. The contract has to say so in bold. Deposit amounts and timing: [RESERVATION TERMS — TBD].",
   "faq.q9.question": "What about property taxes and STAR?",
-  "faq.q9.answer": "Assessments follow the home's condition on March 1, the taxable status date, so a first bill can reflect a partly built house. New owners register for the STAR credit with New York State Tax and Finance; the older STAR exemption is closed to new applicants. Rates change every year, so we don't quote them here. See the current [Town and County rates](https://www.monroecounty.gov/property-town-rates) and [school rates](https://www.monroecounty.gov/property-school-rates) from Monroe County, or ask us. Tax estimate for Belmore Estates: [TAX ESTIMATE — TO COME].",
+  "faq.q9.answer":
+    "Assessments follow the home's condition on March 1, the taxable status date, so a first bill can reflect a partly built house. New owners register for the STAR credit with New York State Tax and Finance; the older STAR exemption is closed to new applicants. Rates change every year, so we don't quote them here. See the current [Town and County rates](https://www.monroecounty.gov/property-town-rates) and [school rates](https://www.monroecounty.gov/property-school-rates) from Monroe County, or ask us. Tax estimate for Belmore Estates: [TAX ESTIMATE — TO COME].",
   "faq.q10.question": "What utilities are in place?",
-  "faq.q10.answer": "Public water from the Monroe County Water Authority, and Town sewer with treatment by Monroe County Pure Waters. The approved plat also shows R-1-E residential zoning and places every lot in FEMA flood zone X. Gas, electric, and internet service: [UTILITIES — TO CONFIRM]. We don't promise natural gas; New York's All-Electric Buildings Act could require all-electric new homes, and its start date is still being settled in court.",
+  "faq.q10.answer":
+    "Public water from the Monroe County Water Authority, and Town sewer with treatment by Monroe County Pure Waters. The approved plat also shows R-1-E residential zoning and places every lot in FEMA flood zone X. Gas, electric, and internet service: [UTILITIES — TO CONFIRM]. We don't promise natural gas; New York's All-Electric Buildings Act could require all-electric new homes, and its start date is still being settled in court.",
   "faq.q11.question": "How long does a build take?",
-  "faq.q11.answer": "Build timeline: [BUILD TIMELINE — TBD]. Winter can slow excavation, foundations, and exterior work, and late design changes slow everything.",
+  "faq.q11.answer":
+    "Build timeline: [BUILD TIMELINE — TBD]. Winter can slow excavation, foundations, and exterior work, and late design changes slow everything.",
   "faq.q12.question": "Is there an HOA?",
-  "faq.q12.answer": "HOA and neighborhood guidelines: [HOA — TBD]. Ask before you sign, especially about fences, sheds, and pools.",
+  "faq.q12.answer":
+    "HOA and neighborhood guidelines: [HOA — TBD]. Ask before you sign, especially about fences, sheds, and pools.",
   "faq.q13.question": "Can I bring my own agent?",
-  "faq.q13.answer": "Agents are welcome to introduce a client through any form on this site; there's a checkbox for it. Registration and co-op details: [CO-OP POLICY — TBD].",
+  "faq.q13.answer":
+    "Agents are welcome to introduce a client through any form on this site; there's a checkbox for it. Registration and co-op details: [CO-OP POLICY — TBD].",
   "forms.shared.required.legend": "* Required",
   "forms.shared.name.label": "Name",
   "forms.shared.name.placeholder": "First and last",
@@ -142,7 +186,8 @@ export const copyDefaults: Record<string, string> = {
   "forms.shared.agent.label": "I'm a Realtor making an introduction",
   "forms.shared.agent.helper": "Add your client's name and your brokerage in the note.",
   "forms.shared.note.label": "Note",
-  "forms.shared.consent": "By sending this form, you agree that we may contact you by email or phone about Belmore Estates. We use your details for nothing else and never sell them. See our Privacy Policy.",
+  "forms.shared.consent":
+    "By sending this form, you agree that we may contact you by email or phone about Belmore Estates. We use your details for nothing else and never sell them. See our Privacy Policy.",
   "forms.shared.antispam.label": "Quick human check: how many lots are in Phase 1?",
   "forms.shared.antispam.helper": "Hint: count 801 through 807.",
   "forms.shared.antispam.honeypot.label": "Leave this field empty",
@@ -153,7 +198,8 @@ export const copyDefaults: Record<string, string> = {
   "forms.shared.error.consent": "Please confirm before sending.",
   "forms.shared.sending": "Sending…",
   "forms.contact.title": "Send a message",
-  "forms.contact.intro": "Questions about a lot, a plan, or the neighborhood? Ask here. Every message goes straight to our sales team.",
+  "forms.contact.intro":
+    "Questions about a lot, a plan, or the neighborhood? Ask here. Every message goes straight to our sales team.",
   "forms.contact.interest.label": "I'm asking about",
   "forms.contact.interest.helper": "Pick the closest fit. You can add detail in the note.",
   "forms.contact.interest.option1": "A tour of Belmore Estates",
@@ -171,11 +217,14 @@ export const copyDefaults: Record<string, string> = {
   "forms.contact.note.placeholder": "What would help you decide?",
   "forms.contact.submit": "Send message",
   "forms.contact.success.title": "Message sent.",
-  "forms.contact.success.body": "Thanks. Your note is with our sales team, and we'll reply by email or phone.",
+  "forms.contact.success.body":
+    "Thanks. Your note is with our sales team, and we'll reply by email or phone.",
   "forms.contact.error.title": "That didn't go through.",
-  "forms.contact.error.body": "Check the highlighted fields and try again. Still stuck? Email {{CONTACT_EMAIL}} or call [SALES PHONE — TO COME].",
+  "forms.contact.error.body":
+    "Check the highlighted fields and try again. Still stuck? Email {{CONTACT_EMAIL}} or call [SALES PHONE — TO COME].",
   "forms.tour.title": "Book a tour",
-  "forms.tour.intro": "Walk Belmore Way and Shelby Circle with our sales team, see the lots in person, and ask everything. Tours are at the homesite, [TOUR HOURS — TO COME].",
+  "forms.tour.intro":
+    "Walk Belmore Way and Shelby Circle with our sales team, see the lots in person, and ask everything. Tours are at the homesite, [TOUR HOURS — TO COME].",
   "forms.tour.phone.label": "Phone",
   "forms.tour.phone.helper": "So we can confirm the time with you.",
   "forms.tour.date.label": "Preferred date",
@@ -195,14 +244,18 @@ export const copyDefaults: Record<string, string> = {
   "forms.tour.lots.option7": "Lot 806",
   "forms.tour.lots.option8": "Lot 807",
   "forms.tour.lots.option9": "Not sure yet",
-  "forms.tour.note.placeholder": "Anything we should know? Who's coming, plans you like, questions to answer on site.",
+  "forms.tour.note.placeholder":
+    "Anything we should know? Who's coming, plans you like, questions to answer on site.",
   "forms.tour.submit": "Request a tour",
   "forms.tour.success.title": "Tour request sent.",
-  "forms.tour.success.body": "Thanks. We'll be in touch to confirm the date and time. Nothing is booked until you hear back.",
+  "forms.tour.success.body":
+    "Thanks. We'll be in touch to confirm the date and time. Nothing is booked until you hear back.",
   "forms.tour.error.title": "Your request didn't send.",
-  "forms.tour.error.body": "Check the highlighted fields and try again, or email {{CONTACT_EMAIL}} to set up a time.",
+  "forms.tour.error.body":
+    "Check the highlighted fields and try again, or email {{CONTACT_EMAIL}} to set up a time.",
   "forms.waitlist.title": "Join the waitlist",
-  "forms.waitlist.intro": "Seventeen more lots make up the future section, east of Shelby Circle. Join the list to hear when they're released. Release timing: [FUTURE SECTION TIMING — TBD].",
+  "forms.waitlist.intro":
+    "Seventeen more lots make up the future section, east of Shelby Circle. Join the list to hear when they're released. Release timing: [FUTURE SECTION TIMING — TBD].",
   "forms.waitlist.timeline.label": "When are you hoping to move?",
   "forms.waitlist.timeline.option1": "Within a year",
   "forms.waitlist.timeline.option2": "One to two years",
@@ -214,15 +267,20 @@ export const copyDefaults: Record<string, string> = {
   "forms.waitlist.beds.option3": "5 or more",
   "forms.waitlist.beds.option4": "Not sure yet",
   "forms.waitlist.phase1.label": "Also send me news on Phase 1 lots",
-  "forms.waitlist.note.placeholder": "Anything that matters to you: lot size, a plan you like, a timeline.",
-  "forms.waitlist.helper": "Joining the waitlist is free and doesn't hold a lot or commit you to anything.",
+  "forms.waitlist.note.placeholder":
+    "Anything that matters to you: lot size, a plan you like, a timeline.",
+  "forms.waitlist.helper":
+    "Joining the waitlist is free and doesn't hold a lot or commit you to anything.",
   "forms.waitlist.submit": "Join the waitlist",
   "forms.waitlist.success.title": "You're on the list.",
-  "forms.waitlist.success.body": "Thanks. We'll email you when the future section has news. To leave the list, email {{CONTACT_EMAIL}} anytime.",
+  "forms.waitlist.success.body":
+    "Thanks. We'll email you when the future section has news. To leave the list, email {{CONTACT_EMAIL}} anytime.",
   "forms.waitlist.error.title": "You're not on the list yet.",
-  "forms.waitlist.error.body": "Something went wrong on our end or in a field. Check the form and try again, or email {{CONTACT_EMAIL}}.",
+  "forms.waitlist.error.body":
+    "Something went wrong on our end or in a field. Check the form and try again, or email {{CONTACT_EMAIL}}.",
   "forms.reserve.title": "Request a lot",
-  "forms.reserve.intro": "Tell us which Phase 1 lot you want. This is a non-binding request, not a contract and not a hold. We'll follow up with the reservation terms: [RESERVATION TERMS — TBD].",
+  "forms.reserve.intro":
+    "Tell us which Phase 1 lot you want. This is a non-binding request, not a contract and not a hold. We'll follow up with the reservation terms: [RESERVATION TERMS — TBD].",
   "forms.reserve.phone.label": "Phone",
   "forms.reserve.phone.helper": "Lot requests move faster by phone.",
   "forms.reserve.lot.label": "First-choice lot",
@@ -236,7 +294,7 @@ export const copyDefaults: Record<string, string> = {
   "forms.reserve.lot2.label": "Second choice · optional",
   "forms.reserve.lot2.helper": "Same list. Helpful if your first choice is spoken for.",
   "forms.reserve.plan.label": "Plan you're considering · optional",
-  "forms.reserve.plan.placeholder": "Plan name, or \"still deciding\"",
+  "forms.reserve.plan.placeholder": 'Plan name, or "still deciding"',
   "forms.reserve.financing.label": "Where are you with financing?",
   "forms.reserve.financing.option1": "Pre-approved",
   "forms.reserve.financing.option2": "Talking with a lender",
@@ -244,14 +302,19 @@ export const copyDefaults: Record<string, string> = {
   "forms.reserve.financing.option4": "Haven't started",
   "forms.reserve.agent.name.label": "Your agent's name and brokerage · optional",
   "forms.reserve.note.placeholder": "Timing, questions about the lot, anything else.",
-  "forms.reserve.ack.label": "I understand this is a non-binding request. It doesn't reserve a lot, and any deposit and terms come later, in writing.",
-  "forms.reserve.ack.helper": "Good to know: under New York Lien Law §71-a, a buyer can require that the deposit on a lot-and-home contract be held in escrow, or that the builder post a bond instead.",
+  "forms.reserve.ack.label":
+    "I understand this is a non-binding request. It doesn't reserve a lot, and any deposit and terms come later, in writing.",
+  "forms.reserve.ack.helper":
+    "Good to know: under New York Lien Law §71-a, a buyer can require that the deposit on a lot-and-home contract be held in escrow, or that the builder post a bond instead.",
   "forms.reserve.submit": "Send lot request",
   "forms.reserve.success.title": "Lot request sent.",
-  "forms.reserve.success.body": "Thanks. We'll contact you about the lot and the reservation terms. Until you sign something, nothing is held.",
+  "forms.reserve.success.body":
+    "Thanks. We'll contact you about the lot and the reservation terms. Until you sign something, nothing is held.",
   "forms.reserve.error.title": "Your lot request didn't send.",
-  "forms.reserve.error.body": "Check the highlighted fields and try again, or call [SALES PHONE — TO COME] or email {{CONTACT_EMAIL}}.",
-  "global.banner.text": "Belmore Estates · the final 24 lots of Legends West · North Greece, NY. Phase 1 is lots 801–807. Request a lot, book a tour, or join the waitlist for the rest.",
+  "forms.reserve.error.body":
+    "Check the highlighted fields and try again, or call [SALES PHONE — TO COME] or email {{CONTACT_EMAIL}}.",
+  "global.banner.text":
+    "Belmore Estates · the final 24 lots of Legends West · North Greece, NY. Phase 1 is lots 801–807. Request a lot, book a tour, or join the waitlist for the rest.",
   "global.wordmark.line1": "Belmore",
   "global.wordmark.line2": "ESTATES",
   "global.wordmark.aria": "Belmore Estates, home",
@@ -266,16 +329,22 @@ export const copyDefaults: Record<string, string> = {
   "global.menu.faq": "Questions",
   "global.menu.privacy": "Privacy",
   "global.footer.block1.heading": "Belmore Estates",
-  "global.footer.block1.body": "The final section of Legends West, North Greece, NY. Developed by Schram Family Realty, LLC. Phase 1 is lots 801–807 on Belmore Way and Shelby Circle. Listed by Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
+  "global.footer.block1.body":
+    "The final section of Legends West, North Greece, NY. Developed by Schram Family Realty, LLC. Phase 1 is lots 801–807 on Belmore Way and Shelby Circle. Listed by Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
   "global.footer.block2.eyebrow": "VISIT",
   "global.footer.block2.line1": "Developer office · 45 Radford Way / Rochester, NY 14612",
-  "global.footer.block2.line2": "Tours at the homesite — [TOUR HOURS — TO COME] · [SALES PHONE — TO COME] · {{CONTACT_EMAIL}}",
-  "global.footer.block2.line3": "North Greece, NY · Belmore Way and Shelby Circle, via Emery Run, Barclay Court, and Legends Way",
+  "global.footer.block2.line2":
+    "Tours at the homesite — [TOUR HOURS — TO COME] · [SALES PHONE — TO COME] · {{CONTACT_EMAIL}}",
+  "global.footer.block2.line3":
+    "North Greece, NY · Belmore Way and Shelby Circle, via Emery Run, Barclay Court, and Legends Way",
   "global.footer.block3.eyebrow": "EXPLORE",
-  "global.footer.block3.links": "Community · Floor Plans · Phase 1 Lots · Design Studio · Our Process · About · Questions · Privacy",
+  "global.footer.block3.links":
+    "Community · Floor Plans · Phase 1 Lots · Design Studio · Our Process · About · Questions · Privacy",
   "global.footer.block4.eyebrow": "THE FINE PRINT",
-  "global.footer.block4.body": "Lot areas are the figures on the approved Section 8 plat. The 3D model is a massing, not a survey. Plans, pricing, and availability can change, so confirm details before you sign. [BROKER DISCLOSURE — TO CONFIRM]",
-  "global.footer.copyright": "© 2026 Schram Family Realty, LLC. Belmore Estates at Legends West, Section 8, Town of Greece, NY.",
+  "global.footer.block4.body":
+    "Lot areas are the figures on the approved Section 8 plat. The 3D model is a massing, not a survey. Plans, pricing, and availability can change, so confirm details before you sign. [BROKER DISCLOSURE — TO CONFIRM]",
+  "global.footer.copyright":
+    "© 2026 Schram Family Realty, LLC. Belmore Estates at Legends West, Section 8, Town of Greece, NY.",
   "global.cta.call": "Call [SALES PHONE — TO COME]",
   "global.cta.contact": "Send a message",
   "global.cta.tour": "Book a tour",
@@ -286,12 +355,14 @@ export const copyDefaults: Record<string, string> = {
   "global.status.sold": "Sold",
   "global.status.future": "Future — Join waitlist",
   "home.seo.title": "Belmore Estates | New Homes in North Greece, NY",
-  "home.seo.description": "The final 24 lots of Legends West in North Greece, NY. Semi-custom homes on Belmore Way and Shelby Circle. Phase 1 is lots 801–807.",
+  "home.seo.description":
+    "The final 24 lots of Legends West in North Greece, NY. Semi-custom homes on Belmore Way and Shelby Circle. Phase 1 is lots 801–807.",
   "home.hero.image.alt": "White board-and-batten house with a timber front porch in evening light.",
   "home.hero.eyebrow": "The final section of Legends West",
   "home.hero.subeyebrow": "North Greece, NY · Belmore Way",
   "home.hero.h1": "Belmore Estates",
-  "home.hero.body": "Twenty-four homesites that finish an established Greece neighborhood. Phase 1 is lots 801–807, on Belmore Way and Shelby Circle. Semi-custom homes, developed by Schram Family Realty, LLC.",
+  "home.hero.body":
+    "Twenty-four homesites that finish an established Greece neighborhood. Phase 1 is lots 801–807, on Belmore Way and Shelby Circle. Semi-custom homes, developed by Schram Family Realty, LLC.",
   "home.hero.button1": "Book a tour",
   "home.hero.button2": "See Phase 1 lots",
   "home.hero.stat1.label": "Lots",
@@ -304,25 +375,31 @@ export const copyDefaults: Record<string, string> = {
   "home.offer.h2": "The neighborhood is done. Your kitchen isn't.",
   "home.offer.card1.number": "01",
   "home.offer.card1.title": "Approved plat",
-  "home.offer.card1.body": "Lots 801–807 have public water from the Monroe County Water Authority and Town sewer treated by Monroe County Pure Waters. No raw-land guesswork.",
+  "home.offer.card1.body":
+    "Lots 801–807 have public water from the Monroe County Water Authority and Town sewer treated by Monroe County Pure Waters. No raw-land guesswork.",
   "home.offer.card2.number": "02",
   "home.offer.card2.title": "Phase 1",
-  "home.offer.card2.body": "Seven lots go first. The other 17 make up the future section, and the waitlist is open.",
+  "home.offer.card2.body":
+    "Seven lots go first. The other 17 make up the future section, and the waitlist is open.",
   "home.offer.card3.number": "03",
   "home.offer.card3.title": "Schram Family Realty",
-  "home.offer.card3.body": "The developer behind Belmore Estates. Office at 45 Radford Way, Rochester.",
+  "home.offer.card3.body":
+    "The developer behind Belmore Estates. Office at 45 Radford Way, Rochester.",
   "home.plans.eyebrow": "Floor plans",
   "home.plans.h2": "One model home. Plenty of company.",
   "home.plans.gla.line": "Every plan here was designed by GLA Architecture.",
   "home.plans.link": "See the floor plans",
   "home.model.eyebrow": "Model home",
   "home.model.h2": "The Stonebridge",
-  "home.model.body": "The approved model plan for Belmore Estates, designed by GLA Architecture as plan 2300-2. The specs are below. Everything else is best seen on a tour.",
-  "home.model.specs": "4 bed · 2.5 bath · 2,300 sq ft (1,189 first floor / 1,111 second) · Two story · 2-car garage · 57'8\" × 42'0\"",
+  "home.model.body":
+    "The approved model plan for Belmore Estates, designed by GLA Architecture as plan 2300-2. The specs are below. Everything else is best seen on a tour.",
+  "home.model.specs":
+    "4 bed · 2.5 bath · 2,300 sq ft (1,189 first floor / 1,111 second) · Two story · 2-car garage · 57'8\" × 42'0\"",
   "home.model.credit": "Plan by GLA Architecture",
   "home.model.link": "View on GLA",
   "home.model.image.alt": "Placeholder image for The Stonebridge plan by GLA Architecture.",
-  "home.model.image.placeholder": "Renderings and floor plans for The Stonebridge are on GLA's site.",
+  "home.model.image.placeholder":
+    "Renderings and floor plans for The Stonebridge are on GLA's site.",
   "home.model.visit.address": "Model home address: [MODEL HOME ADDRESS — TO COME]",
   "home.model.visit.hours": "Model home hours: [MODEL HOME HOURS — TO COME]",
   "home.model.visit.price": "Price: [PRICING — TBD]",
@@ -337,9 +414,11 @@ export const copyDefaults: Record<string, string> = {
   "home.plans.card.image.alt": "Placeholder image for the {name} plan by GLA Architecture.",
   "home.plans.card.image.placeholder": "Rendering on GLA's site",
   "home.plans.collection.button": "View all plans",
-  "home.plans.fit.line": "Whether a plan works on a particular lot is something our sales team confirms with [BUILDER — TO CONFIRM].",
+  "home.plans.fit.line":
+    "Whether a plan works on a particular lot is something our sales team confirms with [BUILDER — TO CONFIRM].",
   "home.plans.agent_cta.h3": "Want more options?",
-  "home.plans.agent_cta.body": "Talk with our sales team about more plans, lot fit, and custom options.",
+  "home.plans.agent_cta.body":
+    "Talk with our sales team about more plans, lot fit, and custom options.",
   "home.plans.agent_cta.button1": "Contact our team",
   "home.plans.agent_cta.button2": "Book a tour",
   "home.sitemodel.eyebrow": "Site model",
@@ -351,7 +430,8 @@ export const copyDefaults: Record<string, string> = {
   "home.sitemodel.panel.note": "{note}",
   "home.sitemodel.panel.area": "Plat area {area}",
   "home.sitemodel.panel.release": "Phase 1 · 7 of 24 lots",
-  "home.sitemodel.caption": "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
+  "home.sitemodel.caption":
+    "Traced from the approved Section 8 plat. North is up. Rectangular lots use the plat dimensions; the curve is simplified. It's a massing model for getting your bearings, not a survey, and the houses are simple placeholders, not floor plans.",
   "home.phase1.eyebrow": "Phase 1",
   "home.phase1.h2": "The first seven lots",
   "home.phase1.card.link": "Lot details",
@@ -380,31 +460,39 @@ export const copyDefaults: Record<string, string> = {
   "home.studio.image.alt": "Stone, oak, brass, and linen finish samples laid out on a table.",
   "home.studio.eyebrow": "Design Studio",
   "home.studio.h2": "The plan is set. Now the good part.",
-  "home.studio.body": "Cabinets, counters, floors, fixtures, and the front door. You choose them after the lot and plan, with [STUDIO PARTNER — TO COME].",
+  "home.studio.body":
+    "Cabinets, counters, floors, fixtures, and the front door. You choose them after the lot and plan, with [STUDIO PARTNER — TO COME].",
   "home.studio.button": "How the studio works",
   "home.process.eyebrow": "Our process",
   "home.process.h2": "Five steps to a set of keys.",
   "home.process.step1.number": "01",
   "home.process.step1.title": "Walk Belmore Way",
-  "home.process.step1.body": "Book a tour of the street. Belmore Way and Shelby Circle connect to Emery Run, Barclay Court, and Legends Way, the existing Legends West roads.",
+  "home.process.step1.body":
+    "Book a tour of the street. Belmore Way and Shelby Circle connect to Emery Run, Barclay Court, and Legends Way, the existing Legends West roads.",
   "home.process.step2.number": "02",
   "home.process.step2.title": "Request a Phase 1 lot",
-  "home.process.step2.body": "Lots 801–807 go first. A lot request is non-binding; terms come from [RESERVATION TERMS — TBD]. For the future section, join the waitlist.",
+  "home.process.step2.body":
+    "Lots 801–807 go first. A lot request is non-binding; terms come from [RESERVATION TERMS — TBD]. For the future section, join the waitlist.",
   "home.process.step3.number": "03",
   "home.process.step3.title": "Choose a plan",
-  "home.process.step3.body": "Start with the Stonebridge, the approved model plan, or another plan by GLA Architecture. Our sales team confirms lot fit with [BUILDER — TO CONFIRM].",
+  "home.process.step3.body":
+    "Start with the Stonebridge, the approved model plan, or another plan by GLA Architecture. Our sales team confirms lot fit with [BUILDER — TO CONFIRM].",
   "home.process.step4.number": "04",
   "home.process.step4.title": "Design studio",
-  "home.process.step4.body": "Finishes come after the lot and plan. Your allowance: [FINISH ALLOWANCE — TBD].",
+  "home.process.step4.body":
+    "Finishes come after the lot and plan. Your allowance: [FINISH ALLOWANCE — TBD].",
   "home.process.step5.number": "05",
   "home.process.step5.title": "Build and close",
-  "home.process.step5.body": "Construction runs on [BUILD TIMELINE — TBD]. At closing, New York's 1-2-6 implied warranty is the baseline.",
+  "home.process.step5.body":
+    "Construction runs on [BUILD TIMELINE — TBD]. At closing, New York's 1-2-6 implied warranty is the baseline.",
   "home.process.link": "See every step",
   "homes.seo.title": "Phase 1 Lots 801–807 | Belmore Estates, Greece NY",
-  "homes.seo.description": "Seven Phase 1 homesites on Belmore Way and Shelby Circle in North Greece, NY, from 0.275 to 0.432 acres. See plat areas and request a lot.",
+  "homes.seo.description":
+    "Seven Phase 1 homesites on Belmore Way and Shelby Circle in North Greece, NY, from 0.275 to 0.432 acres. See plat areas and request a lot.",
   "homes.index.eyebrow": "Phase 1",
   "homes.index.h2": "Lots 801 through 807.",
-  "homes.index.body": "These seven go first. Lots 802, 803, and 804 measure 80 by 150 feet. Lot 805 is 80 by 155. Lots 801, 806, and 807 are the bigger parcels on the bend and around Shelby Circle. Every area is the figure on the approved Section 8 plat. Watching the future section instead? Join the waitlist.",
+  "homes.index.body":
+    "These seven go first. Lots 802, 803, and 804 measure 80 by 150 feet. Lot 805 is 80 by 155. Lots 801, 806, and 807 are the bigger parcels on the bend and around Shelby Circle. Every area is the figure on the approved Section 8 plat. Watching the future section instead? Join the waitlist.",
   "homes.card.street": "{street}",
   "homes.card.title": "Lot {lot}",
   "homes.card.area": "{area}",
@@ -425,18 +513,21 @@ export const copyDefaults: Record<string, string> = {
   "homes.lot803.note": "80 feet on Belmore Way and 150 feet deep, between lots 802 and 804.",
   "homes.lot804.street": "Belmore Way",
   "homes.lot804.area": "0.275 acres · 12,000 sq ft",
-  "homes.lot804.note": "North end of the west row, 80 by 150 feet, beside the earlier Legends West lots.",
+  "homes.lot804.note":
+    "North end of the west row, 80 by 150 feet, beside the earlier Legends West lots.",
   "homes.lot805.street": "Belmore Way",
   "homes.lot805.area": "0.285 acres · 12,400 sq ft",
   "homes.lot805.note": "80 by 155 feet on the east side of Belmore Way, in line with lot 804.",
   "homes.lot806.street": "Belmore Way at Shelby Circle",
   "homes.lot806.area": "0.405 acres · 17,632 sq ft",
-  "homes.lot806.note": "The corner lot south of 805, fronting Belmore Way and the north side of Shelby Circle.",
+  "homes.lot806.note":
+    "The corner lot south of 805, fronting Belmore Way and the north side of Shelby Circle.",
   "homes.lot807.street": "Belmore Way at Shelby Circle",
   "homes.lot807.area": "0.413 acres · 18,009 sq ft",
   "homes.lot807.note": "South of Shelby Circle, on the outside of the Belmore Way bend.",
   "homes.detail.seo.title": "Lot {lot} | Belmore Estates, Greece NY",
-  "homes.detail.seo.description": "Lot {lot} at Belmore Estates, North Greece, NY: {area} on {street}, per the approved plat. Phase 1 of 24.",
+  "homes.detail.seo.description":
+    "Lot {lot} at Belmore Estates, North Greece, NY: {area} on {street}, per the approved plat. Phase 1 of 24.",
   "homes.detail.image.alt": "An existing Legends West street, shown for context. Not this lot.",
   "homes.detail.eyebrow": "Phase 1 · {street}",
   "homes.detail.h1": "Lot {lot}",
@@ -453,17 +544,21 @@ export const copyDefaults: Record<string, string> = {
   "homes.detail.specs.premium.value": "[LOT PREMIUM — TBD]",
   "homes.detail.specs.price.label": "Price",
   "homes.detail.specs.price.value": "[PRICING — TBD]",
-  "homes.detail.specs.footnote": "Area is the plat figure. Greece Central School District; confirm the assignment for this lot before you sign.",
+  "homes.detail.specs.footnote":
+    "Area is the plat figure. Greece Central School District; confirm the assignment for this lot before you sign.",
   "homes.detail.button1": "See it on the site model",
   "homes.detail.button2": "Request lot {lot}",
   "homes.detail.form.h3": "Request lot {lot}",
   "plans.seo.title": "Floor Plans | Belmore Estates, Greece NY",
-  "plans.seo.description": "See the Stonebridge model home plan and more semi-custom plans by GLA Architecture for Belmore Estates in North Greece, NY. Ask our team about fit.",
+  "plans.seo.description":
+    "See the Stonebridge model home plan and more semi-custom plans by GLA Architecture for Belmore Estates in North Greece, NY. Ask our team about fit.",
   "plans.index.eyebrow": "Floor plans",
   "plans.index.h2": "Start with the model. Then look around.",
-  "plans.index.body": "The Stonebridge is the approved model plan for Belmore Estates. Below it are plans in the same range, then more to explore. Specs come straight from GLA; renderings and full drawings live on GLA's site.",
+  "plans.index.body":
+    "The Stonebridge is the approved model plan for Belmore Estates. Below it are plans in the same range, then more to explore. Specs come straight from GLA; renderings and full drawings live on GLA's site.",
   "plans.index.gla.line": "Every plan on this page was designed by GLA Architecture.",
-  "plans.index.fit.line": "Whether a plan works on a particular lot is something our sales team confirms with [BUILDER — TO CONFIRM], lot by lot.",
+  "plans.index.fit.line":
+    "Whether a plan works on a particular lot is something our sales team confirms with [BUILDER — TO CONFIRM], lot by lot.",
   "plans.index.chip.all": "All",
   "plans.index.chip.3bed": "3 bed",
   "plans.index.chip.4bed": "4 bed",
@@ -471,7 +566,8 @@ export const copyDefaults: Record<string, string> = {
   "plans.index.price.note": "Pricing on Belmore Estates lots: [PRICING — TBD]",
   "plans.model.eyebrow": "Model home",
   "plans.model.h2": "The Stonebridge",
-  "plans.model.body": "The approved model plan for Belmore Estates, designed by GLA Architecture as plan 2300-2. Four bedrooms, two and a half baths, two stories, and the numbers below. Book a tour and ask us about it.",
+  "plans.model.body":
+    "The approved model plan for Belmore Estates, designed by GLA Architecture as plan 2300-2. Four bedrooms, two and a half baths, two stories, and the numbers below. Book a tour and ask us about it.",
   "plans.model.specs.plan.label": "GLA plan",
   "plans.model.specs.plan.value": "2300-2",
   "plans.model.specs.beds.label": "Bedrooms",
@@ -489,7 +585,8 @@ export const copyDefaults: Record<string, string> = {
   "plans.model.credit": "Plan by GLA Architecture",
   "plans.model.link": "View on GLA",
   "plans.model.image.alt": "Placeholder image for The Stonebridge plan by GLA Architecture.",
-  "plans.model.image.placeholder": "Renderings and floor plans for The Stonebridge are on GLA's site.",
+  "plans.model.image.placeholder":
+    "Renderings and floor plans for The Stonebridge are on GLA's site.",
   "plans.model.visit.h3": "Model home details",
   "plans.model.visit.address.label": "Address",
   "plans.model.visit.address.value": "[MODEL HOME ADDRESS — TO COME]",
@@ -501,10 +598,12 @@ export const copyDefaults: Record<string, string> = {
   "plans.model.button2": "Ask about The Stonebridge",
   "plans.showcase.eyebrow": "Similar to the Stonebridge",
   "plans.showcase.h2": "Close in size, different in shape.",
-  "plans.showcase.body": "Plans by GLA Architecture in the same size range as the model. One is two stories; two are single-story.",
+  "plans.showcase.body":
+    "Plans by GLA Architecture in the same size range as the model. One is two stories; two are single-story.",
   "plans.more.eyebrow": "The wider collection",
   "plans.more.h2": "More plans to explore",
-  "plans.more.intro": "More plans by GLA Architecture, with a range of sizes, stories, and garages. Browse the specs here, open any plan on GLA's site, and bring your favorites to our sales team.",
+  "plans.more.intro":
+    "More plans by GLA Architecture, with a range of sizes, stories, and garages. Browse the specs here, open any plan on GLA's site, and bring your favorites to our sales team.",
   "plans.more.button": "View all plans",
   "plans.card.image.alt": "Placeholder image for the {name} plan by GLA Architecture.",
   "plans.card.image.placeholder": "Rendering on GLA's site",
@@ -521,26 +620,33 @@ export const copyDefaults: Record<string, string> = {
   "plans.how.h2": "How choosing a plan works",
   "plans.how.step1.number": "01",
   "plans.how.step1.title": "Shortlist",
-  "plans.how.step1.body": "Start with the Stonebridge, then mark any other plan that catches your eye. GLA's pages have the drawings.",
+  "plans.how.step1.body":
+    "Start with the Stonebridge, then mark any other plan that catches your eye. GLA's pages have the drawings.",
   "plans.how.step2.number": "02",
   "plans.how.step2.title": "Pair it with a lot",
-  "plans.how.step2.body": "Tell us which Phase 1 lot you like. We confirm with [BUILDER — TO CONFIRM] whether the plan works there.",
+  "plans.how.step2.body":
+    "Tell us which Phase 1 lot you like. We confirm with [BUILDER — TO CONFIRM] whether the plan works there.",
   "plans.how.step3.number": "03",
   "plans.how.step3.title": "Get it in writing",
-  "plans.how.step3.body": "Ask for the price, what it includes, and any lot premium in writing before you commit.",
+  "plans.how.step3.body":
+    "Ask for the price, what it includes, and any lot premium in writing before you commit.",
   "plans.customize.eyebrow": "Making changes",
   "plans.customize.h2": "Customizing a GLA plan",
-  "plans.customize.body": "Want a bigger mudroom or a different garage? Bring it up early. Changes to any plan are discussed with our sales team and [BUILDER — TO CONFIRM], and what's possible, who handles it, and what it costs are details to be confirmed for each home.",
+  "plans.customize.body":
+    "Want a bigger mudroom or a different garage? Bring it up early. Changes to any plan are discussed with our sales team and [BUILDER — TO CONFIRM], and what's possible, who handles it, and what it costs are details to be confirmed for each home.",
   "plans.agent.eyebrow": "Our sales team",
   "plans.agent.h2": "Talk with our sales team.",
-  "plans.agent.body": "Bring your shortlist and ask about more plans, which lot to pair with a plan, and custom options. We'll confirm lot fit with [BUILDER — TO CONFIRM] before you count on it.",
+  "plans.agent.body":
+    "Bring your shortlist and ask about more plans, which lot to pair with a plan, and custom options. We'll confirm lot fit with [BUILDER — TO CONFIRM] before you count on it.",
   "plans.agent.button1": "Contact our team",
   "plans.agent.button2": "Book a tour",
   "plans.detail.seo.title": "{name} Floor Plan | Belmore Estates, Greece NY",
-  "plans.detail.seo.description": "{name} by GLA Architecture: {beds} bed, {baths} bath, {sqft} sq ft. A semi-custom plan for Belmore Estates, North Greece, NY.",
+  "plans.detail.seo.description":
+    "{name} by GLA Architecture: {beds} bed, {baths} bath, {sqft} sq ft. A semi-custom plan for Belmore Estates, North Greece, NY.",
   "plans.detail.eyebrow": "Floor plan · GLA plan {plan_no}",
   "plans.detail.h1": "{name}",
-  "plans.detail.body": "Designed by GLA Architecture: {beds} bedrooms, {baths} baths, and {sqft} square feet. Ask us whether it works on the lot you have in mind.",
+  "plans.detail.body":
+    "Designed by GLA Architecture: {beds} bedrooms, {baths} baths, and {sqft} square feet. Ask us whether it works on the lot you have in mind.",
   "plans.detail.price": "[PRICING — TBD]",
   "plans.detail.specs.beds.label": "Bedrooms",
   "plans.detail.specs.beds.value": "{beds}",
@@ -561,69 +667,96 @@ export const copyDefaults: Record<string, string> = {
   "plans.detail.gla.link": "View on GLA",
   "plans.detail.gla.link.title": "View renderings and floor plans on GLA's site",
   "plans.detail.features.h3": "Building it at Belmore Estates",
-  "plans.detail.features.item1": "Specs above are GLA Architecture's figures for the plan as drawn.",
-  "plans.detail.features.item2": "Lot fit isn't assumed. Our sales team confirms it with [BUILDER — TO CONFIRM] for the lot you choose.",
-  "plans.detail.features.item3": "Price on a Belmore Estates lot: [PRICING — TBD], plus any lot premium.",
+  "plans.detail.features.item1":
+    "Specs above are GLA Architecture's figures for the plan as drawn.",
+  "plans.detail.features.item2":
+    "Lot fit isn't assumed. Our sales team confirms it with [BUILDER — TO CONFIRM] for the lot you choose.",
+  "plans.detail.features.item3":
+    "Price on a Belmore Estates lot: [PRICING — TBD], plus any lot premium.",
   "plans.detail.features.item4": "Finishes are chosen at the design studio after the lot and plan.",
   "plans.detail.gallery.h3": "See it drawn",
-  "plans.detail.gallery.body": "GLA keeps the current renderings and floor plans for {name}. Open them in a new tab, then come back and tell us which lot you have in mind.",
+  "plans.detail.gallery.body":
+    "GLA keeps the current renderings and floor plans for {name}. Open them in a new tab, then come back and tell us which lot you have in mind.",
   "plans.detail.form.h3": "Ask about {name}",
   "plans.detail.other.h3": "More plans to explore",
   "privacy.seo.title": "Privacy Policy | Belmore Estates, Greece NY",
-  "privacy.seo.description": "How Belmore Estates handles the details you send through our forms: who sees them, how they're used, and how to have them removed.",
+  "privacy.seo.description":
+    "How Belmore Estates handles the details you send through our forms: who sees them, how they're used, and how to have them removed.",
   "privacy.draft.flag": "Draft — attorney review recommended",
   "privacy.intro.eyebrow": "Privacy",
   "privacy.intro.h2": "What we keep, and why.",
   "privacy.effective": "Effective date: [EFFECTIVE DATE — TO COME]",
-  "privacy.intro.body": "This policy covers the Belmore Estates website and the four forms on it: Contact, Book a tour, Join the waitlist, and Request a lot. The short version: you tell us how to reach you, we use it to answer you about Belmore Estates, and we don't sell it.",
+  "privacy.intro.body":
+    "This policy covers the Belmore Estates website and the four forms on it: Contact, Book a tour, Join the waitlist, and Request a lot. The short version: you tell us how to reach you, we use it to answer you about Belmore Estates, and we don't sell it.",
   "privacy.s1.h3": "Who we are",
-  "privacy.s1.body": "Belmore Estates is the final section of Legends West in the Town of Greece, NY, developed by Schram Family Realty, LLC, 45 Radford Way, Rochester, NY 14612. Inquiries are handled by the listing agent, Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group. In this policy, \"we\" and \"us\" mean the listing agent handling Belmore Estates inquiries.",
+  "privacy.s1.body":
+    'Belmore Estates is the final section of Legends West in the Town of Greece, NY, developed by Schram Family Realty, LLC, 45 Radford Way, Rochester, NY 14612. Inquiries are handled by the listing agent, Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group. In this policy, "we" and "us" mean the listing agent handling Belmore Estates inquiries.',
   "privacy.s2.h3": "What we collect",
-  "privacy.s2.body1": "Only what you type into a form: your name, email address, phone number if you give one, the lot, plan, or topic you ask about, your tour or timing preferences, whether you're a Realtor making an introduction, and your note.",
-  "privacy.s2.body2": "When you submit a form, the email delivery service may also process basic technical information needed to deliver the message and block spam, such as your IP address and the time of submission. Site analytics: [ANALYTICS — TO CONFIRM]. We do not use advertising cookies.",
+  "privacy.s2.body1":
+    "Only what you type into a form: your name, email address, phone number if you give one, the lot, plan, or topic you ask about, your tour or timing preferences, whether you're a Realtor making an introduction, and your note.",
+  "privacy.s2.body2":
+    "When you submit a form, the email delivery service may also process basic technical information needed to deliver the message and block spam, such as your IP address and the time of submission. Site analytics: [ANALYTICS — TO CONFIRM]. We do not use advertising cookies.",
   "privacy.s3.h3": "How we use it",
-  "privacy.s3.body": "We use your information only to respond to you about Belmore Estates: answering questions, scheduling tours, following up on lot requests, and sending waitlist updates you asked for. We don't use it for unrelated marketing.",
+  "privacy.s3.body":
+    "We use your information only to respond to you about Belmore Estates: answering questions, scheduling tours, following up on lot requests, and sending waitlist updates you asked for. We don't use it for unrelated marketing.",
   "privacy.s4.h3": "Where it goes",
-  "privacy.s4.body1": "Each submission is emailed to {{CONTACT_EMAIL}}. Submissions pass through an email delivery service, Web3Forms (setup pending), which processes them only to deliver the message.",
-  "privacy.s4.body2": "Submissions are also stored in a secure database that the listing agent can access. Access is limited to people responding to Belmore Estates inquiries.",
+  "privacy.s4.body1":
+    "Each submission is emailed to {{CONTACT_EMAIL}}. Submissions pass through an email delivery service, Web3Forms (setup pending), which processes them only to deliver the message.",
+  "privacy.s4.body2":
+    "Submissions are also stored in a secure database that the listing agent can access. Access is limited to people responding to Belmore Estates inquiries.",
   "privacy.s5.h3": "Sharing",
-  "privacy.s5.body": "We do not sell, rent, or trade your information. We share it only with the service providers that deliver and store submissions, as described above, or when the law requires it.",
+  "privacy.s5.body":
+    "We do not sell, rent, or trade your information. We share it only with the service providers that deliver and store submissions, as described above, or when the law requires it.",
   "privacy.s6.h3": "How long we keep it",
-  "privacy.s6.body": "We keep submissions for as long as we need them to respond to you and for [RETENTION PERIOD — TBD], unless you ask us to remove them sooner.",
+  "privacy.s6.body":
+    "We keep submissions for as long as we need them to respond to you and for [RETENTION PERIOD — TBD], unless you ask us to remove them sooner.",
   "privacy.s7.h3": "Your choices",
-  "privacy.s7.body": "To see, correct, or remove what you've sent us, or to leave the waitlist, email {{CONTACT_EMAIL}} with \"Remove my information\" in the subject line. We'll confirm once it's done.",
+  "privacy.s7.body":
+    "To see, correct, or remove what you've sent us, or to leave the waitlist, email {{CONTACT_EMAIL}} with \"Remove my information\" in the subject line. We'll confirm once it's done.",
   "privacy.s8.h3": "Security",
-  "privacy.s8.body": "We use reasonable safeguards to protect what you send, including limited access to the database. No website or inbox is perfectly secure, so please don't send financial account numbers or other sensitive details through a form.",
+  "privacy.s8.body":
+    "We use reasonable safeguards to protect what you send, including limited access to the database. No website or inbox is perfectly secure, so please don't send financial account numbers or other sensitive details through a form.",
   "privacy.s9.h3": "Children",
-  "privacy.s9.body": "This site is for adults shopping for homes. We don't knowingly collect information from anyone under 18.",
+  "privacy.s9.body":
+    "This site is for adults shopping for homes. We don't knowingly collect information from anyone under 18.",
   "privacy.s10.h3": "Earlier versions of this site",
-  "privacy.s10.body": "An earlier version of this site saved form entries only in your own browser. If you used it, you can clear those entries by clearing this site's data in your browser settings.",
+  "privacy.s10.body":
+    "An earlier version of this site saved form entries only in your own browser. If you used it, you can clear those entries by clearing this site's data in your browser settings.",
   "privacy.s11.h3": "Changes to this policy",
-  "privacy.s11.body": "If we change this policy, we'll post the new version here and update the effective date above.",
+  "privacy.s11.body":
+    "If we change this policy, we'll post the new version here and update the effective date above.",
   "privacy.s12.h3": "Questions",
   "privacy.s12.body": "Email {{CONTACT_EMAIL}} or call [SALES PHONE — TO COME].",
   "process.seo.title": "Our Process | Belmore Estates, Greece NY",
-  "process.seo.description": "Five steps from a tour of Belmore Way to closing, with New York buyer protections, STAR, and school-district checks explained in plain English.",
+  "process.seo.description":
+    "Five steps from a tour of Belmore Way to closing, with New York buyer protections, STAR, and school-district checks explained in plain English.",
   "process.hero.image.alt": "Close view of a timber porch column, stone pier, and black window.",
   "process.intro.eyebrow": "Our process",
   "process.intro.h2": "A short road to a set of keys.",
-  "process.intro.body": "From a first walk on Belmore Way to closing day. The lots are already approved and mapped, so you skip the raw-land homework and start with the fun questions. Build schedule: [BUILD TIMELINE — TBD].",
+  "process.intro.body":
+    "From a first walk on Belmore Way to closing day. The lots are already approved and mapped, so you skip the raw-land homework and start with the fun questions. Build schedule: [BUILD TIMELINE — TBD].",
   "process.step1.number": "01",
   "process.step1.title": "Walk Belmore Way",
-  "process.step1.body": "Book a tour and see the street, reached from Emery Run, Barclay Court, and Legends Way. While you're at it, confirm the school district for the lot you like. District lines don't always match town lines or mailing addresses.",
+  "process.step1.body":
+    "Book a tour and see the street, reached from Emery Run, Barclay Court, and Legends Way. While you're at it, confirm the school district for the lot you like. District lines don't always match town lines or mailing addresses.",
   "process.step2.number": "02",
   "process.step2.title": "Request a Phase 1 lot",
-  "process.step2.body": "Lots 801–807 go first; a lot request is non-binding, and terms come from [RESERVATION TERMS — TBD]. Under New York Lien Law §71-a, you can require that the deposit on a lot-and-home contract go into an escrow account, or that the builder post a bond instead. For the future section, join the waitlist.",
+  "process.step2.body":
+    "Lots 801–807 go first; a lot request is non-binding, and terms come from [RESERVATION TERMS — TBD]. Under New York Lien Law §71-a, you can require that the deposit on a lot-and-home contract go into an escrow account, or that the builder post a bond instead. For the future section, join the waitlist.",
   "process.step3.number": "03",
   "process.step3.title": "Choose a plan",
-  "process.step3.body": "Start with the Stonebridge, the approved model plan, or another plan designed by GLA Architecture. Our sales team confirms lot fit with [BUILDER — TO CONFIRM]; get a written list of what the base price includes.",
+  "process.step3.body":
+    "Start with the Stonebridge, the approved model plan, or another plan designed by GLA Architecture. Our sales team confirms lot fit with [BUILDER — TO CONFIRM]; get a written list of what the base price includes.",
   "process.step4.number": "04",
   "process.step4.title": "Design studio",
-  "process.step4.body": "Finishes come after the lot and plan, working from an allowance of [FINISH ALLOWANCE — TBD]. Sign selections on time; late changes cost days.",
+  "process.step4.body":
+    "Finishes come after the lot and plan, working from an allowance of [FINISH ALLOWANCE — TBD]. Sign selections on time; late changes cost days.",
   "process.step5.number": "05",
   "process.step5.title": "Build and close",
-  "process.step5.body": "Construction runs on [BUILD TIMELINE — TBD]. New York's 1-2-6 implied warranty (1 year workmanship, 2 years plumbing, electrical, heating, cooling, and ventilation, 6 years material defects) is the baseline. After closing, register for the STAR credit, and know that assessments follow the home's condition on March 1.",
+  "process.step5.body":
+    "Construction runs on [BUILD TIMELINE — TBD]. New York's 1-2-6 implied warranty (1 year workmanship, 2 years plumbing, electrical, heating, cooling, and ventilation, 6 years material defects) is the baseline. After closing, register for the STAR credit, and know that assessments follow the home's condition on March 1.",
   "process.cta.h3": "Start with the model.",
-  "process.cta.body": "Phase 1 starts at lot 801, on the Belmore Way curve. Orbit it, then book a tour.",
+  "process.cta.body":
+    "Phase 1 starts at lot 801, on the Belmore Way curve. Orbit it, then book a tour.",
   "process.cta.button": "Open the lot map",
 };

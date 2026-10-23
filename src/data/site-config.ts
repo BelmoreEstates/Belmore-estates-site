@@ -37,7 +37,10 @@ export const DEFAULT_WEB3FORMS_MODE: "server" | "client" = "server";
  * owner access, even if the `admins` table is emptied, so the owner can never
  * be locked out. Compared lowercased.
  */
-export const DEFAULT_OWNER_EMAILS: readonly string[] = ["belmoreestates@gmail.com", "realtor.deleguardia@gmail.com"];
+export const DEFAULT_OWNER_EMAILS: readonly string[] = [
+  "belmoreestates@gmail.com",
+  "realtor.deleguardia@gmail.com",
+];
 
 /** Cloudflare Turnstile hook. Off by default; see README to turn it on. */
 export const TURNSTILE_ENABLED = false;

@@ -15,7 +15,10 @@ export const Route = createFileRoute("/robots.txt")({
           ? `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\nDisallow: /api/\n\nSitemap: ${origin}/sitemap.xml\n`
           : "User-agent: *\nDisallow: /\n";
         return new Response(body, {
-          headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=3600" },
+          headers: {
+            "content-type": "text/plain; charset=utf-8",
+            "cache-control": "public, max-age=3600",
+          },
         });
       },
     },

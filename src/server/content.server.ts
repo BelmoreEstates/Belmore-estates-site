@@ -1,7 +1,14 @@
 /** Server-only: read site content from the DB, falling back to static defaults. */
 import type { Sql } from "@/lib/db";
 import { blockDefaults } from "@/data/content";
-import { lotAreaLabel, phaseLots, plans as defaultPlans, type LotStatus, type PhaseLot, type Plan } from "@/data/site";
+import {
+  lotAreaLabel,
+  phaseLots,
+  plans as defaultPlans,
+  type LotStatus,
+  type PhaseLot,
+  type Plan,
+} from "@/data/site";
 
 type LotRow = {
   id: string;
@@ -91,11 +98,14 @@ export function planFromRow(r: PlanRow): Plan {
   };
 }
 
-export async function loadBlocks(sql: Sql): Promise<Record<string, string>> {
-  const out = { ...blockDefaults };
-  const rows = await sql<{ key: string; value: string }>`select key, value from content_blocks`;
-  for (const r of rows) out[r.key] = r.value;
-  return out;
+/** Code defaults + the site doc's edited texts (published unless asked for the draft). */
+export async function loadBlocks(
+  sql: Sql,
+  id: "draft" | "published" = "published",
+): Promise<Record<string, string>> {
+  const { loadDoc } = await import("./site-doc.server");
+  const { doc } = await loadDoc(sql, id);
+  return { ...blockDefaults, ...(doc.texts ?? {}) };
 }
 
 export async function loadLots(sql: Sql): Promise<PhaseLot[]> {

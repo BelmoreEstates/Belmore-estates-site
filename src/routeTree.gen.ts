@@ -10,11 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignStudioRouteImport } from './routes/design-studio'
+import { Route as EditorRouteImport } from './routes/editor'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as HomesRouteImport } from './routes/homes'
 import { Route as LoginRouteImport } from './routes/login'
@@ -33,6 +35,11 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -58,6 +65,11 @@ const ContactRoute = ContactRouteImport.update({
 const DesignStudioRoute = DesignStudioRouteImport.update({
   id: '/design-studio',
   path: '/design-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorRoute = EditorRouteImport.update({
+  id: '/editor',
+  path: '/editor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -133,11 +145,13 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/design-studio': typeof DesignStudioRoute
+  '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
   '/homes': typeof HomesRouteWithChildren
   '/login': typeof LoginRoute
@@ -155,11 +169,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/design-studio': typeof DesignStudioRoute
+  '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -176,11 +192,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/design-studio': typeof DesignStudioRoute
+  '/editor': typeof EditorRoute
   '/faq': typeof FaqRoute
   '/homes': typeof HomesRouteWithChildren
   '/login': typeof LoginRoute
@@ -200,11 +218,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
     | '/about'
     | '/admin'
     | '/community'
     | '/contact'
     | '/design-studio'
+    | '/editor'
     | '/faq'
     | '/homes'
     | '/login'
@@ -222,11 +242,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
     | '/about'
     | '/admin'
     | '/community'
     | '/contact'
     | '/design-studio'
+    | '/editor'
     | '/faq'
     | '/login'
     | '/privacy'
@@ -242,11 +264,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$'
     | '/about'
     | '/admin'
     | '/community'
     | '/contact'
     | '/design-studio'
+    | '/editor'
     | '/faq'
     | '/homes'
     | '/login'
@@ -265,11 +289,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   DesignStudioRoute: typeof DesignStudioRoute
+  EditorRoute: typeof EditorRoute
   FaqRoute: typeof FaqRoute
   HomesRoute: typeof HomesRouteWithChildren
   LoginRoute: typeof LoginRoute
@@ -289,6 +315,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -324,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/design-studio'
       fullPath: '/design-studio'
       preLoaderRoute: typeof DesignStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editor': {
+      id: '/editor'
+      path: '/editor'
+      fullPath: '/editor'
+      preLoaderRoute: typeof EditorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -453,11 +493,13 @@ const PlansRouteWithChildren = PlansRoute._addFileChildren(PlansRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   DesignStudioRoute: DesignStudioRoute,
+  EditorRoute: EditorRoute,
   FaqRoute: FaqRoute,
   HomesRoute: HomesRouteWithChildren,
   LoginRoute: LoginRoute,

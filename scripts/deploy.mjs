@@ -42,9 +42,17 @@ const approved = process.env.BELMORE_PROD_APPROVED === "yes";
 await import("./env.mjs");
 
 const site = process.env.NETLIFY_SITE || "belmore-estates";
-const siteId = process.env.NETLIFY_SITE_ID || (site === "belmore-estates" ? "c746ffa9-c6ab-4bfa-b095-28deed86ed7b" : site);
-const previewUrl = (process.env.PREVIEW_URL || `https://preview--${site}.netlify.app`).replace(/\/+$/, "");
-const productionUrl = (process.env.PRODUCTION_URL || `https://${site}.netlify.app`).replace(/\/+$/, "");
+const siteId =
+  process.env.NETLIFY_SITE_ID ||
+  (site === "belmore-estates" ? "c746ffa9-c6ab-4bfa-b095-28deed86ed7b" : site);
+const previewUrl = (process.env.PREVIEW_URL || `https://preview--${site}.netlify.app`).replace(
+  /\/+$/,
+  "",
+);
+const productionUrl = (process.env.PRODUCTION_URL || `https://${site}.netlify.app`).replace(
+  /\/+$/,
+  "",
+);
 const dryRun = process.env.DRY_RUN === "1";
 
 if (target === "production" && !approved) {
@@ -56,7 +64,9 @@ if (target === "production" && !approved) {
   process.exit(1);
 }
 if (!dryRun && !process.env.NETLIFY_AUTH_TOKEN) {
-  console.error("[deploy] NETLIFY_AUTH_TOKEN is not set (Netlify > User settings > Applications > Personal access tokens).");
+  console.error(
+    "[deploy] NETLIFY_AUTH_TOKEN is not set (Netlify > User settings > Applications > Personal access tokens).",
+  );
   process.exit(1);
 }
 const [major, minor] = process.versions.node.split(".").map(Number);
@@ -72,12 +82,17 @@ const args = [
   "--yes",
   "netlify-cli@27",
   "deploy",
-  "--site", siteId,
+  "--site",
+  siteId,
   // Builds locally first (`npm run build`, from netlify.toml).
-  "--context", target === "production" ? "production" : "deploy-preview",
-  "--env", `SITE_ENV=${siteEnv}`,
-  "--env", `BETTER_AUTH_URL=${authUrl}`,
-  "--message", `${siteEnv} deploy from ${process.env.USER || "cli"}`,
+  "--context",
+  target === "production" ? "production" : "deploy-preview",
+  "--env",
+  `SITE_ENV=${siteEnv}`,
+  "--env",
+  `BETTER_AUTH_URL=${authUrl}`,
+  "--message",
+  `${siteEnv} deploy from ${process.env.USER || "cli"}`,
   // Production: --prod-if-unlocked, so a production deploy that Netlify has
   // locked ("Lock to stop auto publishing") becomes a draft instead of
   // replacing the live site; publish it from the Netlify UI.
@@ -88,7 +103,9 @@ console.log(`[deploy] ${siteEnv} -> ${authUrl}`);
 console.log(`[deploy] npx ${args.join(" ")}`);
 if (dryRun) process.exit(0);
 
-console.log("[deploy] Reminder: run `npm run db:migrate` against this site's DATABASE_URL first if there are new migrations.");
+console.log(
+  "[deploy] Reminder: run `npm run db:migrate` against this site's DATABASE_URL first if there are new migrations.",
+);
 const result = spawnSync("npx", args, {
   stdio: "inherit",
   env: { ...process.env, SITE_ENV: siteEnv, BETTER_AUTH_URL: authUrl },

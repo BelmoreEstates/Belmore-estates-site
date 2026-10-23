@@ -3,6 +3,69 @@
 This repository is a fresh, self-hostable port of the original build (original baseline commit `d4eaac8`). Rounds 1–3 below describe work done before the port; anything they say about the old host has been replaced by Round 4.
 Nothing was deployed or published. No service was signed up for and nobody was contacted. There is no `.env` file.
 
+## Round 5: visual editor (Wix-style, built on Puck)
+**How to use it:** see `docs/editor-how-to.md` (plain English; also at `/workspace/belmore/editor-how-to.md`).
+
+**What it is.** When an admin is signed in, every public page shows a "✎ Edit this page" button. It opens `/editor?page=…`, which shows the real page:
+- Click any text to type over it. Click any photo to upload a replacement, pick an earlier upload or paste an https address; you can set alt text too.
+- Sections can be moved ↑↓, hidden or shown, duplicated or deleted (with a confirm).
+- "Add a section" drags in any of 13 blocks: hero, text + photo, gallery, plan cards (from Plans), lots list or map (from Lots), CTA, FAQ, testimonials (empty by default; real quotes only), lead form (the existing `/api/lead` backend), Google map, YouTube/Vimeo video, spacer/divider and rich text.
+- Left-hand panels:
+  - "Pages & menu": new pages with a slug and their own SEO, page settings and deletion. The menu supports add (page or https link), rename, reorder, hide and remove.
+  - "Colors & fonts": presets, 9 color roles, curated Google fonts, button shape, spacing, and a logo as text or image.
+  - "All text": search every piece of copy.
+  - "Versions".
+- Toolbar: page picker, Undo/Redo (covers every change, including theme and menu), Desktop/Tablet/Mobile, autosave status, Preview, Publish… and Exit.
+- Plan and lot detail pages stay data-driven from /admin. The sections around them are editable.
+
+**Why Puck (`@puckeditor/core` 0.23.0).**
+- It's an MIT-licensed React page editor that renders our own components, so the canvas is the real site and not a re-creation.
+- It ships drag-and-drop, an outline, undo/redo history, viewport switching and an iframe canvas.
+- Its data is plain JSON that we validate and render ourselves on the server.
+- Alternatives considered:
+  - GrapesJS and Builder.io generate their own HTML/CSS (or are hosted SaaS), which would mean a second design system.
+  - TinaCMS and Payload are Git- or CMS-centred rather than click-on-the-page.
+  - A hand-rolled editor would mean rebuilding drag-drop and history.
+
+**Data and publishing.** One source of truth, the `site_docs` table (migration `0008_site_editor.sql`), with two rows: `draft` and `published`.
+- The doc holds text overrides, theme, nav and custom pages and sections. Anything missing falls back to the code defaults, so the seeded doc `{"v":1,"texts":{…}}` renders the original site exactly. Before/after visitor screenshots of 15 pages at desktop and mobile were pixel-identical.
+- The old `content_blocks` overrides were folded into both rows. The table was renamed `content_blocks_legacy` and is no longer read. /admin → Content now edits the same doc's draft texts, so changes go live with the next Publish in the editor.
+- The editor autosaves the draft about 1 s after a change. The save uses optimistic revision checks, so a second window gets a friendly "changed in another window" message instead of overwriting.
+- Visitors only ever get `published`. Preview (a `belmore_preview` cookie, admins only, `no-store`) shows the draft with a banner.
+- Publish needs the button plus a confirm. It copies the draft, writes a `site_versions` snapshot and never happens automatically.
+- Restoring a version (or "Discard unpublished changes") only replaces the draft: it first saves a restore point, and Undo still works. The `Original site` version is kept forever.
+
+**Security.**
+- All editor server functions are admin-checked (`authMiddleware` + allowlist) and zod-validated (`src/server/editor.ts`). The doc is size-capped and sanitized on save and on read.
+- Rich text goes through an allowlist sanitizer: p, br, strong, b, em, i, u, s, a (http/https/mailto/tel and relative only, with rel=noopener), ul, ol, li, h2–h4, blockquote, hr and code. Links are checked with `safeHref`; map and video embeds are rebuilt from a parsed ID, never from raw iframe HTML.
+- Images are jpg, png or webp only, up to 8 MB. The browser fixes the rotation, resizes the photo to at most 2400 px and re-encodes it to WebP, which drops EXIF and GPS data. The server then re-checks the magic bytes, caps the size at 3 MB and strips any metadata segments still left. Photos are stored in the Neon `media` table and served from `/media/$id`. A 3000×2000 test JPEG with camera EXIF came back as a 2400×1600 WebP with no EXIF.
+- The editor is a lazily loaded chunk that only `/editor` imports. The visitor entry's static import graph contains no Puck code (checked on the build output).
+- **CSP changes (minimal):**
+  - `frame-src` adds `https://www.google.com` (Maps embed), `https://www.youtube-nocookie.com` and `https://player.vimeo.com` for the new map and video blocks.
+  - `img-src` widens from `'self' data: blob: googleusercontent` to `'self' data: blob: https:` so the "Web address" photo option works. Images can't run script.
+  - The editor canvas is a same-origin `srcdoc` iframe, which inherits the page CSP; `frame-ancestors 'none'` and `X-Frame-Options: DENY` are unchanged.
+
+**Sign-in fallback.** Better Auth email + password, with public sign-up disabled (`disableSignUp`); the server returns `EMAIL_PASSWORD_SIGN_UP_DISABLED`.
+- Only emails already in `admins` can get a password, either from /admin → Admins → "Password sign-in (backup)" (owners only) or with `npm run admin:password -- email@example.com` (hidden prompt; needs `DATABASE_URL`).
+- Passwords are 12–128 characters, scrypt-hashed. Setting a new one signs that person out everywhere.
+- `/sign-in/email` is rate limited: 10 tries per 15 min, plus Better Auth's default 3 per 10 s, stored in the database (a `rateLimit` table) and shared across functions.
+- Limitations: there is no "forgot password" email and no email verification, so an owner resets passwords. Sessions use a 5-minute cookie cache, so removing an admin can take up to 5 minutes to sign them out everywhere.
+
+**Google sign-in (checked on the preview, Oct 23 2026).**
+- The preview starts a valid Google OAuth request: Google accepts the client ID and the `https://preview--belmore-estates.netlify.app/api/auth/callback/google` redirect URI and shows its account picker. There's no `redirect_uri_mismatch` or `invalid_client`.
+- The scopes are only `openid email profile`, which are non-sensitive.
+- Sign-in works with the app in **Testing** status, but only for Google accounts listed as **test users** (up to 100). Anyone else gets "Access blocked: … has not completed the Google verification process".
+- Simplest fix: Google Cloud Console → **Google Auth Platform → Audience → Test users → + Add users**, then add `realtor.deleguardia@gmail.com` and `belmoreestates@gmail.com` and save.
+- Optional, for everyone: on **Audience**, click **Publish app** (no Google review needed for these scopes).
+- Before launch: under **Clients → (this client) → Authorized redirect URIs**, add the production `https://<domain>/api/auth/callback/google`.
+
+**Other limitations.**
+- One editor at a time per site: a second window is stopped, not merged.
+- There's no image cropping (photos are resized only), and video or map embeds don't play inside the editor canvas.
+- The editor isn't designed for use on a phone; preview the mobile view with the Mobile toggle instead.
+- Custom pages can't change the plan or lot detail data itself (that stays in /admin → Plans / Lots).
+- Testimonials stay empty until real quotes are added.
+
 ## Round 4: portable port (Netlify + Neon + Better Auth Google)
 - **Host:** Netlify (nitro `netlify` preset + `netlify.toml`): static files in `dist/`, one SSR function in `.netlify/functions-internal/server/`. Client IP for rate limits comes from `x-nf-client-connection-ip`. Vercel config was removed.
 - **Database:** Neon Postgres over the pooled `DATABASE_URL` (`@neondatabase/serverless`). Local dev with no `DATABASE_URL` uses in-memory PGLite. `npm run db:migrate` applies `migrations/000N_*.sql`; `npm run db:seed` re-applies seed rows.

@@ -34,7 +34,12 @@ export const leadInputSchema = z
   .object({
     type: z.enum(LEAD_TYPES),
     name: trimmed(80).min(2, "This one's required."),
-    email: z.string().trim().toLowerCase().max(254).pipe(z.email("That email doesn't look right. Check for a typo?")),
+    email: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .max(254)
+      .pipe(z.email("That email doesn't look right. Check for a typo?")),
     phone: optional(32).refine(
       (v) => v === undefined || (PHONE_RE.test(v) && v.replace(/\D/g, "").length >= 7),
       "Please enter a phone number we can call.",
@@ -69,7 +74,8 @@ export const leadInputSchema = z
   })
   .superRefine((v, ctx) => {
     if (v.type === "tour") {
-      if (!v.tourDate) ctx.addIssue({ code: "custom", path: ["tourDate"], message: "Pick a tour date." });
+      if (!v.tourDate)
+        ctx.addIssue({ code: "custom", path: ["tourDate"], message: "Pick a tour date." });
       if (!v.tourWindow || !(TOUR_WINDOWS as readonly string[]).includes(v.tourWindow))
         ctx.addIssue({ code: "custom", path: ["tourWindow"], message: "Pick a time window." });
     }
@@ -78,7 +84,11 @@ export const leadInputSchema = z
       if (!v.lotId || !lots.includes(v.lotId))
         ctx.addIssue({ code: "custom", path: ["lotId"], message: "This one's required." });
       if (!v.ackNonbinding)
-        ctx.addIssue({ code: "custom", path: ["ackNonbinding"], message: "Please confirm before sending." });
+        ctx.addIssue({
+          code: "custom",
+          path: ["ackNonbinding"],
+          message: "Please confirm before sending.",
+        });
     } else if (v.lotId && !lots.includes(v.lotId)) {
       ctx.addIssue({ code: "custom", path: ["lotId"], message: "Unknown lot." });
     }

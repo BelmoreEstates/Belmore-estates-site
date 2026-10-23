@@ -34,7 +34,10 @@ const extraBlocks: BlockDef[] = [
   },
   { key: "global.notfound.eyebrow", value: "Missing page" },
   { key: "global.notfound.h1", value: "That page isn’t here." },
-  { key: "global.notfound.body", value: "The address doesn’t match a page on the Belmore Estates site." },
+  {
+    key: "global.notfound.body",
+    value: "The address doesn’t match a page on the Belmore Estates site.",
+  },
   { key: "global.notfound.button", value: "Back to Belmore Estates" },
   { key: "home.hero.image.src", value: "/images/hero.jpg", image: true },
   { key: "home.studio.image.src", value: "/images/studio.jpg", image: true },
@@ -47,7 +50,10 @@ const extraBlocks: BlockDef[] = [
   // Future section card on /homes (admin "Future section" tab).
   { key: "homes.future.eyebrow", value: "Future section" },
   { key: "homes.future.title", value: "17 lots east of Shelby Circle" },
-  { key: "homes.future.status", value: copyDefaults["global.status.future"] ?? "Future — Join waitlist" },
+  {
+    key: "homes.future.status",
+    value: copyDefaults["global.status.future"] ?? "Future — Join waitlist",
+  },
   { key: "homes.future.body", value: copyDefaults["forms.waitlist.intro"] ?? "" },
   { key: "homes.future.open", value: "yes" },
   // Form fields the copy does not label.
@@ -62,7 +68,10 @@ const extraBlocks: BlockDef[] = [
     multiline: true,
   },
   { key: "login.h1", value: "Owner sign-in" },
-  { key: "login.body", value: "Sign-in is only for Belmore Estates administrators. Visitors never need an account." },
+  {
+    key: "login.body",
+    value: "Sign-in is only for Belmore Estates administrators. Visitors never need an account.",
+  },
 ];
 
 export const blockDefs: BlockDef[] = [
@@ -71,9 +80,7 @@ export const blockDefs: BlockDef[] = [
     value,
     multiline: value.length > 90,
   })),
-  ...extraBlocks
-    .filter((d) => !(d.key in copyDefaults))
-    .map((d) => ({ ...d, extra: true })),
+  ...extraBlocks.filter((d) => !(d.key in copyDefaults)).map((d) => ({ ...d, extra: true })),
 ];
 
 export const blockDefaults: Record<string, string> = Object.fromEntries(

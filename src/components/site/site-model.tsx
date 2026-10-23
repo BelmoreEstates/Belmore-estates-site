@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { phaseLots, type PhaseLot } from "@/data/site";
-import { LotStatusBadge, T, lotVars, useSiteData, useText } from "@/components/site/text";
+import { LotStatusBadge, T, Tx, lotVars, useSiteData, useText } from "@/components/site/text";
 
 type Mount = {
   setSelected: (id: string) => void;
@@ -54,15 +54,19 @@ export function SiteModel({
       <div className="relative min-h-80 overflow-hidden border border-line bg-paper-deep lg:col-span-8">
         <div ref={host} className="aspect-video min-h-80 w-full" />
         <p className="pointer-events-none absolute bottom-3 left-3 bg-ink/80 px-3 py-2 text-xs text-cream">
-          {t(hintKey)}
+          <Tx k={hintKey} />
         </p>
         {!ready ? (
-          <p className="absolute inset-0 flex items-center justify-center text-sm text-muted">Opening the site model…</p>
+          <p className="absolute inset-0 flex items-center justify-center text-sm text-muted">
+            Opening the site model…
+          </p>
         ) : null}
       </div>
       <aside className="border border-line bg-cream p-5 lg:col-span-4" data-model-panel={lot.id}>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-xs uppercase tracking-widest text-copper">{t("home.sitemodel.panel.eyebrow", vars)}</p>
+          <p className="text-xs uppercase tracking-widest text-copper">
+            <Tx k="home.sitemodel.panel.eyebrow" vars={vars} />
+          </p>
           <LotStatusBadge status={lot.status} />
         </div>
         <h3 className="mt-2 text-3xl">
@@ -73,7 +77,9 @@ export function SiteModel({
         </p>
         <dl className="mt-5 grid gap-3 text-sm">
           <div>
-            <dt className="text-muted">{t("homes.detail.specs.area.label")}</dt>
+            <dt className="text-muted">
+              <Tx k="homes.detail.specs.area.label" />
+            </dt>
             <dd>
               <T k="home.sitemodel.panel.area" vars={vars} />
             </dd>
@@ -87,7 +93,9 @@ export function SiteModel({
             </div>
           ) : null}
           <div>
-            <dt className="text-muted">{t("homes.detail.specs.release.label")}</dt>
+            <dt className="text-muted">
+              <Tx k="homes.detail.specs.release.label" />
+            </dt>
             <dd>
               <T k="home.sitemodel.panel.release" vars={vars} />
             </dd>
@@ -98,7 +106,7 @@ export function SiteModel({
           params={{ slug: lot.slug }}
           className="mt-4 inline-flex min-h-11 items-center text-sm underline"
         >
-          {t("home.phase1.card.link")}
+          <Tx k="home.phase1.card.link" />
         </Link>
         <ul className="mt-4 grid grid-cols-4 gap-2">
           {lots.map((item) => (
@@ -158,83 +166,84 @@ function rect(x0: number, z0: number, x1: number, z1: number): Vec[] {
 const innerBend = arc(CURVE_C[0], CURVE_C[1], 120, 0, deg(-34), 12);
 const outerBend = arc(CURVE_C[0], CURVE_C[1], 180, 0, deg(-22), 10);
 
-const lotPads: { id: string; poly: Vec[]; house: Vec; rot: number; wall: number; side: number }[] = [
-  {
-    id: "801",
-    poly: [
-      [0, 0],
-      [-150, 0],
-      [-176, -16],
-      [-206, -34],
-      innerBend[innerBend.length - 1],
-      ...[...innerBend].reverse().slice(1),
-    ],
-    house: [-42, -28],
-    rot: 0,
-    wall: 0xf4f0e6,
-    side: -1,
-  },
-  {
-    id: "802",
-    poly: rect(-150, 0, 0, 80),
-    house: [-40, 40],
-    rot: 0,
-    wall: 0xe7e1d4,
-    side: 1,
-  },
-  {
-    id: "803",
-    poly: rect(-150, 80, 0, 160),
-    house: [-40, 120],
-    rot: 0,
-    wall: 0xf7f3ec,
-    side: 1,
-  },
-  {
-    id: "804",
-    poly: rect(-150, 160, 0, 240),
-    house: [-40, 200],
-    rot: 0,
-    wall: 0xefe8dc,
-    side: 1,
-  },
-  {
-    id: "805",
-    poly: rect(60, 160, 215, 240),
-    house: [100, 200],
-    rot: Math.PI,
-    wall: 0xf4f0e6,
-    side: 1,
-  },
-  {
-    id: "806",
-    poly: [
-      [60, 160],
-      [215, 160],
-      [215, 75],
-      ...[...arc(90, 105, 30, deg(180), deg(270), 8)].reverse(),
-    ],
-    house: [104, 124],
-    rot: Math.PI,
-    wall: 0xe9e2d6,
-    side: -1,
-  },
-  {
-    id: "807",
-    poly: [
-      ...arc(90, -15, 30, deg(90), deg(180), 8),
-      [60, PC_Z],
-      ...outerBend.slice(1),
-      [215, -119],
-      [215, 15],
-      [90, 15],
-    ],
-    house: [112, -42],
-    rot: Math.PI,
-    wall: 0xf7f4ee,
-    side: 1,
-  },
-];
+const lotPads: { id: string; poly: Vec[]; house: Vec; rot: number; wall: number; side: number }[] =
+  [
+    {
+      id: "801",
+      poly: [
+        [0, 0],
+        [-150, 0],
+        [-176, -16],
+        [-206, -34],
+        innerBend[innerBend.length - 1],
+        ...[...innerBend].reverse().slice(1),
+      ],
+      house: [-42, -28],
+      rot: 0,
+      wall: 0xf4f0e6,
+      side: -1,
+    },
+    {
+      id: "802",
+      poly: rect(-150, 0, 0, 80),
+      house: [-40, 40],
+      rot: 0,
+      wall: 0xe7e1d4,
+      side: 1,
+    },
+    {
+      id: "803",
+      poly: rect(-150, 80, 0, 160),
+      house: [-40, 120],
+      rot: 0,
+      wall: 0xf7f3ec,
+      side: 1,
+    },
+    {
+      id: "804",
+      poly: rect(-150, 160, 0, 240),
+      house: [-40, 200],
+      rot: 0,
+      wall: 0xefe8dc,
+      side: 1,
+    },
+    {
+      id: "805",
+      poly: rect(60, 160, 215, 240),
+      house: [100, 200],
+      rot: Math.PI,
+      wall: 0xf4f0e6,
+      side: 1,
+    },
+    {
+      id: "806",
+      poly: [
+        [60, 160],
+        [215, 160],
+        [215, 75],
+        ...[...arc(90, 105, 30, deg(180), deg(270), 8)].reverse(),
+      ],
+      house: [104, 124],
+      rot: Math.PI,
+      wall: 0xe9e2d6,
+      side: -1,
+    },
+    {
+      id: "807",
+      poly: [
+        ...arc(90, -15, 30, deg(90), deg(180), 8),
+        [60, PC_Z],
+        ...outerBend.slice(1),
+        [215, -119],
+        [215, 15],
+        [90, 15],
+      ],
+      house: [112, -42],
+      rot: Math.PI,
+      wall: 0xf7f4ee,
+      side: 1,
+    },
+  ];
 
 function belmoreCenter(): Vec[] {
   const pts: Vec[] = [];
@@ -300,16 +309,100 @@ function buildScene(
 
   scene.add(ground);
 
-  world.add(lotMesh(THREE, [[-360, -80], [-158, -50], [-158, 250], [-370, 270]], 0xb7c3ad, 0.08));
-  world.add(lotMesh(THREE, [[-180, 248], [230, 248], [240, 348], [-190, 352]], 0xb7c3ad, 0.08));
-  world.add(lotMesh(THREE, [[230, 260], [540, 250], [560, -200], [190, -180], [210, 30], [230, 80]], 0xddd4c2, 0.1));
+  world.add(
+    lotMesh(
+      THREE,
+      [
+        [-360, -80],
+        [-158, -50],
+        [-158, 250],
+        [-370, 270],
+      ],
+      0xb7c3ad,
+      0.08,
+    ),
+  );
+  world.add(
+    lotMesh(
+      THREE,
+      [
+        [-180, 248],
+        [230, 248],
+        [240, 348],
+        [-190, 352],
+      ],
+      0xb7c3ad,
+      0.08,
+    ),
+  );
+  world.add(
+    lotMesh(
+      THREE,
+      [
+        [230, 260],
+        [540, 250],
+        [560, -200],
+        [190, -180],
+        [210, 30],
+        [230, 80],
+      ],
+      0xddd4c2,
+      0.1,
+    ),
+  );
 
-  const roadMat = new THREE.MeshStandardMaterial({ color: 0x3c4240, roughness: 0.92, side: THREE.DoubleSide });
+  const roadMat = new THREE.MeshStandardMaterial({
+    color: 0x3c4240,
+    roughness: 0.92,
+    side: THREE.DoubleSide,
+  });
   world.add(ribbon(THREE, belmoreCenter(), 60, roadMat));
-  world.add(ribbon(THREE, [[-240, 368], [340, 358]], 50, roadMat));
-  world.add(ribbon(THREE, [[-310, -30], [-286, 90], [-304, 210], [-268, 360]], 48, roadMat));
-  world.add(ribbon(THREE, [[200, 362], [230, 470]], 48, roadMat));
-  world.add(ribbon(THREE, [[30, 45], [275, 45]], 60, roadMat));
+  world.add(
+    ribbon(
+      THREE,
+      [
+        [-240, 368],
+        [340, 358],
+      ],
+      50,
+      roadMat,
+    ),
+  );
+  world.add(
+    ribbon(
+      THREE,
+      [
+        [-310, -30],
+        [-286, 90],
+        [-304, 210],
+        [-268, 360],
+      ],
+      48,
+      roadMat,
+    ),
+  );
+  world.add(
+    ribbon(
+      THREE,
+      [
+        [200, 362],
+        [230, 470],
+      ],
+      48,
+      roadMat,
+    ),
+  );
+  world.add(
+    ribbon(
+      THREE,
+      [
+        [30, 45],
+        [275, 45],
+      ],
+      60,
+      roadMat,
+    ),
+  );
 
   const bulb = new THREE.Mesh(new THREE.CircleGeometry(58, 40), roadMat);
   bulb.rotation.x = -Math.PI / 2;
@@ -457,7 +550,26 @@ function ribbon(THREE: ThreeNS, points: Vec[], width: number, material: import("
     const b = right[i];
     const c = left[i + 1];
     const d = right[i + 1];
-    verts.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, b.x, b.y, b.z, d.x, d.y, d.z, c.x, c.y, c.z);
+    verts.push(
+      a.x,
+      a.y,
+      a.z,
+      b.x,
+      b.y,
+      b.z,
+      c.x,
+      c.y,
+      c.z,
+      b.x,
+      b.y,
+      b.z,
+      d.x,
+      d.y,
+      d.z,
+      c.x,
+      c.y,
+      c.z,
+    );
   }
   geom.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
   geom.computeVertexNormals();
@@ -497,9 +609,21 @@ function addHouse(
   side: number,
 ) {
   const group = new THREE.Group();
-  const walls = new THREE.MeshStandardMaterial({ color: wall, roughness: 0.78, side: THREE.DoubleSide });
-  const roofMat = new THREE.MeshStandardMaterial({ color: 0x6a5d52, roughness: 0.72, side: THREE.DoubleSide });
-  const trim = new THREE.MeshStandardMaterial({ color: 0xc4b8a4, roughness: 0.6, side: THREE.DoubleSide });
+  const walls = new THREE.MeshStandardMaterial({
+    color: wall,
+    roughness: 0.78,
+    side: THREE.DoubleSide,
+  });
+  const roofMat = new THREE.MeshStandardMaterial({
+    color: 0x6a5d52,
+    roughness: 0.72,
+    side: THREE.DoubleSide,
+  });
+  const trim = new THREE.MeshStandardMaterial({
+    color: 0xc4b8a4,
+    roughness: 0.6,
+    side: THREE.DoubleSide,
+  });
   const body = new THREE.Mesh(new THREE.BoxGeometry(30, 16, 40), walls);
   body.position.set(-15, 8, 0);
   body.castShadow = true;
@@ -569,7 +693,9 @@ function label(THREE: ThreeNS, text: string, x: number, y: number, z: number, sc
   ctx.textBaseline = "middle";
   ctx.fillText(text, 256, 66);
   const map = new THREE.CanvasTexture(canvas);
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, depthTest: false }));
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map, transparent: true, depthTest: false }),
+  );
   sprite.position.set(x, y, z);
   sprite.scale.set(scale * 2.4, scale * 0.6, 1);
   return sprite;

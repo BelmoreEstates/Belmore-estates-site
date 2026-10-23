@@ -1,9 +1,10 @@
 /**
  * /admin server functions. EVERY function here runs `authMiddleware` (blocks
  * cross-site requests) and then `requireAdmin` / `requireOwner` (403 unless the
- * signed-in, verified Google email is in OWNER_EMAILS or the `admins` table). Never trust the client UI.
+ * signed-in, verified email is in OWNER_EMAILS or the `admins` table). Never trust the client UI.
  */
 import { createServerFn } from "@tanstack/react-start";
+import { deleteCookie, getCookie, setCookie } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { getSql } from "@/lib/db";
 import { authMiddleware } from "@/lib/auth/middleware";
@@ -24,6 +25,27 @@ async function owner() {
 }
 
 // ------------------------------------------------------------------ status
+/**
+ * `belmore_admin=1` is a NON-secret UI hint (readable by page JS) that makes
+ * the public pages show the "Edit this page" button. It grants nothing: the
+ * editor and every server function re-check the admin server-side.
+ */
+export const ADMIN_HINT_COOKIE = "belmore_admin";
+function setAdminHint(isAdmin: boolean) {
+  try {
+    if (isAdmin)
+      setCookie(ADMIN_HINT_COOKIE, "1", {
+        path: "/",
+        sameSite: "lax",
+        secure: import.meta.env.PROD,
+        maxAge: 60 * 60 * 24 * 7,
+      });
+    else if (getCookie(ADMIN_HINT_COOKIE)) deleteCookie(ADMIN_HINT_COOKIE, { path: "/" });
+  } catch {
+    // Response already sent / no request context: the hint is optional.
+  }
+}
+
 export type AdminStatus =
   | { state: "signed_out" }
   | { state: "denied"; reason: "unverified" | "not_allowlisted"; email: string | null }
@@ -40,6 +62,7 @@ export const getAdminStatus = createServerFn({ method: "GET" })
     const sql = await getSql();
     const { checkAdmin } = await import("./security.server");
     const result = await checkAdmin(sql);
+    setAdminHint(result.ok);
     if (!result.ok)
       return result.reason === "signed_out"
         ? { state: "signed_out" }
@@ -145,8 +168,31 @@ export const exportLeadsCsv = createServerFn({ method: "POST" })
     const { sql } = await admin();
     const rows = await queryLeads(sql, data);
     const cols: (keyof LeadRow)[] = [
-      "id", "created_at", "type", "status", "name", "email", "phone", "lot_id", "lot2_id", "plan_slug", "interest",
-      "tour_date", "tour_window", "tour_lots", "move_timeline", "bedrooms", "phase1_news", "financing", "ack_nonbinding", "realtor", "agent_name", "brokerage", "note", "consent", "source_page",
+      "id",
+      "created_at",
+      "type",
+      "status",
+      "name",
+      "email",
+      "phone",
+      "lot_id",
+      "lot2_id",
+      "plan_slug",
+      "interest",
+      "tour_date",
+      "tour_window",
+      "tour_lots",
+      "move_timeline",
+      "bedrooms",
+      "phase1_news",
+      "financing",
+      "ack_nonbinding",
+      "realtor",
+      "agent_name",
+      "brokerage",
+      "note",
+      "consent",
+      "source_page",
       "notify_status",
     ];
     const lines = [cols.join(","), ...rows.map((r) => cols.map((c) => csvCell(r[c])).join(","))];
@@ -154,42 +200,71 @@ export const exportLeadsCsv = createServerFn({ method: "POST" })
   });
 
 // ------------------------------------------------------------------ blocks
-export type BlockRow = { key: string; value: string; defaultValue: string; multiline: boolean; image: boolean; updatedBy: string | null; updatedAt: string | null };
+export type BlockRow = {
+  key: string;
+  value: string;
+  defaultValue: string;
+  multiline: boolean;
+  image: boolean;
+  updatedBy: string | null;
+  updatedAt: string | null;
+};
 
+/*
+ * Site text now lives in the editor's site document (site_docs, migration
+ * 0008) — one source of truth. This tab reads and writes the DRAFT texts;
+ * visitors see a change after Publish in the visual editor (/editor).
+ */
 export const listBlocks = createServerFn({ method: "GET" })
   .middleware([authMiddleware])
   .handler(async (): Promise<BlockRow[]> => {
     const { sql } = await admin();
-    const rows = await sql<{ key: string; value: string; updated_by: string | null; updated_at: string }>`
-      select key, value, updated_by, updated_at::text as updated_at from content_blocks`;
-    const byKey = new Map(rows.map((r) => [r.key, r]));
+    const { loadDoc } = await import("./site-doc.server");
+    const draft = await loadDoc(sql, "draft");
     return blockDefs.map((d) => {
-      const r = byKey.get(d.key);
+      const v = draft.doc.texts[d.key];
       return {
         key: d.key,
-        value: r?.value ?? d.value,
+        value: v ?? d.value,
         defaultValue: d.value,
         multiline: Boolean(d.multiline),
         image: Boolean(d.image),
-        updatedBy: r?.updated_by ?? null,
-        updatedAt: r?.updated_at ?? null,
+        updatedBy: v !== undefined && v !== d.value ? draft.updatedBy : null,
+        updatedAt: v !== undefined && v !== d.value ? draft.updatedAt : null,
       };
     });
   });
 
 export const saveBlock = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .validator(z.object({ key: z.string().max(120), value: z.string().max(5000), reset: z.boolean().optional() }))
+  .validator(
+    z.object({
+      key: z.string().max(120),
+      value: z.string().max(5000),
+      reset: z.boolean().optional(),
+    }),
+  )
   .handler(async ({ data }) => {
     const { sql, me } = await admin();
     const def = blockDefByKey[data.key];
     if (!def) throw new Error("Unknown content key");
     const value = data.reset ? def.value : data.value;
-    if (def.image && value && !/^(\/|https:\/\/)/.test(value)) throw new Error("Image must be a /path or https:// URL");
-    await sql`
-      insert into content_blocks (key, value, updated_at, updated_by) values (${data.key}, ${value}, now(), ${data.reset ? null : me.email})
-      on conflict (key) do update set value = excluded.value, updated_at = now(), updated_by = excluded.updated_by`;
-    return { ok: true, value };
+    if (def.image && value && !/^(\/|https:\/\/)/.test(value))
+      throw new Error("Image must be a /path or https:// URL");
+    const { loadDoc, validateDoc, writeDraft } = await import("./site-doc.server");
+    // Retry once if the editor autosaved at the same moment.
+    for (let attempt = 0; ; attempt++) {
+      const draft = await loadDoc(sql, "draft");
+      const texts = { ...draft.doc.texts };
+      if (data.reset) delete texts[data.key];
+      else texts[data.key] = value;
+      try {
+        await writeDraft(sql, validateDoc({ ...draft.doc, texts }), me.email, draft.revision);
+        return { ok: true, value, draft: true };
+      } catch (err) {
+        if (attempt > 0 || (err as { status?: number }).status !== 409) throw err;
+      }
+    }
   });
 
 // -------------------------------------------------------------------- lots
@@ -238,7 +313,10 @@ const imageUrl = z
   .refine((v) => /^(\/|https:\/\/)/.test(v), "Use a /path or https:// URL");
 
 const planInput = z.object({
-  slug: z.string().trim().regex(/^[a-z0-9-]{2,40}$/, "Slug: lowercase letters, numbers, dashes"),
+  slug: z
+    .string()
+    .trim()
+    .regex(/^[a-z0-9-]{2,40}$/, "Slug: lowercase letters, numbers, dashes"),
   isNew: z.boolean().optional(),
   name: z.string().trim().min(1).max(80),
   planNumber: z.string().trim().max(30),
@@ -273,7 +351,9 @@ export const savePlan = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { sql, me } = await admin();
     if (data.isNew) {
-      const [{ next }] = await sql<{ next: number }>`select coalesce(max(sort), 0)::int + 1 as next from plans`;
+      const [{ next }] = await sql<{
+        next: number;
+      }>`select coalesce(max(sort), 0)::int + 1 as next from plans`;
       const created = await sql`
         insert into plans (slug, sort, hidden, name, plan_number, beds, baths, sqft, sqft_first, sqft_second,
           stories, garage, width, depth, footprint, price_text, gla_url, rendering_image, rendering_alt,
@@ -302,7 +382,12 @@ export const savePlan = createServerFn({ method: "POST" })
   });
 
 /** One model home at a time; the model home is always featured. */
-async function setShowcaseFlags(sql: Awaited<ReturnType<typeof admin>>["sql"], slug: string, isModel: boolean, featured: boolean) {
+async function setShowcaseFlags(
+  sql: Awaited<ReturnType<typeof admin>>["sql"],
+  slug: string,
+  isModel: boolean,
+  featured: boolean,
+) {
   if (isModel) await sql`update plans set is_model = false where slug <> ${slug} and is_model`;
   await sql`update plans set is_model = ${isModel}, featured = ${featured || isModel} where slug = ${slug}`;
 }
@@ -336,7 +421,8 @@ export const uploadMedia = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { sql, me } = await admin();
     const bytes = Buffer.from(data.dataBase64, "base64");
-    if (bytes.length === 0 || bytes.length > MAX_UPLOAD_BYTES) throw new Error("Image must be under 1 MB");
+    if (bytes.length === 0 || bytes.length > MAX_UPLOAD_BYTES)
+      throw new Error("Image must be under 1 MB");
     const magic = bytes.subarray(0, 12);
     const ok =
       (data.mime === "image/jpeg" && magic[0] === 0xff && magic[1] === 0xd8) ||
@@ -363,22 +449,39 @@ export const listAdmins = createServerFn({ method: "GET" })
   .middleware([authMiddleware])
   .handler(async () => {
     const { sql } = await admin();
-    const rows = await sql<{ email: string; role: string; added_by: string | null; created_at: string }>`
+    const rows = await sql<{
+      email: string;
+      role: string;
+      added_by: string | null;
+      created_at: string;
+    }>`
       select email, role, added_by, created_at::text as created_at from admins order by role desc, email`;
     const fallback = ownerEmails().filter((e) => !rows.some((r) => r.email === e));
     return [
-      ...fallback.map((email) => ({ email, role: "owner", added_by: "OWNER_EMAILS (env)", created_at: "" })),
+      ...fallback.map((email) => ({
+        email,
+        role: "owner",
+        added_by: "OWNER_EMAILS (env)",
+        created_at: "",
+      })),
       ...rows,
     ];
   });
 
 export const addAdmin = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .validator(z.object({ email: z.string().trim().toLowerCase().max(254).pipe(z.email()), role: z.enum(["owner", "admin"]) }))
+  .validator(
+    z.object({
+      email: z.string().trim().toLowerCase().max(254).pipe(z.email()),
+      role: z.enum(["owner", "admin"]),
+    }),
+  )
   .handler(async ({ data }) => {
     const { sql, me } = await owner();
     const { isOwnerEmail } = await import("./security.server");
-    const [existing] = await sql<{ role: string }>`select role from admins where email = ${data.email}`;
+    const [existing] = await sql<{
+      role: string;
+    }>`select role from admins where email = ${data.email}`;
     // Owners can't be demoted (or removed) from the admin UI.
     if (data.role !== "owner" && (existing?.role === "owner" || isOwnerEmail(data.email)))
       throw new Error("Owners can't be changed to admin");
@@ -395,9 +498,77 @@ export const removeAdmin = createServerFn({ method: "POST" })
     const { sql } = await owner();
     const { isOwnerEmail } = await import("./security.server");
     if (isOwnerEmail(data.email)) throw new Error("Owners can't be removed");
-    const [target] = await sql<{ role: string }>`select role from admins where email = ${data.email}`;
+    const [target] = await sql<{
+      role: string;
+    }>`select role from admins where email = ${data.email}`;
     if (!target) return { ok: true };
     if (target.role === "owner") throw new Error("Owners can't be removed");
     await sql`delete from admins where email = ${data.email}`;
+    // Also remove their password sign-in (if an owner had created one).
+    await sql`
+      delete from account where "providerId" = 'credential'
+      and "userId" in (select id from "user" where lower(email) = ${data.email})`;
     return { ok: true };
+  });
+
+/**
+ * Password fallback (owner only). Creates — or resets — an email + password
+ * sign-in for an email that is ALREADY on the admins list (or OWNER_EMAILS).
+ * Public sign-up stays disabled, so this is the only way a password account
+ * can exist. The owner vouches for the email, so it is marked verified. A
+ * reset signs that person out everywhere. There is no "forgot password" email:
+ * an owner sets a new one here.
+ */
+export const setAdminPassword = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
+  .validator(
+    z.object({
+      email: z.string().trim().toLowerCase().max(254).pipe(z.email()),
+      password: z.string().min(12, "Use at least 12 characters").max(128),
+    }),
+  )
+  .handler(async ({ data }) => {
+    const { sql } = await owner();
+    const { isOwnerEmail } = await import("./security.server");
+    const [listed] = await sql<{
+      email: string;
+    }>`select email from admins where lower(email) = ${data.email}`;
+    if (!listed && !isOwnerEmail(data.email)) throw new Error("Add this email as an admin first");
+    const { auth } = await import("@/lib/auth/server");
+    const ctx = await auth.$context;
+    const hash = await ctx.password.hash(data.password);
+    let user = (await ctx.internalAdapter.findUserByEmail(data.email))?.user;
+    if (!user) {
+      user = await ctx.internalAdapter.createUser({
+        email: data.email,
+        name: data.email.split("@")[0],
+        emailVerified: true,
+      });
+    } else if (!user.emailVerified) {
+      await sql`update "user" set "emailVerified" = true, "updatedAt" = now() where id = ${user.id}`;
+    }
+    const [credential] = await sql<{ id: string }>`
+      select id from account where "userId" = ${user.id} and "providerId" = 'credential' limit 1`;
+    if (credential) {
+      await ctx.internalAdapter.updatePassword(user.id, hash);
+      await sql`delete from session where "userId" = ${user.id}`;
+    } else {
+      await ctx.internalAdapter.linkAccount({
+        userId: user.id,
+        providerId: "credential",
+        accountId: user.id,
+        password: hash,
+      });
+    }
+    return { ok: true, created: !credential };
+  });
+
+/** Which admins have a password sign-in (owner only). */
+export const listPasswordAccounts = createServerFn({ method: "GET" })
+  .middleware([authMiddleware])
+  .handler(async () => {
+    const { sql } = await owner();
+    const rows = await sql<{ email: string }>`
+      select lower(u.email) as email from account a join "user" u on u.id = a."userId" where a."providerId" = 'credential'`;
+    return rows.map((r) => r.email);
   });

@@ -11,6 +11,10 @@ import { isProductionSite } from "@/server/env";
  *   - Google sign-in: a full-page redirect to accounts.google.com via
  *     /api/auth (same origin), plus Google profile photos (googleusercontent)
  *   - Cloudflare Turnstile (only used if TURNSTILE_ENABLED is turned on)
+ *   - Visual editor blocks: Google Maps embeds (www.google.com/maps/embed) and
+ *     videos (youtube-nocookie.com, player.vimeo.com) in frame-src, and
+ *     https: photos in img-src (the editor's "Web address" photo option).
+ *     The editor's canvas is a same-origin srcdoc iframe, which CSP inherits.
  * style-src keeps 'unsafe-inline' for React `style={…}` attributes.
  * Local dev skips the CSP: Vite injects un-nonced inline scripts for HMR.
  */
@@ -20,9 +24,9 @@ function contentSecurityPolicy(nonce: string): string {
     `script-src 'self' 'nonce-${nonce}' https://challenges.cloudflare.com`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
-    "img-src 'self' data: blob: https://*.googleusercontent.com",
+    "img-src 'self' data: blob: https:",
     "connect-src 'self' https://api.web3forms.com https://challenges.cloudflare.com",
-    "frame-src https://challenges.cloudflare.com",
+    "frame-src https://challenges.cloudflare.com https://www.google.com https://www.youtube-nocookie.com https://player.vimeo.com",
     "worker-src 'self' blob:",
     "form-action 'self' https://accounts.google.com",
     "base-uri 'self'",

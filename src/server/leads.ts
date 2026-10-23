@@ -25,7 +25,12 @@ export type NotificationPayload = Record<string, string>;
 /** One Web3Forms send attempt, stored in leads.notify_results (key masked). */
 export type NotifyResult = { key: string; ok: boolean; error: string | null; at: string };
 
-export type ClientNotify = { leadId: number; token: string; payload: NotificationPayload; keys: string[] };
+export type ClientNotify = {
+  leadId: number;
+  token: string;
+  payload: NotificationPayload;
+  keys: string[];
+};
 
 /** "sent" when every key succeeded, "failed" when none did, else "partial". */
 export function overallStatus(results: { ok: boolean }[]): "sent" | "partial" | "failed" {
@@ -38,7 +43,10 @@ const web3formsEndpoint = () =>
   (import.meta.env.DEV && process.env.WEB3FORMS_API_URL) || "https://api.web3forms.com/submit";
 
 /** POST one submission per access key, in parallel. Never throws. */
-async function sendToAllKeys(keys: string[], payload: NotificationPayload): Promise<NotifyResult[]> {
+async function sendToAllKeys(
+  keys: string[],
+  payload: NotificationPayload,
+): Promise<NotifyResult[]> {
   const settled = await Promise.allSettled(
     keys.map(async (key) => {
       const res = await fetch(web3formsEndpoint(), {
@@ -48,21 +56,30 @@ async function sendToAllKeys(keys: string[], payload: NotificationPayload): Prom
         signal: AbortSignal.timeout(8000),
       });
       const json = (await res.json().catch(() => ({}))) as { success?: boolean; message?: string };
-      if (!json.success) throw new Error(`HTTP ${res.status}: ${String(json.message ?? res.statusText)}`);
+      if (!json.success)
+        throw new Error(`HTTP ${res.status}: ${String(json.message ?? res.statusText)}`);
     }),
   );
   const at = new Date().toISOString();
   return settled.map((r, i) => ({
     key: maskKey(keys[i]),
     ok: r.status === "fulfilled",
-    error: r.status === "rejected" ? String((r.reason as Error)?.message ?? r.reason).slice(0, 300) : null,
+    error:
+      r.status === "rejected"
+        ? String((r.reason as Error)?.message ?? r.reason).slice(0, 300)
+        : null,
     at,
   }));
 }
 
 function errorSummary(results: NotifyResult[]): string | null {
   const failed = results.filter((r) => !r.ok);
-  return failed.length ? failed.map((r) => `${r.key}: ${r.error}`).join(" | ").slice(0, 600) : null;
+  return failed.length
+    ? failed
+        .map((r) => `${r.key}: ${r.error}`)
+        .join(" | ")
+        .slice(0, 600)
+    : null;
 }
 
 export function buildNotification(lead: {
@@ -103,7 +120,8 @@ export function buildNotification(lead: {
     lead.planSlug && `Plan: ${lead.planSlug}`,
     lead.interest && `Interest: ${lead.interest}`,
     lead.tourDate && `Tour: ${lead.tourDate} (${lead.tourWindow ?? ""})`,
-    lead.realtor && `Realtor introduction: ${lead.agentName ?? ""}${lead.brokerage ? `, ${lead.brokerage}` : ""}`,
+    lead.realtor &&
+      `Realtor introduction: ${lead.agentName ?? ""}${lead.brokerage ? `, ${lead.brokerage}` : ""}`,
     !lead.realtor && lead.agentName && `Buyer's agent: ${lead.agentName}`,
     lead.note && `Note: ${lead.note}`,
     lead.sourcePage && `Sent from: ${lead.sourcePage}`,
@@ -158,7 +176,8 @@ export const submitLead = createServerFn({ method: "POST" })
     const age = token ? Date.now() - token.issuedAt : -1;
     if (!token || age > SPAM.maxFormAgeMs)
       return { ok: false, error: "This form expired. Reload the page and try again." };
-    if (age < SPAM.minFillMs) return { ok: false, error: "That was quick. Please wait a moment and send again." };
+    if (age < SPAM.minFillMs)
+      return { ok: false, error: "That was quick. Please wait a moment and send again." };
 
     if (countLinks(lead.name, lead.note, lead.brokerage, lead.agentName) > SPAM.maxLinks)
       return { ok: false, error: "Please remove the links from your note.", field: "note" };
@@ -175,7 +194,10 @@ export const submitLead = createServerFn({ method: "POST" })
       where ip_hash = ${ipHash}
         and created_at > now() - make_interval(mins => ${SPAM.rateLimitWindowMinutes})`;
     if (n >= SPAM.rateLimitMax)
-      return { ok: false, error: "Too many requests from this connection. Please try again in a few minutes." };
+      return {
+        ok: false,
+        error: "Too many requests from this connection. Please try again in a few minutes.",
+      };
     await sql`insert into form_rate_limits (ip_hash) values (${ipHash})`;
 
     const keys = web3formsAccessKeys();
@@ -210,14 +232,19 @@ export const submitLead = createServerFn({ method: "POST" })
     const payload = buildNotification({ id: row.id, ...lead });
 
     if (mode === "client" && notifyToken)
-      return { ok: true, id: row.id, notify: { leadId: row.id, token: notifyToken, payload, keys } };
+      return {
+        ok: true,
+        id: row.id,
+        notify: { leadId: row.id, token: notifyToken, payload, keys },
+      };
 
     // Server mode: one submission per key, in parallel. The lead is already
     // saved, so a failed send is recorded (and shown in /admin), never fatal.
     const results = await sendToAllKeys(keys, payload);
     const status = overallStatus(results);
     const error = errorSummary(results);
-    if (error) console.error(`[leads] Web3Forms notification ${status} for lead #${row.id}: ${error}`);
+    if (error)
+      console.error(`[leads] Web3Forms notification ${status} for lead #${row.id}: ${error}`);
     await sql`
       update leads set
         notify_status = ${status},
@@ -235,7 +262,13 @@ export const markLeadNotified = createServerFn({ method: "POST" })
       leadId: z.number().int().positive(),
       token: z.string().min(10).max(64),
       results: z
-        .array(z.object({ key: z.string().max(12), ok: z.boolean(), error: z.string().max(300).nullable() }))
+        .array(
+          z.object({
+            key: z.string().max(12),
+            ok: z.boolean(),
+            error: z.string().max(300).nullable(),
+          }),
+        )
         .min(1)
         .max(10),
     }),
@@ -246,7 +279,8 @@ export const markLeadNotified = createServerFn({ method: "POST" })
     const results: NotifyResult[] = data.results.map((r) => ({ ...r, at }));
     const status = overallStatus(results);
     const error = errorSummary(results);
-    if (error) console.error(`[leads] Web3Forms notification ${status} for lead #${data.leadId}: ${error}`);
+    if (error)
+      console.error(`[leads] Web3Forms notification ${status} for lead #${data.leadId}: ${error}`);
     await sql`
       update leads set
         notify_status = ${status},

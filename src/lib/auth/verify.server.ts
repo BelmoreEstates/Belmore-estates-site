@@ -19,7 +19,6 @@ export class UnauthorizedError extends Error {
 export type VerifiedUser = { id: string; email: string | null; emailVerified: boolean };
 
 export async function getSessionUser(): Promise<VerifiedUser | null> {
-  if (!authConfigured) return null;
   const request = getRequest();
   if (!request) return null;
   const session = await auth.api.getSession({ headers: request.headers });
