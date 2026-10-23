@@ -107,7 +107,10 @@ const extraBlocks: BlockDef[] = [
   { key: "map.control.future", value: "Future phase" },
   { key: "map.loading", value: "Loading map" },
   { key: "map.list.heading", value: "All lots" },
-  { key: "map.label", value: "Map of Belmore Estates lots" },
+  {
+    key: "map.label",
+    value: "Interactive lot map of Phase 1, lots 801–807, traced from the Section 8 plat.",
+  },
   { key: "map.error", value: "The map couldn’t load right now." },
   { key: "map.error.webgl", value: "This browser can’t display the interactive map." },
   {

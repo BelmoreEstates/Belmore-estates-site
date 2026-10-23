@@ -42,7 +42,7 @@ export const copyDefaults: Record<string, string> = {
     "Belmore Estates is the final section of Legends West. Emery Run, Barclay Court, and Legends Way are already built around it; Belmore Way and Shelby Circle are the two new streets. Twenty-four lots in all. Phase 1 is 801 through 807.",
   "community.plat.h2": "Straight from the plat.",
   "community.plat.body":
-    "Final Plat Section No. 8, Legends West Subdivision, was prepared for Schram Family Realty, LLC and carries the Town of Greece approval signatures. The model below follows that sheet. Bearings and monuments stay on the signed plans, where they belong.",
+    "Final Plat Section No. 8, Legends West Subdivision, was prepared for Schram Family Realty, LLC and carries the Town of Greece approval signatures. The lot map below is traced from that sheet. Bearings and monuments stay on the signed plans, where they belong.",
   "community.facts.place.label": "Place",
   "community.facts.place.value": "North Greece, NY",
   "community.facts.developer.label": "Developer",
@@ -757,7 +757,7 @@ export const copyDefaults: Record<string, string> = {
   "process.step5.title": "Build and close",
   "process.step5.body":
     "Construction runs on [BUILD TIMELINE — TBD]. New York's 1-2-6 implied warranty (1 year workmanship, 2 years plumbing, electrical, heating, cooling, and ventilation, 6 years material defects) is the baseline. After closing, register for the STAR credit, and know that assessments follow the home's condition on March 1.",
-  "process.cta.h3": "Start with the model.",
+  "process.cta.h3": "Start With the Lot Map",
   "process.cta.body":
     "Phase 1 starts at lot 801 on the Belmore Way curve. Find it on the lot map, then book a tour.",
   "process.cta.button": "Open the lot map",
