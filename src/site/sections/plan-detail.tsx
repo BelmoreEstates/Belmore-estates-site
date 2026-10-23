@@ -3,14 +3,18 @@ import { useDetailPlan } from "@/site/detail";
 import { InquiryForm } from "@/components/site/inquiry-form";
 import { buttonStyles } from "@/components/site/chrome";
 import { GlaLink, PlanImage } from "@/components/site/plan-image";
-import { T, Tx, ValueText, planVars, useSiteData, useText } from "@/components/site/text";
+import { T, Tx, ValueText, planVars, textOf, useSiteData, useText } from "@/components/site/text";
 
 export function PlanDetailHero() {
   const t = useText();
   const plan = useDetailPlan();
+  const { blocks } = useSiteData();
   if (!plan) return null;
   const v = planVars(plan);
   const specs = ["beds", "baths", "area", "garage", "stories", "width"] as const;
+  // Round 6b: note for the model plan (our modified version of GLA's plan).
+  // Empty by default, so it only shows once the text is set and published.
+  const modelNote = plan.isModel && textOf(blocks, "plans.detail.model.note").trim() !== "";
 
   return (
     <section className="grid lg:grid-cols-12">
@@ -24,6 +28,11 @@ export function PlanDetailHero() {
         <p className="mt-4 text-lg text-muted">
           <T k="plans.detail.body" vars={v} />
         </p>
+        {modelNote ? (
+          <p className="mt-3 text-sm text-muted" data-model-note>
+            <T k="plans.detail.model.note" vars={v} />
+          </p>
+        ) : null}
         <p className="mt-6 font-display text-3xl tabular-nums">
           <ValueText k="plans.detail.price" value={plan.priceText} vars={v} />
         </p>

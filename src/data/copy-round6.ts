@@ -173,4 +173,6 @@ export const round6Blocks: BlockDef[] = [
   { key: "process.warranty.body", value: "", multiline: true },
   { key: "global.footer.fairhousing.url", value: "" },
   { key: "global.footer.sop.url", value: "" },
+  // Round 6b: model-plan note on /plans/<model>; empty = hidden.
+  { key: "plans.detail.model.note", value: "", multiline: true },
 ];
