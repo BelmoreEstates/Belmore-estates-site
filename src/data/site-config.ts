@@ -77,3 +77,10 @@ export const PLAN_PLACEHOLDER = "/images/plan-placeholder.svg";
 export const GLA_SITE_URL = "https://greaterliving.com/";
 /** GLA Architecture's public plan collection ("View all plans"). Verified 200, Oct 23 2026. */
 export const GLA_PLANS_URL = "https://greaterliving.com/shop-plans/";
+
+/**
+ * The 19 NYCRR 175.25 attribution line (Quill, SEO pass 2). Lead notification
+ * emails end with it; the footer and legal page carry the same line as copy.
+ */
+export const AGENT_ATTRIBUTION =
+  "Joseph Deleguardia, Licensed Real Estate Salesperson, The Derek Pino Team at RE/MAX Realty Group";

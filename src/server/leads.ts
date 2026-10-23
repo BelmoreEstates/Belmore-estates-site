@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { getSql } from "@/lib/db";
-import { SPAM, TURNSTILE_ENABLED } from "@/data/site-config";
+import { AGENT_ATTRIBUTION, SPAM, TURNSTILE_ENABLED } from "@/data/site-config";
 import { maskKey, web3formsAccessKeys, web3formsMode } from "./env";
 import { countLinks, leadInputSchema, leadTypeLabel } from "./lead-schema";
 
@@ -127,6 +127,8 @@ export function buildNotification(lead: {
     lead.sourcePage && `Sent from: ${lead.sourcePage}`,
     `Lead #${lead.id} is saved in /admin.`,
   ].filter(Boolean);
+  // 19 NYCRR 175.25: every email about the listing carries the full attribution.
+  lines.push("", `Belmore Estates · ${AGENT_ATTRIBUTION}`);
   return {
     subject: `Belmore Estates: ${leadTypeLabel[lead.type]}${lead.lotId ? ` (lot ${lead.lotId})` : ""}`,
     from_name: "Belmore Estates website",
