@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { phaseLots } from "@/data/site";
 import { LotStatusBadge, T, Tx, lotVars, useSiteData, useText } from "@/components/site/text";
-import { ATTRIBUTION_LOTS, MAP_STRINGS } from "./map-config";
+import { ATTRIBUTION_LOTS } from "./map-config";
 import type { MapHandle } from "./lot-map-gl";
 
 /**
@@ -17,7 +16,7 @@ export function LotMap(
     /**
      * Kept for API compatibility with SiteModel. The existing hint/caption copy describes the
      * 3D massing model ("drag to orbit", "houses are placeholders"), so it is not rendered;
-     * flagged for Quill/Joseph to rewrite. MAP_STRINGS.disclaimer is shown instead.
+     * flagged for Quill/Joseph to rewrite. The "map.disclaimer" text key is shown instead.
      */
     hintKey?: string;
     captionKey?: string;
@@ -82,7 +81,9 @@ export function LotMap(
           statuses: statusRef.current,
           reducedMotion: Boolean(reducedMotion),
           hoverLabel: ({ lot: n, status }) =>
-            n ? `${n} · ${tRef.current(`global.status.${status}`)}` : MAP_STRINGS.futureLabel,
+            n
+              ? `${n} · ${tRef.current(`global.status.${status}`)}`
+              : tRef.current("map.future.label"),
           onSelect: (id) => setSelectedId(id),
           onReady: () => setReady(true),
         });
@@ -128,17 +129,17 @@ export function LotMap(
             aria-busy="true"
             className="absolute inset-0 flex items-center justify-center bg-paper-deep"
           >
-            <span className="sr-only">{MAP_STRINGS.loading}</span>
+            <span className="sr-only">{t("map.loading")}</span>
             <span className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-ink motion-reduce:animate-none" />
           </div>
         ) : null}
         {ready ? (
           <div className="absolute left-2 right-12 top-2 flex flex-wrap gap-1.5 sm:gap-2">
             <button type="button" className={btn} onClick={() => handle.current?.fitSubdivision()}>
-              {MAP_STRINGS.fit}
+              {t("map.control.fit")}
             </button>
             <button type="button" className={btn} onClick={() => handle.current?.showArea()}>
-              {MAP_STRINGS.area}
+              {t("map.control.area")}
             </button>
             <button
               type="button"
@@ -146,7 +147,7 @@ export function LotMap(
               aria-pressed={aerial}
               onClick={() => setAerial((a) => !a)}
             >
-              {aerial ? MAP_STRINGS.street : MAP_STRINGS.aerial}
+              {aerial ? t("map.control.street") : t("map.control.aerial")}
             </button>
           </div>
         ) : null}
@@ -158,8 +159,8 @@ export function LotMap(
       >
         {isFuture ? (
           <>
-            <h3 className="text-2xl">{MAP_STRINGS.futureLabel}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{MAP_STRINGS.futureNote}</p>
+            <h3 className="text-2xl">{t("map.future.label")}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{t("map.future.note")}</p>
           </>
         ) : (
           <>
@@ -201,16 +202,17 @@ export function LotMap(
                 </dd>
               </div>
             </dl>
-            <Link
-              to="/homes/$slug"
-              params={{ slug: lot.slug }}
+            {/* /homes is being renamed to /lots (301s from /homes). Plain link until the
+                /lots route lands, so this does not depend on the generated route types. */}
+            <a
+              href={`/lots/${encodeURIComponent(lot.slug)}`}
               className="mt-4 inline-flex min-h-11 items-center text-sm underline"
             >
               <Tx k="home.phase1.card.link" />
-            </Link>
+            </a>
           </>
         )}
-        <p className="sr-only">{MAP_STRINGS.listHeading}</p>
+        <p className="sr-only">{t("map.list.heading")}</p>
         <ul className="mt-4 grid grid-cols-4 gap-2">
           {lots.map((item) => (
             <li key={item.id}>
@@ -240,12 +242,12 @@ export function LotMap(
                   : "min-h-11 w-full border border-dashed border-line bg-paper text-sm"
               }
             >
-              {MAP_STRINGS.futureButton}
+              {t("map.control.future")}
             </button>
           </li>
         </ul>
         <p className="mt-4 text-xs leading-relaxed text-muted">
-          {MAP_STRINGS.disclaimer} {ATTRIBUTION_LOTS}
+          {t("map.disclaimer")} {ATTRIBUTION_LOTS}
         </p>
       </aside>
     </div>

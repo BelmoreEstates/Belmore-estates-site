@@ -48,32 +48,7 @@ export const MAX_ZOOM = 19.5;
  */
 export const HIDDEN_BASEMAP_STREET_NAMES = ["Shelby Circle"];
 
-/**
- * Strings without text keys yet. PROPOSED keys for Forge/Quill sign-off
- * (not added to the copy system on this branch):
- *   map.future.label   -> "Future phase (planned, details TBD)"  (Joseph's exact wording)
- *   map.future.note    -> "Preliminary layout, subject to change. Lot lines approximate."
- *   map.disclaimer     -> MAP_STRINGS.disclaimer (replaces the 3D-model caption)
- *   map.control.fit    -> "Fit to Belmore Estates"
- *   map.control.area   -> "Show North Greece"
- *   map.control.aerial -> "Aerial"
- *   map.control.street -> "Map"
- *   map.loading        -> "Loading map"
- *   map.list.heading   -> "All lots"
- */
-export const MAP_STRINGS = {
-  futureLabel: "Future phase (planned, details TBD)",
-  futureNote: "Preliminary layout, subject to change. Lot lines approximate.",
-  disclaimer:
-    "Preliminary layout, subject to change; lot lines approximate. Aerial imagery is from 2023, before construction.",
-  fit: "Fit to Belmore Estates",
-  area: "Show North Greece",
-  aerial: "Aerial",
-  street: "Map",
-  loading: "Loading map",
-  listHeading: "All lots",
-  futureButton: "Future phase",
-} as const;
+/* Map UI text lives in the text system (src/data/content.ts, keys map.*), edited in /admin. */
 
 /** Lot fills. Phase 1 green is a more saturated take on the site's pine (#243f34). */
 export const STATUS_COLORS = {

@@ -82,6 +82,22 @@ const extraBlocks: BlockDef[] = [
   // goes live on Publish). Quill's v2 keys are in copy-round6.ts.
   { key: "global.legal.enabled", value: "" },
   ...round6Blocks,
+  // Lot map (src/components/map). Approved by Forge; defaults match the shipped strings.
+  { key: "map.future.label", value: "Future phase (planned, details TBD)" },
+  { key: "map.future.note", value: "planned along Shelby Circle and beyond, details TBD" },
+  {
+    key: "map.disclaimer",
+    value:
+      "Preliminary layout, subject to change; lot lines approximate. Aerial imagery is from 2023, before construction.",
+    multiline: true,
+  },
+  { key: "map.control.fit", value: "Fit to Belmore Estates" },
+  { key: "map.control.area", value: "Show North Greece" },
+  { key: "map.control.aerial", value: "Aerial" },
+  { key: "map.control.street", value: "Map" },
+  { key: "map.control.future", value: "Future phase" },
+  { key: "map.loading", value: "Loading map" },
+  { key: "map.list.heading", value: "All lots" },
   { key: "login.h1", value: "Owner sign-in" },
   {
     key: "login.body",
