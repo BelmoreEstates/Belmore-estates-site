@@ -14,7 +14,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
-import pg from "pg";
+import { pgFor } from "./pg.mjs";
 import { databaseUrl as readDatabaseUrl } from "./env.mjs";
 
 const TABLES = ["leads", "lots", "plans", "content_blocks", "admins", "media"];
@@ -31,7 +31,7 @@ const jsonOnly = args.includes("--json-only");
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 await mkdir(outDir, { recursive: true });
 
-const client = new pg.Client({ connectionString: databaseUrl });
+const client = new (pgFor(databaseUrl).Client)({ connectionString: databaseUrl });
 try {
   await client.connect();
   const exportData = { exportedAt: new Date().toISOString(), tables: {} };

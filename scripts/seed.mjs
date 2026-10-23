@@ -15,7 +15,7 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import pg from "pg";
+import { pgFor } from "./pg.mjs";
 import { databaseUrl as readDatabaseUrl } from "./env.mjs";
 
 const DEFAULT_OWNER = "belmoreestates@gmail.com,realtor.deleguardia@gmail.com";
@@ -30,7 +30,7 @@ const owners = (process.env.OWNER_EMAILS?.trim() || DEFAULT_OWNER)
   .map((e) => e.trim().toLowerCase())
   .filter((e) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e));
 
-const client = new pg.Client({ connectionString: databaseUrl });
+const client = new (pgFor(databaseUrl).Client)({ connectionString: databaseUrl });
 try {
   await client.connect();
   const [{ n }] = (await client.query("select count(*)::int as n from _migrations")).rows;

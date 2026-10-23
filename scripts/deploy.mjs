@@ -16,7 +16,10 @@
  * passed to the deployed functions with `--env`.
  *
  * Options (env):
- *   NETLIFY_SITE      site name or ID (default "belmore-estates")
+ *   NETLIFY_SITE      site name, used for the netlify.app URLs (default "belmore-estates")
+ *   NETLIFY_SITE_ID   site ID passed to `netlify deploy --site` (default: the
+ *                     belmore-estates site). The CLI's build step can't look a
+ *                     site up by name, so the ID is what gets passed.
  *   PREVIEW_URL       default https://preview--belmore-estates.netlify.app
  *   PRODUCTION_URL    default https://belmore-estates.netlify.app (set this to
  *                     the custom domain once it is live)
@@ -39,6 +42,7 @@ const approved = process.env.BELMORE_PROD_APPROVED === "yes";
 await import("./env.mjs");
 
 const site = process.env.NETLIFY_SITE || "belmore-estates";
+const siteId = process.env.NETLIFY_SITE_ID || (site === "belmore-estates" ? "c746ffa9-c6ab-4bfa-b095-28deed86ed7b" : site);
 const previewUrl = (process.env.PREVIEW_URL || `https://preview--${site}.netlify.app`).replace(/\/+$/, "");
 const productionUrl = (process.env.PRODUCTION_URL || `https://${site}.netlify.app`).replace(/\/+$/, "");
 const dryRun = process.env.DRY_RUN === "1";
@@ -68,7 +72,7 @@ const args = [
   "--yes",
   "netlify-cli@27",
   "deploy",
-  "--site", site,
+  "--site", siteId,
   // Builds locally first (`npm run build`, from netlify.toml).
   "--context", target === "production" ? "production" : "deploy-preview",
   "--env", `SITE_ENV=${siteEnv}`,
