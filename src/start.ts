@@ -25,7 +25,7 @@ function contentSecurityPolicy(nonce: string): string {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob: https:",
-    "connect-src 'self' https://api.web3forms.com https://challenges.cloudflare.com",
+    "connect-src 'self' https://api.web3forms.com https://challenges.cloudflare.com https://tiles.openfreemap.org https://orthos.its.ny.gov",
     "frame-src https://challenges.cloudflare.com https://www.google.com https://www.youtube-nocookie.com https://player.vimeo.com",
     "worker-src 'self' blob:",
     "form-action 'self' https://accounts.google.com",

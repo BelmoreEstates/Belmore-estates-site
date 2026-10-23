@@ -86,6 +86,34 @@ const extraBlocks: BlockDef[] = [
   ...round6Blocks,
   ...seoBlocks,
   ...round7Blocks,
+  // Lot map (src/components/map). Approved by Forge; defaults match the shipped strings.
+  { key: "map.future.label", value: "Future phase (planned, details TBD)" },
+  {
+    key: "map.future.note",
+    value:
+      "Planned along Shelby Circle and beyond, details TBD. Preliminary layout, subject to change. Lot lines approximate.",
+    multiline: true,
+  },
+  {
+    key: "map.disclaimer",
+    value:
+      "Preliminary layout, subject to change; lot lines approximate. Aerial imagery is from 2023, before construction.",
+    multiline: true,
+  },
+  { key: "map.control.fit", value: "Fit to Belmore Estates" },
+  { key: "map.control.area", value: "Show North Greece" },
+  { key: "map.control.aerial", value: "Aerial" },
+  { key: "map.control.street", value: "Map" },
+  { key: "map.control.future", value: "Future phase" },
+  { key: "map.loading", value: "Loading map" },
+  { key: "map.list.heading", value: "All lots" },
+  { key: "map.label", value: "Map of Belmore Estates lots" },
+  { key: "map.error", value: "The map couldn’t load right now." },
+  { key: "map.error.webgl", value: "This browser can’t display the interactive map." },
+  {
+    key: "map.error.fallback",
+    value: "You can still browse every lot and its details in the lot list.",
+  },
   { key: "login.h1", value: "Owner sign-in" },
   {
     key: "login.body",

@@ -1,0 +1,1185 @@
+{
+ "type": "FeatureCollection",
+ "name": "belmore-remaining-lots-approx",
+ "crs_note": "WGS84 (EPSG:4326)",
+ "attribution": "Lot layout digitized from Legends West Preliminary Plat (LaDieu Associates); parcel control: Town of Greece GIS",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "113",
+    "sec8_lot": "804",
+    "street": "Belmore Way",
+    "address_label_prelim_plat": "#410",
+    "plat_dimension_labels": "80' x 150'",
+    "approx_area_ac_from_georef": 0.274,
+    "sec8_signed_plat_area_ac": 0.275,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.6864360346278,
+       43.26438373027947
+      ],
+      [
+       -77.68586136545173,
+       43.26437549245918
+      ],
+      [
+       -77.68586654304822,
+       43.264160555603645
+      ],
+      [
+       -77.68643619127587,
+       43.26416872144711
+      ],
+      [
+       -77.6864360346278,
+       43.26438373027947
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "114",
+    "sec8_lot": "803",
+    "street": "Belmore Way",
+    "address_label_prelim_plat": "#400",
+    "plat_dimension_labels": "80' x 150'",
+    "approx_area_ac_from_georef": 0.262,
+    "sec8_signed_plat_area_ac": 0.275,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68643619127587,
+       43.26416872144711
+      ],
+      [
+       -77.68586654304822,
+       43.264160555603645
+      ],
+      [
+       -77.68587159115759,
+       43.263950992161256
+      ],
+      [
+       -77.68644106491519,
+       43.26396632252624
+      ],
+      [
+       -77.68643619127587,
+       43.26416872144711
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "115",
+    "sec8_lot": "802",
+    "street": "Belmore Way",
+    "address_label_prelim_plat": "#390",
+    "plat_dimension_labels": "80' frontage; 230' / 200'\u00b1 sides",
+    "approx_area_ac_from_georef": 0.293,
+    "sec8_signed_plat_area_ac": 0.275,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68644123743259,
+       43.263959157962525
+      ],
+      [
+       -77.68587159115759,
+       43.263950992161256
+      ],
+      [
+       -77.68587672551165,
+       43.263737846429436
+      ],
+      [
+       -77.68653921932919,
+       43.26374734290166
+      ],
+      [
+       -77.68644123743259,
+       43.263959157962525
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "116",
+    "sec8_lot": "801",
+    "street": "Belmore Way",
+    "address_label_prelim_plat": "#380",
+    "plat_dimension_labels": "200'\u00b1 / 135'\u00b1 (irregular)",
+    "approx_area_ac_from_georef": 0.422,
+    "sec8_signed_plat_area_ac": 0.432,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68653921932919,
+       43.26374734290166
+      ],
+      [
+       -77.68587672551165,
+       43.263737846429436
+      ],
+      [
+       -77.68588509569979,
+       43.263390365134285
+      ],
+      [
+       -77.68662141080584,
+       43.263565761370025
+      ],
+      [
+       -77.68653921932919,
+       43.26374734290166
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "72",
+    "sec8_lot": "805",
+    "street": "Belmore Way",
+    "address_label_prelim_plat": "#415",
+    "plat_dimension_labels": "160'\u00b1 x 80'",
+    "approx_area_ac_from_georef": 0.273,
+    "sec8_signed_plat_area_ac": 0.285,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68563772039052,
+       43.26438482806413
+      ],
+      [
+       -77.6850301260545,
+       43.26438865624962
+      ],
+      [
+       -77.68503513389372,
+       43.26418088401808
+      ],
+      [
+       -77.68564242409188,
+       43.26418959376991
+      ],
+      [
+       -77.68563772039052,
+       43.26438482806413
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "71",
+    "sec8_lot": "806",
+    "street": "Belmore Way / Shelby Circle",
+    "address_label_prelim_plat": "#405 Belmore Way or #10 Shelby Circle",
+    "plat_dimension_labels": "corner lot",
+    "approx_area_ac_from_georef": 0.401,
+    "sec8_signed_plat_area_ac": 0.405,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68564242409188,
+       43.26418959376991
+      ],
+      [
+       -77.68503513389372,
+       43.26418088401808
+      ],
+      [
+       -77.68504230020461,
+       43.26388355477626
+      ],
+      [
+       -77.68559939841218,
+       43.26389154477747
+      ],
+      [
+       -77.68564872439912,
+       43.263928087273015
+      ],
+      [
+       -77.68564242409188,
+       43.26418959376991
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "70",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#20",
+    "plat_dimension_labels": "150'\u00b1 / 75'\u00b1",
+    "approx_area_ac_from_georef": 0.288,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.6850324572957,
+       43.264291934694555
+      ],
+      [
+       -77.68473153709667,
+       43.26427865890355
+      ],
+      [
+       -77.6846566849122,
+       43.26425966735996
+      ],
+      [
+       -77.68468951890972,
+       43.264147257621204
+      ],
+      [
+       -77.68474774960549,
+       43.26402266993
+      ],
+      [
+       -77.68476375117243,
+       43.263879558758596
+      ],
+      [
+       -77.68504230020461,
+       43.26388355477626
+      ],
+      [
+       -77.6850324572957,
+       43.264291934694555
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "69",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#30",
+    "plat_dimension_labels": "130'\u00b1 / 160'\u00b1 / 65'\u00b1 / 120'\u00b1",
+    "approx_area_ac_from_georef": 0.32,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.6846566849122,
+       43.26425966735996
+      ],
+      [
+       -77.68421246213497,
+       43.26415116252639
+      ],
+      [
+       -77.68452937432485,
+       43.26381348432235
+      ],
+      [
+       -77.68461664361816,
+       43.263838029397704
+      ],
+      [
+       -77.68476375117243,
+       43.263879558758596
+      ],
+      [
+       -77.68474774960549,
+       43.26402266993
+      ],
+      [
+       -77.68468951890972,
+       43.264147257621204
+      ],
+      [
+       -77.6846566849122,
+       43.26425966735996
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "68",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#40",
+    "plat_dimension_labels": "160'\u00b1 / 215'\u00b1 / 85'\u00b1",
+    "approx_area_ac_from_georef": 0.398,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68421246213497,
+       43.26415116252639
+      ],
+      [
+       -77.68370083132166,
+       43.26402735416835
+      ],
+      [
+       -77.68439468027638,
+       43.263673586024765
+      ],
+      [
+       -77.68452937432485,
+       43.26381348432235
+      ],
+      [
+       -77.68421246213497,
+       43.26415116252639
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "67",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#50",
+    "plat_dimension_labels": "155'\u00b1 / 190'\u00b1 / 75'\u00b1",
+    "approx_area_ac_from_georef": 0.456,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68370083132166,
+       43.26402735416835
+      ],
+      [
+       -77.68371176328225,
+       43.263574195942304
+      ],
+      [
+       -77.68429559405332,
+       43.263514489226544
+      ],
+      [
+       -77.68439468027638,
+       43.263673586024765
+      ],
+      [
+       -77.68370083132166,
+       43.26402735416835
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "66",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#60",
+    "plat_dimension_labels": "150' x 80'",
+    "approx_area_ac_from_georef": 0.295,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68429559405332,
+       43.263514489226544
+      ],
+      [
+       -77.68371176328225,
+       43.263574195942304
+      ],
+      [
+       -77.68371807174516,
+       43.2633126895969
+      ],
+      [
+       -77.68430025873845,
+       43.26332104613542
+      ],
+      [
+       -77.68429559405332,
+       43.263514489226544
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "65",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#70",
+    "plat_dimension_labels": "150' x 80'",
+    "approx_area_ac_from_georef": 0.274,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68430025873845,
+       43.26332104613542
+      ],
+      [
+       -77.68371807174516,
+       43.2633126895969
+      ],
+      [
+       -77.68372317031277,
+       43.26310133514409
+      ],
+      [
+       -77.68430535529343,
+       43.26310969163904
+      ],
+      [
+       -77.68430025873845,
+       43.26332104613542
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "64",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#80",
+    "plat_dimension_labels": "150' (15' storm sewer easement)",
+    "approx_area_ac_from_georef": 0.279,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68430535529343,
+       43.26310969163904
+      ],
+      [
+       -77.68372317031277,
+       43.26310133514409
+      ],
+      [
+       -77.6837283552481,
+       43.262886398403914
+      ],
+      [
+       -77.68431053818203,
+       43.26289475485455
+      ],
+      [
+       -77.68430535529343,
+       43.26310969163904
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "63",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#90",
+    "plat_dimension_labels": "150' x 80'",
+    "approx_area_ac_from_georef": 0.279,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68431053818203,
+       43.26289475485455
+      ],
+      [
+       -77.6837283552481,
+       43.262886398403914
+      ],
+      [
+       -77.68373354013434,
+       43.262671461655195
+      ],
+      [
+       -77.68431572102156,
+       43.26267981806152
+      ],
+      [
+       -77.68431053818203,
+       43.26289475485455
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "62",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#100",
+    "plat_dimension_labels": "140'\u00b1 / 170'\u00b1 / 70'\u00b1",
+    "approx_area_ac_from_georef": 0.319,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68431572102156,
+       43.26267981806152
+      ],
+      [
+       -77.68373354013434,
+       43.262671461655195
+      ],
+      [
+       -77.6837417062306,
+       43.26233293625855
+      ],
+      [
+       -77.68419898024715,
+       43.26242012922586
+      ],
+      [
+       -77.68419816556288,
+       43.26247220583061
+      ],
+      [
+       -77.68418557653625,
+       43.26250964990543
+      ],
+      [
+       -77.68418511853618,
+       43.26254818013004
+      ],
+      [
+       -77.68419681506222,
+       43.26258582145043
+      ],
+      [
+       -77.68431610973253,
+       43.26266369780169
+      ],
+      [
+       -77.68431572102156,
+       43.26267981806152
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "61",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#110",
+    "plat_dimension_labels": "190'\u00b1 / 130'\u00b1 / 207'\u00b1",
+    "approx_area_ac_from_georef": 0.688,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68419898024715,
+       43.26242012922586
+      ],
+      [
+       -77.6837417062306,
+       43.26233293625855
+      ],
+      [
+       -77.6837528931686,
+       43.261765108912535
+      ],
+      [
+       -77.68422686469742,
+       43.26188837671057
+      ],
+      [
+       -77.68439311923689,
+       43.26236186031409
+      ],
+      [
+       -77.68434259048496,
+       43.26237025813354
+      ],
+      [
+       -77.68429583745075,
+       43.26238626873778
+      ],
+      [
+       -77.6842550765887,
+       43.26240913310201
+      ],
+      [
+       -77.68419898024715,
+       43.26242012922586
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "60",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#115",
+    "plat_dimension_labels": "180'\u00b1 / 150' / 55'\u00b1",
+    "approx_area_ac_from_georef": 0.372,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68455551257443,
+       43.262389995113196
+      ],
+      [
+       -77.68451820647095,
+       43.262375241491185
+      ],
+      [
+       -77.68447783708888,
+       43.262365454305446
+      ],
+      [
+       -77.68443569295376,
+       43.26236094594666
+      ],
+      [
+       -77.68439311923689,
+       43.26236186031409
+      ],
+      [
+       -77.68422686469742,
+       43.26188837671057
+      ],
+      [
+       -77.68485806525294,
+       43.26204973350741
+      ],
+      [
+       -77.68455551257443,
+       43.262389995113196
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "59",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#105",
+    "plat_dimension_labels": "255'\u00b1 / 225'\u00b1 / 50'",
+    "approx_area_ac_from_georef": 0.562,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68567881724998,
+       43.262262182483084
+      ],
+      [
+       -77.68466051466616,
+       43.26252534940289
+      ],
+      [
+       -77.68465197468181,
+       43.26248579105777
+      ],
+      [
+       -77.68463073922712,
+       43.26244872206667
+      ],
+      [
+       -77.6845979817949,
+       43.26241619086155
+      ],
+      [
+       -77.68455551257443,
+       43.262389995113196
+      ],
+      [
+       -77.68485806525294,
+       43.26204973350741
+      ],
+      [
+       -77.68567881724998,
+       43.262262182483084
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "58",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#95",
+    "plat_dimension_labels": "180'\u00b1 / 100'\u00b1",
+    "approx_area_ac_from_georef": 0.64,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.6854240565694,
+       43.262729761932405
+      ],
+      [
+       -77.68454074662428,
+       43.26271709063569
+      ],
+      [
+       -77.6845821061717,
+       43.26266751482762
+      ],
+      [
+       -77.68458790237378,
+       43.262653577733964
+      ],
+      [
+       -77.684619932737,
+       43.26262638252235
+      ],
+      [
+       -77.68464332268393,
+       43.26259501159024
+      ],
+      [
+       -77.68465704997143,
+       43.2625608360035
+      ],
+      [
+       -77.68466051466616,
+       43.26252534940289
+      ],
+      [
+       -77.68567881724998,
+       43.262262182483084
+      ],
+      [
+       -77.6854240565694,
+       43.262729761932405
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "57",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#85",
+    "plat_dimension_labels": "205'\u00b1 / 85'\u00b1",
+    "approx_area_ac_from_georef": 0.394,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68531101603773,
+       43.262941360111206
+      ],
+      [
+       -77.68453560775495,
+       43.26293023630452
+      ],
+      [
+       -77.68454074662428,
+       43.26271709063569
+      ],
+      [
+       -77.6854240565694,
+       43.262729761932405
+      ],
+      [
+       -77.68531101603773,
+       43.262941360111206
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "56",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#75",
+    "plat_dimension_labels": "205'\u00b1 / 80'",
+    "approx_area_ac_from_georef": 0.339,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68519550845643,
+       43.26315113102974
+      ],
+      [
+       -77.68453051202175,
+       43.26314159082496
+      ],
+      [
+       -77.68453560775495,
+       43.26293023630452
+      ],
+      [
+       -77.68531101603773,
+       43.262941360111206
+      ],
+      [
+       -77.68519550845643,
+       43.26315113102974
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "55",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#65",
+    "plat_dimension_labels": "180'\u00b1 / 80'",
+    "approx_area_ac_from_georef": 0.299,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.6850772747992,
+       43.26336982152203
+      ],
+      [
+       -77.68452520031714,
+       43.26336190103661
+      ],
+      [
+       -77.68453051202175,
+       43.26314159082496
+      ],
+      [
+       -77.68519550845643,
+       43.26315113102974
+      ],
+      [
+       -77.6850772747992,
+       43.26336982152203
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "54",
+    "sec8_lot": null,
+    "street": "Shelby Circle",
+    "address_label_prelim_plat": "#35",
+    "plat_dimension_labels": "150' / 130'\u00b1",
+    "approx_area_ac_from_georef": 0.407,
+    "sec8_signed_plat_area_ac": null,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "future section (not on Sec 8 plat)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf",
+    "address_note": "Shelby Circle house numbers are preliminary-plat labels; Town GIS reserves range 1-51/2-50 - UNVERIFIED"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68507880829138,
+       43.26372282012427
+      ],
+      [
+       -77.68492071330257,
+       43.26372055225154
+      ],
+      [
+       -77.6847201736809,
+       43.26370871639883
+      ],
+      [
+       -77.68462057322868,
+       43.26367503567316
+      ],
+      [
+       -77.68454688779804,
+       43.26360768328663
+      ],
+      [
+       -77.684522522853,
+       43.26347295170899
+      ],
+      [
+       -77.68452520031714,
+       43.26336190103661
+      ],
+      [
+       -77.6850772747992,
+       43.26336982152203
+      ],
+      [
+       -77.68507880829138,
+       43.26372282012427
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "plat_lot": "53",
+    "sec8_lot": "807",
+    "street": "Belmore Way / Shelby Circle",
+    "address_label_prelim_plat": "#395 Belmore Way or #5 Shelby Circle",
+    "plat_dimension_labels": "135'\u00b1 / 130'\u00b1",
+    "approx_area_ac_from_georef": 0.398,
+    "sec8_signed_plat_area_ac": 0.413,
+    "status": "planned - not a separate tax parcel; lies within parcel 045.02-1-1.21 (Town of Greece GIS, roll year 2026)",
+    "phase": "Section 8 / Phase 1 (lots 801-807)",
+    "accuracy": "APPROXIMATE (+/-10-20 ft): digitized from LaDieu Associates PRELIMINARY plat (2014, rev. 2020) via 10-GCP affine fit, RMS 7.3 ft; final recorded plat may differ",
+    "source": "/workspace/belmore/maps/full-development-map.pdf"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.68560328225327,
+       43.263730342137855
+      ],
+      [
+       -77.68507880829138,
+       43.26372282012427
+      ],
+      [
+       -77.68507692945008,
+       43.26338415064399
+      ],
+      [
+       -77.68566024600618,
+       43.26344985275613
+      ],
+      [
+       -77.68565433420066,
+       43.26369523901165
+      ],
+      [
+       -77.68560328225327,
+       43.263730342137855
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
