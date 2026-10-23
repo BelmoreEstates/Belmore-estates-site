@@ -179,7 +179,7 @@ An alternative is Netlify's own `@netlify/vite-plugin-tanstack-start` instead of
 DATABASE_URL='postgres://…' npm run db:backup     # → backups/belmore-<timestamp>.json (+ .sql if pg_dump is installed; gitignored)
 ```
 
-- `.github/workflows/nightly-backup.yml` is **disabled by default**: it runs only when started by hand. To run it nightly, uncomment its `schedule` and add a `BACKUP_DATABASE_URL` repository secret.
+- `docs/nightly-backup.workflow.yml.example (copy to .github/workflows/nightly-backup.yml to enable)` is **disabled by default**: it runs only when started by hand. To run it nightly, uncomment its `schedule` and add a `BACKUP_DATABASE_URL` repository secret.
 - Backups contain lead contact details, so keep the repo private.
 - Neon also has its own point-in-time restore window.
 

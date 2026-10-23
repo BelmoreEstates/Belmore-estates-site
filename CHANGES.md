@@ -13,7 +13,7 @@ Nothing was deployed or published. No service was signed up for and nobody was c
 - **Environments:** `SITE_ENV=production` is the only value that allows indexing. Everything else (the default) sends `X-Robots-Tag: noindex, nofollow` plus a robots meta tag. `npm run deploy:preview` publishes to the `preview` alias; `npm run deploy:prod` refuses unless `BELMORE_PROD_APPROVED=yes` (only after Joseph approves).
 - **Security:** CSP with per-request nonces (allows Google sign-in, api.web3forms.com and Google Fonts), X-Frame-Options DENY, frame-ancestors 'none', COOP, nosniff, Referrer-Policy, Permissions-Policy and HSTS. The rate limit, honeypot, timing check and validation are unchanged.
 - **Removed:** the old hosting platform's identity header, connector broker, preview bridge, manifest route and config folder. The privacy copy now says "the Belmore Estates website".
-- **Backups:** `npm run db:backup` (pg_dump + JSON) and an optional GitHub Action (`.github/workflows/nightly-backup.yml`, manual-only until you uncomment the schedule).
+- **Backups:** `npm run db:backup` (pg_dump + JSON) and an optional GitHub Action (`docs/nightly-backup.workflow.yml.example (copy to .github/workflows/nightly-backup.yml to enable)`, manual-only until you uncomment the schedule).
 
 ## Round 3: model home and the fuller /plans page
 - **Model home:** The Stonebridge (GLA 2300-2) is flagged as the model home. It gets a feature block on Home and at the top of /plans (`#model-home`) with GLA specs, the "Plan by GLA Architecture" credit, a "View on GLA" link, a placeholder image, and model-home details. Those details are placeholders: **[MODEL HOME ADDRESS — TO COME]**, **[MODEL HOME HOURS — TO COME]** and [PRICING — TBD].
