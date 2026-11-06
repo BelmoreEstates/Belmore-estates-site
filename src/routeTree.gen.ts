@@ -33,6 +33,7 @@ import { Route as LotsSlugRouteImport } from './routes/lots.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as PlansIndexRouteImport } from './routes/plans.index'
 import { Route as PlansSlugRouteImport } from './routes/plans.$slug'
+import { Route as PreviewConstructionHeroRouteImport } from './routes/preview.construction-hero'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -155,6 +156,11 @@ const PlansSlugRoute = PlansSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => PlansRoute,
 } as any)
+const PreviewConstructionHeroRoute = PreviewConstructionHeroRouteImport.update({
+  id: '/preview/construction-hero',
+  path: '/preview/construction-hero',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
+  '/preview/construction-hero': typeof PreviewConstructionHeroRoute
   '/homes/': typeof HomesIndexRoute
   '/lots/': typeof LotsIndexRoute
   '/plans/': typeof PlansIndexRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
+  '/preview/construction-hero': typeof PreviewConstructionHeroRoute
   '/homes': typeof HomesIndexRoute
   '/lots': typeof LotsIndexRoute
   '/plans': typeof PlansIndexRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/lots/$slug': typeof LotsSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/plans/$slug': typeof PlansSlugRoute
+  '/preview/construction-hero': typeof PreviewConstructionHeroRoute
   '/homes/': typeof HomesIndexRoute
   '/lots/': typeof LotsIndexRoute
   '/plans/': typeof PlansIndexRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
+    | '/preview/construction-hero'
     | '/homes/'
     | '/lots/'
     | '/plans/'
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
+    | '/preview/construction-hero'
     | '/homes'
     | '/lots'
     | '/plans'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/lots/$slug'
     | '/media/$id'
     | '/plans/$slug'
+    | '/preview/construction-hero'
     | '/homes/'
     | '/lots/'
     | '/plans/'
@@ -343,6 +355,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   HomesSlugRoute: typeof HomesSlugRoute
   MediaIdRoute: typeof MediaIdRoute
+  PreviewConstructionHeroRoute: typeof PreviewConstructionHeroRoute
   HomesIndexRoute: typeof HomesIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -517,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlansSlugRouteImport
       parentRoute: typeof PlansRoute
     }
+    '/preview/construction-hero': {
+      id: '/preview/construction-hero'
+      path: '/preview/construction-hero'
+      fullPath: '/preview/construction-hero'
+      preLoaderRoute: typeof PreviewConstructionHeroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -571,6 +591,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   HomesSlugRoute: HomesSlugRoute,
   MediaIdRoute: MediaIdRoute,
+  PreviewConstructionHeroRoute: PreviewConstructionHeroRoute,
   HomesIndexRoute: HomesIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
