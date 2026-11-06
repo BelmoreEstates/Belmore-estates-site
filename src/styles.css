@@ -122,3 +122,43 @@
 .text-copper {
   color: var(--copper-text);
 }
+
+/*
+ * Preview-only construction hero (/preview/construction-hero).
+ * The pin is a scroll runway: the video sticks while the extra height
+ * is scrolled, then the rest of the homepage continues. Reduced motion
+ * drops the runway and the sticky pin so the page is a normal still.
+ */
+.construction-hero-track {
+  --construction-pin: 4.75rem;
+}
+
+.construction-hero-stage {
+  aspect-ratio: 16 / 9;
+  max-height: 72vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .construction-hero-track {
+    height: calc(100svh - var(--construction-pin) + 130vh);
+  }
+
+  .construction-hero-pin {
+    position: sticky;
+    top: var(--construction-pin);
+    height: calc(100svh - var(--construction-pin));
+  }
+
+  .construction-hero-pin .construction-hero-stage {
+    aspect-ratio: auto;
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+  .construction-hero-track {
+    height: calc(100svh - var(--construction-pin) + 200vh);
+  }
+}
