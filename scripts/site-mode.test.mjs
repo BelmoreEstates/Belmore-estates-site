@@ -46,4 +46,15 @@ test("coming-soon copy does not name Andrew Schram", () => {
     "utf8",
   );
   assert.equal(/andrew/i.test(page), false);
+  assert.equal(page.includes("Shelby Circle"), false);
+  assert.equal(page.includes("801"), false);
+  assert.equal(/instagram/i.test(page), false);
+  assert.equal(page.includes("belmoreestates@gmail.com"), false);
+  assert.equal(
+    page.includes(
+      "Twenty-Four custom built homes completing the final section of the well-established Legends West subdivision in the Town of Greece, NY.",
+    ),
+    true,
+  );
+  assert.equal(page.includes("Belmore Way & Barclay Court"), true);
 });

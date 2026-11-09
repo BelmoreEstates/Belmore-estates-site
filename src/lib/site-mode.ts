@@ -10,9 +10,9 @@
 
 export const COMING_SOON_TITLE = "Coming Soon | Belmore Estates";
 
-/** Meta description. The on-page headline is the h1; this repeats it for search/social. */
+/** Meta description. Matches the on-page description. */
 export const COMING_SOON_DESCRIPTION =
-  "Coming soon. A 24-lot semi-custom home community in North Greece, NY, within Legends West. Phase 1 is lots 801–807, on Belmore Way and Shelby Circle.";
+  "Twenty-Four custom built homes completing the final section of the well-established Legends West subdivision in the Town of Greece, NY.";
 
 export const COMING_SOON_FONT_HREF =
   "https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600&display=swap";
