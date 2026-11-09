@@ -2,6 +2,8 @@
 
 /** SITE_ENV at build time ("production" | "preview" | ""), baked in by vite.config.ts. */
 declare const __SITE_ENV__: string;
+/** SITE_MODE at build time ("coming-soon" | ""), baked in by vite.config.ts. */
+declare const __SITE_MODE__: string;
 /** BETTER_AUTH_URL at build time ("" if unset), baked in by vite.config.ts. */
 declare const __BUILD_AUTH_URL__: string;
 /** SITE_ORIGIN at build time: the production origin for canonical URLs ("" if unset). */

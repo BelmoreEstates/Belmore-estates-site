@@ -59,43 +59,45 @@ function loadDotEnv(mode: string) {
 export default defineConfig(({ command, isPreview, mode }) => {
   loadDotEnv(mode);
   return {
-  server: {
-    host: "0.0.0.0",
-    port: 8080,
-    strictPort: true,
-  },
-  preview: {
-    host: "127.0.0.1",
-    port: 8081,
-    strictPort: true,
-  },
-  resolve: { tsconfigPaths: true },
-  // Per-deploy values baked into the server bundle by `npm run deploy:*`
-  // (scripts/deploy.mjs): the production site and the preview alias are the
-  // same Netlify site, so their runtime env vars are shared — these are not.
-  // Neither is a secret.
-  define: {
-    __SITE_ENV__: JSON.stringify(process.env.SITE_ENV ?? ""),
-    __BUILD_AUTH_URL__: JSON.stringify(process.env.BETTER_AUTH_URL ?? ""),
-    // Canonical / og:url origin (always the production site, also on the preview).
-    __SITE_ORIGIN__: JSON.stringify(process.env.SITE_ORIGIN ?? ""),
-  },
-  // router.tsx imports getGlobalStartContext (an isomorphic fn). Pre-bundling
-  // start-client-core would skip the server/client split and drag
-  // node:async_hooks into the browser in dev.
-  optimizeDeps: { exclude: ["@tanstack/start-client-core", "@tanstack/start-storage-context"] },
-  plugins: [
-    pgliteBootstrapPlugin(),
-    tailwindcss(),
-    tanstackStart(),
-    ...(command === "build" || isPreview
-      ? [
-          // Netlify output: static assets in dist/, the SSR + server-function
-          // handler in .netlify/v1/functions (Netlify Frameworks API).
-          nitro({ preset: "netlify" }),
-        ]
-      : []),
-    viteReact(),
-  ],
-};
+    server: {
+      host: "0.0.0.0",
+      port: 8080,
+      strictPort: true,
+    },
+    preview: {
+      host: "127.0.0.1",
+      port: 8081,
+      strictPort: true,
+    },
+    resolve: { tsconfigPaths: true },
+    // Per-deploy values baked into the server bundle by `npm run deploy:*`
+    // (scripts/deploy.mjs): the production site and the preview alias are the
+    // same Netlify site, so their runtime env vars are shared — these are not.
+    // Neither is a secret.
+    define: {
+      __SITE_ENV__: JSON.stringify(process.env.SITE_ENV ?? ""),
+      // "coming-soon" swaps the public site for the temporary landing. Unset = full site.
+      __SITE_MODE__: JSON.stringify(process.env.SITE_MODE ?? ""),
+      __BUILD_AUTH_URL__: JSON.stringify(process.env.BETTER_AUTH_URL ?? ""),
+      // Canonical / og:url origin (always the production site, also on the preview).
+      __SITE_ORIGIN__: JSON.stringify(process.env.SITE_ORIGIN ?? ""),
+    },
+    // router.tsx imports getGlobalStartContext (an isomorphic fn). Pre-bundling
+    // start-client-core would skip the server/client split and drag
+    // node:async_hooks into the browser in dev.
+    optimizeDeps: { exclude: ["@tanstack/start-client-core", "@tanstack/start-storage-context"] },
+    plugins: [
+      pgliteBootstrapPlugin(),
+      tailwindcss(),
+      tanstackStart(),
+      ...(command === "build" || isPreview
+        ? [
+            // Netlify output: static assets in dist/, the SSR + server-function
+            // handler in .netlify/v1/functions (Netlify Frameworks API).
+            nitro({ preset: "netlify" }),
+          ]
+        : []),
+      viteReact(),
+    ],
+  };
 });

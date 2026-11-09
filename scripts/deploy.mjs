@@ -78,6 +78,8 @@ if (!dryRun && (major < 22 || (major === 22 && minor < 13))) {
 
 const siteEnv = target === "production" ? "production" : "preview";
 const authUrl = target === "production" ? productionUrl : previewUrl;
+// Optional. Unset builds the full site. "coming-soon" bakes the temporary landing.
+const siteMode = process.env.SITE_MODE === "coming-soon" ? "coming-soon" : "";
 
 const args = [
   "--yes",
@@ -95,6 +97,8 @@ const args = [
   // Canonical URLs / sitemap always name the production origin (also on the preview).
   "--env",
   `SITE_ORIGIN=${productionUrl}`,
+  // Baked into the build (vite.config.ts) and available to the functions.
+  ...(siteMode ? ["--env", `SITE_MODE=${siteMode}`] : []),
   "--message",
   `${siteEnv} deploy from ${process.env.USER || "cli"}`,
   // Production: --prod-if-unlocked, so a production deploy that Netlify has
@@ -103,7 +107,7 @@ const args = [
   ...(target === "production" ? ["--prod-if-unlocked"] : ["--alias", "preview"]),
 ];
 
-console.log(`[deploy] ${siteEnv} -> ${authUrl}`);
+console.log(`[deploy] ${siteEnv} -> ${authUrl}${siteMode ? " (SITE_MODE=coming-soon)" : ""}`);
 console.log(`[deploy] npx ${args.join(" ")}`);
 if (dryRun) process.exit(0);
 
@@ -112,6 +116,12 @@ console.log(
 );
 const result = spawnSync("npx", args, {
   stdio: "inherit",
-  env: { ...process.env, SITE_ENV: siteEnv, BETTER_AUTH_URL: authUrl, SITE_ORIGIN: productionUrl },
+  env: {
+    ...process.env,
+    SITE_ENV: siteEnv,
+    BETTER_AUTH_URL: authUrl,
+    SITE_ORIGIN: productionUrl,
+    ...(siteMode ? { SITE_MODE: siteMode } : {}),
+  },
 });
 process.exit(result.status ?? 1);

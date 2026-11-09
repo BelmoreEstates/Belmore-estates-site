@@ -3,6 +3,7 @@ import {
   HeadContent,
   Link,
   Outlet,
+  redirect,
   Scripts,
   useRouterState,
 } from "@tanstack/react-router";
@@ -10,11 +11,27 @@ import { AdminTools } from "@/components/site/admin-tools";
 import { AuthProvider } from "@/lib/auth/provider";
 import { SiteFrame, buttonStyles } from "@/components/site/chrome";
 import { textOf, useText } from "@/components/site/text";
+import {
+  COMING_SOON_DESCRIPTION,
+  COMING_SOON_FONT_HREF,
+  COMING_SOON_TITLE,
+  comingSoonDestination,
+  isComingSoon,
+  normalizePath,
+} from "@/lib/site-mode";
 import { getPublicData, staticPublicData } from "@/server/public";
 import { themeCss, themeFontHref } from "@/site/doc";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+  // Coming-soon builds answer every public URL with the landing. Operational
+  // routes (admin, auth, robots, server functions) are left alone.
+  beforeLoad: ({ location }) => {
+    if (!isComingSoon()) return;
+    const dest = comingSoonDestination(location.pathname);
+    if (!dest) return;
+    throw redirect({ ...dest, replace: true, statusCode: 302 });
+  },
   // Site content: DB (owner edits) merged over the keyed copy defaults.
   loader: async () => {
     try {
@@ -28,12 +45,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: textOf((loaderData ?? staticPublicData).blocks, "global.seo.title") },
+      {
+        title: isComingSoon()
+          ? COMING_SOON_TITLE
+          : textOf((loaderData ?? staticPublicData).blocks, "global.seo.title"),
+      },
       {
         name: "description",
-        content: textOf((loaderData ?? staticPublicData).blocks, "global.seo.description"),
+        content: isComingSoon()
+          ? COMING_SOON_DESCRIPTION
+          : textOf((loaderData ?? staticPublicData).blocks, "global.seo.description"),
       },
-      { name: "theme-color", content: "#243F34" },
+      { name: "theme-color", content: isComingSoon() ? "#0c0c0c" : "#243F34" },
       // Everything but SITE_ENV=production stays out of search engines
       // (the X-Robots-Tag header in src/start.ts says the same).
       ...((loaderData ?? staticPublicData).noindex
@@ -47,7 +70,9 @@ export const Route = createRootRoute({
       {
         rel: "stylesheet",
         // The original fonts unless the owner picked others in the editor's Theme panel.
-        href: themeFontHref((loaderData ?? staticPublicData).site.theme),
+        href: isComingSoon()
+          ? COMING_SOON_FONT_HREF
+          : themeFontHref((loaderData ?? staticPublicData).site.theme),
       },
       { rel: "stylesheet", href: appCss },
     ],
@@ -62,17 +87,24 @@ function RootComponent() {
   // emitted while the theme is the original, so the page is byte-identical.
   // The visual editor (/editor) is a bare full-screen app: no site chrome, and
   // no published theme (its canvas applies the draft theme itself).
-  const bare = useRouterState({ select: (s) => s.location.pathname === "/editor" });
-  const css = bare ? "" : themeCss(data.site.theme);
+  // The coming-soon landing is also bare: its own page, not the site frame.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const bare = pathname === "/editor";
+  const comingHome = isComingSoon() && normalizePath(pathname) === "/";
+  const css = bare || comingHome ? "" : themeCss(data.site.theme);
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={comingHome ? "coming-soon-root" : undefined}
+      suppressHydrationWarning
+    >
       <head>
         <HeadContent />
         {css ? <style data-site-theme>{css}</style> : null}
       </head>
-      <body>
+      <body className={comingHome ? "coming-soon-root" : undefined}>
         <AuthProvider>
-          {bare ? (
+          {bare || comingHome ? (
             <Outlet />
           ) : (
             <>

@@ -26,6 +26,16 @@ test("production refuses without explicit approval", () => {
   assert.match(r.stderr, /Refusing to deploy to production/);
 });
 
+test("SITE_MODE=coming-soon is forwarded; anything else is not", () => {
+  const on = run("preview", { SITE_MODE: "coming-soon" });
+  assert.equal(on.status, 0, on.stderr);
+  assert.match(on.stdout, /--env SITE_MODE=coming-soon/);
+  assert.doesNotMatch(on.stdout, /--prod/);
+  const off = run("preview", { SITE_MODE: "" });
+  assert.equal(off.status, 0, off.stderr);
+  assert.doesNotMatch(off.stdout, /SITE_MODE/);
+});
+
 test("approved production sets SITE_ENV=production and the prod URL", () => {
   const r = run("production", { BELMORE_PROD_APPROVED: "yes" });
   assert.equal(r.status, 0, r.stderr);

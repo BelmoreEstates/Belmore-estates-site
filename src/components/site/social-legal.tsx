@@ -210,10 +210,10 @@ function SopLink({ className }: { className?: string }) {
 const linkCls = "underline underline-offset-2 hover:text-copper";
 
 /** Footer row: EHO logo + notice, the notice links, privacy summary, brokerage line. */
-export function FooterLegal() {
+export function FooterLegal({ force = false }: { force?: boolean }) {
   const enabled = useLegalEnabled();
   const edit = useEditApi();
-  if (!enabled && !edit) return null;
+  if (!enabled && !edit && !force) return null;
   return (
     <div className="border-t border-pine" data-legal="footer">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-8 text-sm lg:grid-cols-12">
@@ -265,10 +265,10 @@ export function FooterLegal() {
  * Homepage Fair Housing line (19 NYCRR §175.29(c): the notice link must be
  * prominent on the homepage). An optional original section of the home page.
  */
-export function HomeFairHousing() {
+export function HomeFairHousing({ force = false }: { force?: boolean }) {
   const enabled = useLegalEnabled();
   const edit = useEditApi();
-  if (!enabled && !edit) return null;
+  if (!enabled && !edit && !force) return null;
   return (
     <section className="border-t border-line bg-cream" data-home-fairhousing>
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-5 py-6 text-sm">

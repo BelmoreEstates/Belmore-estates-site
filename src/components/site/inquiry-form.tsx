@@ -88,12 +88,15 @@ export function InquiryForm({
   lotId,
   planSlug,
   showTypes = true,
+  showIntro = true,
 }: {
   initialType?: LeadType;
   interest?: string;
   lotId?: string;
   planSlug?: string;
   showTypes?: boolean;
+  /** The keyed intro. Off on the coming-soon page, whose intro is written there. */
+  showIntro?: boolean;
 }) {
   const t = useText();
   const { blocks } = useSiteData();
@@ -253,9 +256,11 @@ export function InquiryForm({
             </div>
           </fieldset>
         ) : null}
-        <p className="text-sm text-muted">
-          <T k={`${p}.intro`} />
-        </p>
+        {showIntro ? (
+          <p className="text-sm text-muted">
+            <T k={`${p}.intro`} />
+          </p>
+        ) : null}
         <p className="text-xs text-muted">
           <Tx k="forms.shared.required.legend" />
         </p>

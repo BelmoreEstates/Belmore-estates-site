@@ -46,25 +46,26 @@ npm run build     # Netlify output: dist/ + .netlify/functions-internal/server/
 
 Every variable is documented in **`.env.example`**. Summary:
 
-| Variable | Where | Purpose |
-|---|---|---|
-| `DATABASE_URL` | Netlify, local | Neon **pooled** connection string (`-pooler` host). Blank locally means PGLite. |
-| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Netlify | Google OAuth client (see §4). |
-| `BETTER_AUTH_SECRET` | Netlify | 32+ random chars (`openssl rand -base64 32`). |
-| `BETTER_AUTH_URL` | set per deploy by the deploy scripts | The site origin. Local default is `http://localhost:8080`. |
-| `BETTER_AUTH_TRUSTED_ORIGINS` | Netlify (optional) | Comma-separated. Default: `https://belmore-estates.netlify.app,https://preview--belmore-estates.netlify.app`. Add the custom domain later. |
-| `OWNER_EMAILS` | Netlify (optional) | Owners, who can't be removed. Default: `belmoreestates@gmail.com,realtor.deleguardia@gmail.com`. |
-| `WEB3FORMS_ACCESS_KEYS` | Netlify | Comma-separated, one key per inbox. Blank means no emails and a banner in /admin. |
-| `WEB3FORMS_ACCESS_KEY` | Netlify (legacy) | Single key, merged with the list above. |
-| `WEB3FORMS_MODE` | Netlify (optional) | `server` (default) or `client`. See §6. |
-| `CONTACT_EMAIL` | Netlify (optional) | Public contact address, used for the `{{CONTACT_EMAIL}}` token. Default: `belmoreestates@gmail.com`. |
-| `SITE_ENV` | set per deploy by the deploy scripts | Only `production` allows indexing. The default is noindex. |
-| `TURNSTILE_SECRET_KEY` | optional | Only if Turnstile is switched on in `src/data/site-config.ts` (it's off). |
-| `VITE_AUTH_ENABLED`, `BELMORE_QA_AS`, `WEB3FORMS_API_URL`, `BELMORE_LOCAL_PGLITE` | local only | Dev and QA helpers. |
-| `NETLIFY_AUTH_TOKEN`, `NETLIFY_SITE`, `PREVIEW_URL`, `PRODUCTION_URL`, `BELMORE_PROD_APPROVED`, `DRY_RUN` | your machine only | Deploy script. |
-| `BACKUP_DATABASE_URL` | GitHub Actions secret | Optional nightly backup. |
+| Variable                                                                                                  | Where                                | Purpose                                                                                                                                    |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `DATABASE_URL`                                                                                            | Netlify, local                       | Neon **pooled** connection string (`-pooler` host). Blank locally means PGLite.                                                            |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`                                                                | Netlify                              | Google OAuth client (see §4).                                                                                                              |
+| `BETTER_AUTH_SECRET`                                                                                      | Netlify                              | 32+ random chars (`openssl rand -base64 32`).                                                                                              |
+| `BETTER_AUTH_URL`                                                                                         | set per deploy by the deploy scripts | The site origin. Local default is `http://localhost:8080`.                                                                                 |
+| `BETTER_AUTH_TRUSTED_ORIGINS`                                                                             | Netlify (optional)                   | Comma-separated. Default: `https://belmore-estates.netlify.app,https://preview--belmore-estates.netlify.app`. Add the custom domain later. |
+| `OWNER_EMAILS`                                                                                            | Netlify (optional)                   | Owners, who can't be removed. Default: `belmoreestates@gmail.com,realtor.deleguardia@gmail.com`.                                           |
+| `WEB3FORMS_ACCESS_KEYS`                                                                                   | Netlify                              | Comma-separated, one key per inbox. Blank means no emails and a banner in /admin.                                                          |
+| `WEB3FORMS_ACCESS_KEY`                                                                                    | Netlify (legacy)                     | Single key, merged with the list above.                                                                                                    |
+| `WEB3FORMS_MODE`                                                                                          | Netlify (optional)                   | `server` (default) or `client`. See §6.                                                                                                    |
+| `CONTACT_EMAIL`                                                                                           | Netlify (optional)                   | Public contact address, used for the `{{CONTACT_EMAIL}}` token. Default: `belmoreestates@gmail.com`.                                       |
+| `SITE_ENV`                                                                                                | set per deploy by the deploy scripts | Only `production` allows indexing. The default is noindex.                                                                                 |
+| `SITE_MODE`                                                                                               | build time (the deploy command)      | `coming-soon` builds the temporary landing. Unset builds the full site. See "Coming soon landing" below.                                   |
+| `TURNSTILE_SECRET_KEY`                                                                                    | optional                             | Only if Turnstile is switched on in `src/data/site-config.ts` (it's off).                                                                  |
+| `VITE_AUTH_ENABLED`, `BELMORE_QA_AS`, `WEB3FORMS_API_URL`, `BELMORE_LOCAL_PGLITE`                         | local only                           | Dev and QA helpers.                                                                                                                        |
+| `NETLIFY_AUTH_TOKEN`, `NETLIFY_SITE`, `PREVIEW_URL`, `PRODUCTION_URL`, `BELMORE_PROD_APPROVED`, `DRY_RUN` | your machine only                    | Deploy script.                                                                                                                             |
+| `BACKUP_DATABASE_URL`                                                                                     | GitHub Actions secret                | Optional nightly backup.                                                                                                                   |
 
-No secret is ever sent to the browser. The only build-time values in client code are `SITE_ENV`, `BETTER_AUTH_URL` and `VITE_AUTH_ENABLED`. Secrets are read in server code from `process.env`, and `getSql()` is only used in server files.
+No secret is ever sent to the browser. The only build-time values in client code are `SITE_ENV`, `SITE_MODE`, `BETTER_AUTH_URL` and `VITE_AUTH_ENABLED`. Secrets are read in server code from `process.env`, and `getSql()` is only used in server files.
 
 ## 3. Database: migrations and seed
 
@@ -188,3 +189,36 @@ DATABASE_URL='postgres://…' npm run db:backup     # → backups/belmore-<times
 - `HANDOFF.md` covers transferring the repo, Netlify, Neon and Google, rotating secrets, and changing owners.
 - `CHANGES.md` is the build history.
 - GLA plans: "View all plans" links to <https://greaterliving.com/shop-plans/>, and each plan links to its own GLA page. GLA images are never stored in this repo.
+
+## Coming soon landing
+
+Business cards point at <https://belmore-estates.netlify.app>. Until the full site is ready, the same repo can build a single coming-soon page instead. `SITE_MODE` is a **build-time** flag, same idea as `SITE_ENV`. Unset (the default) builds the full site. Nothing about this changes Netlify DNS or site settings.
+
+| `SITE_MODE`                                  | What visitors get                                                                                                                                                                                                                                                   |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| unset, or any value other than `coming-soon` | The full site                                                                                                                                                                                                                                                       |
+| `coming-soon`                                | The coming-soon page. Every public route (`/`, `/about`, `/lots/801`, `/plans/…`, `/legal`, `/privacy`, unknown paths) redirects to it with HTTP 302. `/admin`, `/login`, `/editor`, `/api`, `/media`, `/robots.txt`, `/sitemap.xml`, and server functions stay up. |
+
+Search engines stay blocked exactly as they are today: noindex unless `SITE_ENV=production` **and** `SITE_INDEXING=on`.
+
+```bash
+npm run dev                          # full site
+SITE_MODE=coming-soon npm run dev    # coming soon, http://localhost:8080
+npm run build                        # full site
+SITE_MODE=coming-soon npm run build  # coming soon
+```
+
+Deploy from your machine. Preview first. Production still refuses to run without `BELMORE_PROD_APPROVED=yes`, and a locked production deploy stays a draft until someone publishes it in the Netlify UI.
+
+```bash
+# Preview the coming-soon page (not production):
+SITE_MODE=coming-soon npm run deploy:preview
+
+# Production, only after Joseph approves. This replaces https://belmore-estates.netlify.app
+SITE_MODE=coming-soon BELMORE_PROD_APPROVED=yes npm run deploy:prod
+
+# Restore the full site later (same approval rule):
+BELMORE_PROD_APPROVED=yes npm run deploy:prod
+```
+
+The page reuses the homepage hero (labeled as a conceptual rendering), the existing waitlist form (`submitLead` and the Web3Forms keys already configured), and the current fair-housing and brokerage text.
