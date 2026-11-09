@@ -56,5 +56,6 @@ test("coming-soon copy does not name Andrew Schram", () => {
     ),
     true,
   );
-  assert.equal(page.includes("Belmore Way & Barclay Court"), true);
+  assert.equal(page.includes("Belmore Way"), false);
+  assert.equal(page.includes("Barclay"), false);
 });

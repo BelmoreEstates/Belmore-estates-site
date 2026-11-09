@@ -11,8 +11,6 @@ import { PrivacyPolicy } from "@/site/sections/privacy";
 const LEDE =
   "Twenty-Four custom built homes completing the final section of the well-established Legends West subdivision in the Town of Greece, NY.";
 
-const STREETS = "Belmore Way & Barclay Court";
-
 export function ComingSoonPage() {
   return (
     <div className="coming-soon" data-page="coming-soon">
@@ -33,7 +31,6 @@ export function ComingSoonPage() {
           </p>
           <h1>Coming Soon</h1>
           <p className="cs-lede">{LEDE}</p>
-          <p className="cs-streets">{STREETS}</p>
           <a className="cs-cta" href="#interest">
             <Tx k="global.cta.waitlist" />
           </a>

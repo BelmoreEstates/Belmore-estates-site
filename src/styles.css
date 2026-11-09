@@ -207,13 +207,6 @@ body.coming-soon-root {
   color: #d9d1c4;
 }
 
-.cs-streets {
-  margin: 0.7rem 0 0;
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  color: #d9d1c4;
-}
-
 .cs-cta {
   display: inline-flex;
   align-items: center;
