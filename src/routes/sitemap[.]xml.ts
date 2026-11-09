@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getSql } from "@/lib/db";
 import { SITE_ORIGIN } from "@/lib/seo";
+import { isComingSoon } from "@/lib/site-mode";
 import { isValidCustomSlug } from "@/site/doc";
 
 const STATIC_PATHS = [
@@ -22,14 +23,26 @@ const xmlEscape = (s: string) =>
 /**
  * /sitemap.xml: the public pages, every visible plan and lot detail page, the
  * owner's published custom pages (not "draft only"), and /legal once it is
- * switched on. URLs use the production origin (SITE_ORIGIN), like the
- * canonical tags, so a preview's sitemap never lists preview URLs.
+ * switched on. A coming-soon build lists only "/". URLs use the production
+ * origin (SITE_ORIGIN), like the canonical tags, so a preview's sitemap never
+ * lists preview URLs.
  */
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
         const origin = SITE_ORIGIN;
+        if (isComingSoon()) {
+          const body =
+            `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+            `  <url><loc>${xmlEscape(origin + "/")}</loc></url>\n</urlset>\n`;
+          return new Response(body, {
+            headers: {
+              "content-type": "application/xml; charset=utf-8",
+              "cache-control": "public, max-age=3600",
+            },
+          });
+        }
         const sql = await getSql();
         const { loadLots, loadPlans } = await import("@/server/content.server");
         const { loadDoc } = await import("@/server/site-doc.server");

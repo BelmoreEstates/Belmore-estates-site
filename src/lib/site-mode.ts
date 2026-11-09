@@ -1,0 +1,52 @@
+/**
+ * SITE_MODE is a build-time switch (vite.config.ts bakes `__SITE_MODE__`).
+ * Unset, or any value other than "coming-soon", builds the full site.
+ * "coming-soon" builds the temporary landing: every public route redirects
+ * to it. Operational routes stay up so leads, sign-in, and robots keep working.
+ *
+ * Like SITE_ENV, this has to be baked per deploy. Preview and production are
+ * the same Netlify site and share runtime env vars.
+ */
+
+export const COMING_SOON_TITLE = "Coming Soon | Belmore Estates";
+
+/** Meta description. Matches the on-page description. */
+export const COMING_SOON_DESCRIPTION =
+  "Twenty-Four custom built homes completing the final section of the well-established Legends West subdivision in the Town of Greece, NY.";
+
+export const COMING_SOON_FONT_HREF =
+  "https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600&display=swap";
+
+const PASSTHROUGH_SEGMENTS = new Set(["admin", "login", "editor", "api", "media"]);
+
+export function normalizePath(pathname: string): string {
+  const raw = (pathname || "/").split(/[?#]/)[0] || "/";
+  if (!raw.startsWith("/")) return normalizePath(`/${raw}`);
+  if (raw.length > 1) return raw.replace(/\/+$/, "") || "/";
+  return raw;
+}
+
+function isPassthrough(path: string): boolean {
+  if (path === "/robots.txt" || path === "/sitemap.xml") return true;
+  // TanStack server functions live under /_serverFn (and /_build).
+  if (path.startsWith("/_")) return true;
+  const segment = path.split("/")[1] ?? "";
+  return PASSTHROUGH_SEGMENTS.has(segment);
+}
+
+export type ComingSoonTarget = { to: "/" };
+
+/**
+ * Where a URL should go when SITE_MODE=coming-soon.
+ * null means "leave this request alone" (already the landing, or an operational route).
+ * /legal and /privacy are not separate pages in this mode; they land on /.
+ */
+export function comingSoonDestination(pathname: string): ComingSoonTarget | null {
+  const path = normalizePath(pathname);
+  if (path === "/" || isPassthrough(path)) return null;
+  return { to: "/" };
+}
+
+export function isComingSoon(): boolean {
+  return (typeof __SITE_MODE__ === "string" ? __SITE_MODE__ : "") === "coming-soon";
+}

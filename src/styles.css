@@ -122,3 +122,290 @@
 .text-copper {
   color: var(--copper-text);
 }
+
+/* ------------------------------------------------------------------ coming soon
+ * Scoped to the temporary landing (SITE_MODE=coming-soon). The full site does
+ * not render .coming-soon, so these rules never apply to it.
+ */
+html.coming-soon-root,
+body.coming-soon-root {
+  background: #0c0c0c;
+  color: #f3eee4;
+}
+
+.coming-soon {
+  --font-display: "DM Serif Display", "Iowan Old Style", Georgia, serif;
+  position: relative;
+  background: #0c0c0c;
+  color: #f3eee4;
+  min-height: 100vh;
+}
+
+.coming-soon h1,
+.coming-soon h2,
+.coming-soon h3,
+.coming-soon h4 {
+  font-family: "DM Serif Display", "Iowan Old Style", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.cs-skip {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  transform: translateY(-200%);
+  background: #f3eee4;
+  color: #0c0c0c;
+  padding: 0.5rem 0.9rem;
+}
+
+.cs-skip:focus {
+  transform: none;
+}
+
+.cs-hero {
+  display: flex;
+  flex-direction: column;
+  background: #0c0c0c;
+}
+
+.cs-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.75rem 1.25rem 1.5rem;
+}
+
+.cs-logo {
+  width: 6.5rem;
+  height: auto;
+}
+
+.cs-eyebrow {
+  margin: 1.35rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #cfc6b8;
+}
+
+.cs-copy h1 {
+  margin: 0.55rem 0 0;
+  font-size: clamp(3.15rem, 13.5vw, 5.6rem);
+  line-height: 0.92;
+  color: #f6f1e7;
+}
+
+.cs-lede {
+  margin: 1.15rem 0 0;
+  max-width: 36rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #d9d1c4;
+}
+
+.cs-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.cs-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3rem;
+  margin-top: 0;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid transparent;
+  background: #f3eee4;
+  color: #111111;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.cs-cta:hover {
+  background: #fffdf8;
+}
+
+.cs-cta-quiet {
+  background: transparent;
+  color: #f3eee4;
+  border-color: rgba(243, 238, 228, 0.75);
+}
+
+.cs-cta-quiet:hover {
+  background: rgba(243, 238, 228, 0.1);
+}
+
+.cs-cta[aria-expanded="true"] {
+  box-shadow: inset 0 0 0 1px #111111;
+}
+
+.cs-cta-quiet[aria-expanded="true"] {
+  background: rgba(243, 238, 228, 0.14);
+  box-shadow: none;
+}
+
+.cs-photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #161616;
+}
+
+.cs-photo picture,
+.cs-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cs-photo-img {
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.cs-photo figcaption {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  z-index: 1;
+  margin: 0;
+  padding: 0.35rem 0.55rem;
+  background: rgba(12, 12, 12, 0.72);
+  color: #f3eee4;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cs-light {
+  background: #f3eee4;
+  color: #1c1c1c;
+  --color-ink: #1c1c1c;
+  --color-muted: #5c564e;
+  --color-cream: #fbf8f2;
+  --color-paper: #f3eee4;
+  --color-line: #e0d6c8;
+  --color-pine: #1a1a1a;
+  --color-pine-deep: #111111;
+  --color-copper: #6a6258;
+  --copper-text: #5c5348;
+  color-scheme: light;
+}
+
+.cs-interest {
+  scroll-margin-top: 1rem;
+  padding: 2.75rem 1.25rem 3.25rem;
+}
+
+.cs-interest-inner {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.cs-interest h2 {
+  margin: 0.4rem 0 0;
+  font-size: clamp(2.4rem, 8vw, 3.5rem);
+  line-height: 1.05;
+  color: #161616;
+}
+
+.cs-interest-intro {
+  max-width: 36rem;
+  margin: 0.85rem 0 1.5rem;
+  color: #5c564e;
+  line-height: 1.55;
+}
+
+.cs-light input:not([type="checkbox"]),
+.cs-light select,
+.cs-light textarea {
+  width: 100%;
+  color: #1c1c1c;
+  background: #fbf8f2;
+}
+
+/* One column. The shared form's desktop split leaves an empty status column. */
+.cs-interest .grid {
+  grid-template-columns: minmax(0, 40rem);
+  justify-content: start;
+}
+
+.cs-interest form,
+.cs-interest aside {
+  grid-column: 1;
+  max-width: 40rem;
+}
+
+.cs-interest button[type="submit"] {
+  width: 100%;
+}
+
+#inquiry {
+  scroll-margin-top: 1rem;
+}
+
+.cs-dark {
+  background: #0c0c0c;
+  color: #f3eee4;
+  --color-pine: rgba(243, 238, 228, 0.22);
+  --color-paper-deep: #cfc6b8;
+  --color-cream: #f3eee4;
+  --copper-text: #e4d5c3;
+}
+
+.cs-copyright {
+  margin: 0;
+  padding: 0 1.25rem 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #cfc6b8;
+}
+
+@media (min-width: 640px) {
+  .cs-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .cs-cta {
+    width: auto;
+  }
+}
+
+@media (min-width: 960px) {
+  .cs-hero {
+    display: grid;
+    grid-template-columns: minmax(22rem, 0.92fr) minmax(0, 1.08fr);
+    min-height: 100svh;
+    align-items: stretch;
+  }
+
+  .cs-copy {
+    justify-content: center;
+    padding: 3rem clamp(2rem, 4vw, 4.5rem);
+  }
+
+  .cs-logo {
+    width: 7.25rem;
+  }
+
+  .cs-photo {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+}

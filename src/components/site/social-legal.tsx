@@ -154,9 +154,12 @@ function HiddenFlag() {
 export function FairHousingLink({
   className,
   children,
+  externalOnly = false,
 }: {
   className?: string;
   children?: ReactNode;
+  /** When set, render nothing unless the notice has a real https address. */
+  externalOnly?: boolean;
 }) {
   const { blocks } = useSiteData();
   const url = textOf(blocks, "global.footer.fairhousing.url").trim();
@@ -174,6 +177,7 @@ export function FairHousingLink({
         <span className="sr-only">{EXTERNAL_NOTE}</span>
       </a>
     );
+  if (externalOnly) return null;
   return (
     <Link to="/legal" hash="dos" className={className} data-fairhousing-link="legal">
       {label}
@@ -181,18 +185,26 @@ export function FairHousingLink({
   );
 }
 
-function SopLink({ className }: { className?: string }) {
+function SopLink({
+  className,
+  externalOnly = false,
+}: {
+  className?: string;
+  externalOnly?: boolean;
+}) {
   const { blocks } = useSiteData();
   const url = textOf(blocks, "global.footer.sop.url").trim();
   // Round 7 (RPL §442-h): the SOP link always renders (homepage + footer). Until
   // Joseph sets the brokerage's SOP URL it points to /legal#sop, which shows the
   // "[SOP LINK — TO CONFIRM]" placeholder slot.
-  if (!isSocialUrl(url))
+  if (!isSocialUrl(url)) {
+    if (externalOnly) return null;
     return (
       <Link to="/legal" hash="sop" className={className} data-sop-link="legal">
         <Tx k="global.footer.sop.link" />
       </Link>
     );
+  }
   return (
     <a
       href={url}
@@ -210,10 +222,27 @@ function SopLink({ className }: { className?: string }) {
 const linkCls = "underline underline-offset-2 hover:text-copper";
 
 /** Footer row: EHO logo + notice, the notice links, privacy summary, brokerage line. */
-export function FooterLegal() {
+export function FooterLegal({
+  force = false,
+  externalNoticesOnly = false,
+}: {
+  force?: boolean;
+  /**
+   * Coming-soon landing: keep the statement and brokerage line, and keep the
+   * Fair Housing / SOP links only when they are real https addresses.
+   * Links into the draft /legal and /privacy pages are omitted.
+   */
+  externalNoticesOnly?: boolean;
+}) {
   const enabled = useLegalEnabled();
   const edit = useEditApi();
-  if (!enabled && !edit) return null;
+  const { blocks } = useSiteData();
+  if (!enabled && !edit && !force) return null;
+  const fairExternal = isSocialUrl(textOf(blocks, "global.footer.fairhousing.url").trim());
+  const sopExternal = isSocialUrl(textOf(blocks, "global.footer.sop.url").trim());
+  const showFair = !externalNoticesOnly || fairExternal;
+  const showSop = !externalNoticesOnly || sopExternal;
+  const showLegalPage = !externalNoticesOnly;
   return (
     <div className="border-t border-pine" data-legal="footer">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-8 text-sm lg:grid-cols-12">
@@ -228,32 +257,54 @@ export function FooterLegal() {
             <p className="leading-relaxed text-paper-deep">
               <T k="global.footer.eho" />
             </p>
-            <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-              <li>
-                <FairHousingLink className={cn(linkCls, "font-medium text-cream")} />
-              </li>
-              <li>
-                <SopLink className={linkCls} />
-              </li>
-              <li>
-                <Link to="/legal" className={linkCls}>
-                  <Tx k="global.footer.legal.link" />
-                </Link>
-              </li>
-            </ul>
+            {showFair || showSop || showLegalPage ? (
+              <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                {showFair ? (
+                  <li>
+                    <FairHousingLink
+                      externalOnly={externalNoticesOnly}
+                      className={cn(linkCls, "font-medium text-cream")}
+                    />
+                  </li>
+                ) : null}
+                {showSop ? (
+                  <li>
+                    <SopLink externalOnly={externalNoticesOnly} className={linkCls} />
+                  </li>
+                ) : null}
+                {showLegalPage ? (
+                  <li>
+                    <Link to="/legal" className={linkCls}>
+                      <Tx k="global.footer.legal.link" />
+                    </Link>
+                  </li>
+                ) : null}
+              </ul>
+            ) : null}
           </div>
         </div>
         <div className="grid gap-3 lg:col-span-5">
           <p className="leading-relaxed text-paper-deep" data-privacy-notice>
-            <T k="global.footer.privacy_summary" />{" "}
-            <Link to="/privacy" className={linkCls}>
-              <Tx k="global.footer.privacy_link" />
-            </Link>
+            <T k="global.footer.privacy_summary" />
+            {externalNoticesOnly ? null : (
+              <>
+                {" "}
+                <Link to="/privacy" className={linkCls}>
+                  <Tx k="global.footer.privacy_link" />
+                </Link>
+              </>
+            )}
           </p>
           <p className="text-xs leading-relaxed text-paper-deep">
-            <T k="global.footer.broker" />
+            <T k={externalNoticesOnly ? "legal.broker.agent" : "global.footer.broker"} />
             <br />
-            <T k="global.footer.broker.independent" />
+            <T
+              k={
+                externalNoticesOnly
+                  ? "legal.broker.independent"
+                  : "global.footer.broker.independent"
+              }
+            />
           </p>
         </div>
       </div>
@@ -265,10 +316,10 @@ export function FooterLegal() {
  * Homepage Fair Housing line (19 NYCRR §175.29(c): the notice link must be
  * prominent on the homepage). An optional original section of the home page.
  */
-export function HomeFairHousing() {
+export function HomeFairHousing({ force = false }: { force?: boolean }) {
   const enabled = useLegalEnabled();
   const edit = useEditApi();
-  if (!enabled && !edit) return null;
+  if (!enabled && !edit && !force) return null;
   return (
     <section className="border-t border-line bg-cream" data-home-fairhousing>
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-5 py-6 text-sm">
