@@ -89,6 +89,13 @@ export function InquiryForm({
   planSlug,
   showTypes = true,
   showIntro = true,
+  hideInterest = false,
+  hideRealtor = false,
+  noteLabel,
+  submitLabel,
+  humanCheckLabel,
+  humanCheckHelper,
+  humanCheckError,
 }: {
   initialType?: LeadType;
   interest?: string;
@@ -97,6 +104,15 @@ export function InquiryForm({
   showTypes?: boolean;
   /** The keyed intro. Off on the coming-soon page, whose intro is written there. */
   showIntro?: boolean;
+  /** Contact form: keep `interest` in the submission without showing the selector. */
+  hideInterest?: boolean;
+  hideRealtor?: boolean;
+  noteLabel?: ReactNode;
+  submitLabel?: string;
+  humanCheckLabel?: ReactNode;
+  humanCheckHelper?: ReactNode;
+  /** Shown instead of the lot-count error. The server still accepts 7 / seven. */
+  humanCheckError?: string;
 }) {
   const t = useText();
   const { blocks } = useSiteData();
@@ -149,7 +165,7 @@ export function InquiryForm({
       return fields.email.trim() ? t("forms.shared.error.email") : t("forms.shared.error.required");
     if (field === "phone")
       return fields.phone.trim() ? t("forms.shared.error.phone") : t("forms.shared.error.required");
-    if (field === "humanCheck") return t("forms.shared.error.antispam");
+    if (field === "humanCheck") return humanCheckError ?? t("forms.shared.error.antispam");
     if (field === "consent" || field === "ackNonbinding") return t("forms.shared.error.consent");
     if (field === "name" && fields.name.trim().length < 2) return t("forms.shared.error.required");
     return serverMessage;
@@ -309,7 +325,7 @@ export function InquiryForm({
           />
         </Field>
 
-        {type === "contact" ? (
+        {type === "contact" && !hideInterest ? (
           <Field
             label={<Tx k="forms.contact.interest.label" />}
             helper={t("forms.contact.interest.helper")}
@@ -489,7 +505,7 @@ export function InquiryForm({
               />
             </Field>
           </>
-        ) : (
+        ) : hideRealtor ? null : (
           <>
             <Check
               checked={fields.realtor}
@@ -523,7 +539,7 @@ export function InquiryForm({
           </>
         )}
 
-        <Field label={<Tx k="forms.shared.note.label" />} error={errors.note}>
+        <Field label={noteLabel ?? <Tx k="forms.shared.note.label" />} error={errors.note}>
           <textarea
             name="note"
             value={fields.note}
@@ -555,9 +571,9 @@ export function InquiryForm({
         </div>
 
         <Field
-          label={<Tx k="forms.shared.antispam.label" />}
+          label={humanCheckLabel ?? <Tx k="forms.shared.antispam.label" />}
           required
-          helper={t("forms.shared.antispam.helper")}
+          helper={humanCheckHelper ?? t("forms.shared.antispam.helper")}
           error={errors.humanCheck}
         >
           <input
@@ -593,7 +609,7 @@ export function InquiryForm({
           disabled={status === "sending"}
           className="inline-flex min-h-11 items-center justify-center bg-pine px-5 text-sm text-cream disabled:opacity-60"
         >
-          {status === "sending" ? t("forms.shared.sending") : t(`${p}.submit`)}
+          {status === "sending" ? t("forms.shared.sending") : (submitLabel ?? t(`${p}.submit`))}
         </button>
         <p className="text-xs text-muted">
           <T k="contact.form.notice" />

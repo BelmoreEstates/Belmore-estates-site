@@ -34,18 +34,16 @@ function isPassthrough(path: string): boolean {
   return PASSTHROUGH_SEGMENTS.has(segment);
 }
 
-export type ComingSoonTarget = { to: "/"; hash?: "legal" | "privacy" };
+export type ComingSoonTarget = { to: "/" };
 
 /**
  * Where a URL should go when SITE_MODE=coming-soon.
  * null means "leave this request alone" (already the landing, or an operational route).
+ * /legal and /privacy are not separate pages in this mode; they land on /.
  */
 export function comingSoonDestination(pathname: string): ComingSoonTarget | null {
   const path = normalizePath(pathname);
   if (path === "/" || isPassthrough(path)) return null;
-  const segment = path.split("/")[1] ?? "";
-  if (segment === "privacy") return { to: "/", hash: "privacy" };
-  if (segment === "legal") return { to: "/", hash: "legal" };
   return { to: "/" };
 }
 

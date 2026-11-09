@@ -19,8 +19,8 @@ test("public routes redirect to the coming-soon landing", () => {
   assert.deepEqual(comingSoonDestination("/contact"), { to: "/" });
   assert.deepEqual(comingSoonDestination("/community/"), { to: "/" });
   assert.deepEqual(comingSoonDestination("/does-not-exist"), { to: "/" });
-  assert.deepEqual(comingSoonDestination("/privacy"), { to: "/", hash: "privacy" });
-  assert.deepEqual(comingSoonDestination("/legal"), { to: "/", hash: "legal" });
+  assert.deepEqual(comingSoonDestination("/privacy"), { to: "/" });
+  assert.deepEqual(comingSoonDestination("/legal"), { to: "/" });
 });
 
 test("operational routes stay reachable in coming-soon mode", () => {
@@ -58,4 +58,9 @@ test("coming-soon copy does not name Andrew Schram", () => {
   );
   assert.equal(page.includes("Belmore Way"), false);
   assert.equal(page.includes("Barclay"), false);
+  assert.equal(page.includes("LegalPage"), false);
+  assert.equal(page.includes("PrivacyPolicy"), false);
+  assert.equal(page.includes("Request Additional Info"), true);
+  assert.equal(page.includes("Send Request"), true);
+  assert.equal(page.includes("3 + 4"), true);
 });
