@@ -24,7 +24,7 @@ lots={}
 lots['805']=[P(0,0),P(-155,0),P(-155,-80),P(0,-80)]
 c806=P(-125,-165)
 lots['806']=[P(0,-80),P(-155,-80),P(-155,-165)]+arc(c806,30,AZ_V+180,AZ_U-180)[1:]+[P(0,-195)]
-# 807: Shelby south ROW (-255) west 125 from the pre-jog east line; jog 5.00 W; east line S 134.14 to B
+# 807: new street (name TBD) south ROW (-255) west 125 from the pre-jog east line; jog 5.00 W; east line S 134.14 to B
 c807=P(-125,-285)
 rad=AZ_V+az(9,52,20)       # radial at end of R210 curve = S 80°41'35" E
 e807=add(O,vec(rad,210))
@@ -44,7 +44,7 @@ checks={
  '801_closure_ft': math.dist(end_sw,p801),
 }
 pts={'A_805NE':A,'B_807SE':B,'centre_O':O,
- 'CL_Belmore_x_Shelby':P(-185,-225),'801_NW':nw,'801_SW':sw,'801_SE_on_curve':p801,'804_NW':P(-365,0),'807_SW_on_curve':e807,
+ 'CL_Belmore_x_NewStreet':P(-185,-225),'801_NW':nw,'801_SW':sw,'801_SE_on_curve':p801,'804_NW':P(-365,0),'807_SW_on_curve':e807,
  'Belmore_WROW_N':P(-215,0),'Belmore_EROW_N':P(-155,0)}
 if __name__=='__main__':
     print(json.dumps(checks,indent=1))

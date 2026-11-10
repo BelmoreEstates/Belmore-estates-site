@@ -17,7 +17,7 @@ import {
   BASEMAP_PAINT,
   LOT_STYLE,
   ATTRIBUTION_ORTHO,
-  HIDDEN_BASEMAP_STREET_NAMES,
+  HIDE_BASEMAP_NAMES_AREA,
   LOTS_URL,
   MAP_STYLE_URL,
   MAX_BOUNDS,
@@ -83,12 +83,9 @@ const LOT_LINE = "atlas-lots-line";
 const LOT_LABEL = "atlas-lots-label";
 const STREET_LABEL = "atlas-street-label";
 
-/** Wrap a style filter so basemap labels for the mislabeled OSM way are hidden. */
+/** Wrap a style filter so basemap street labels inside the subdivision are hidden. */
 function withoutNames(filter: FilterSpecification | undefined): FilterSpecification {
-  const hide: FilterSpecification = [
-    "!",
-    ["in", ["get", "name"], ["literal", HIDDEN_BASEMAP_STREET_NAMES]],
-  ];
+  const hide: FilterSpecification = ["!", ["within", HIDE_BASEMAP_NAMES_AREA]];
   return filter ? (["all", filter, hide] as FilterSpecification) : hide;
 }
 

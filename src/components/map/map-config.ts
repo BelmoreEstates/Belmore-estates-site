@@ -42,11 +42,23 @@ export const MIN_ZOOM = 11;
 export const MAX_ZOOM = 19.5;
 
 /**
- * OSM tags the built Belmore Way stub (way 20137303) as "Shelby Circle".
- * Basemap street labels with these names are hidden and replaced by our own
- * labels for the planned streets.
+ * OSM's street names inside the subdivision are wrong (way 20137303, the built Belmore Way
+ * stub, carries another street's name), and the new street's name is not decided yet.
+ * Basemap street labels inside this area are hidden; our own layer labels Belmore Way and
+ * leaves the new street unlabeled.
  */
-export const HIDDEN_BASEMAP_STREET_NAMES = ["Shelby Circle"];
+export const HIDE_BASEMAP_NAMES_AREA: GeoJSON.Polygon = {
+  type: "Polygon",
+  coordinates: [
+    [
+      [-77.6885, 43.2605],
+      [-77.6815, 43.2605],
+      [-77.6815, 43.2655],
+      [-77.6885, 43.2655],
+      [-77.6885, 43.2605],
+    ],
+  ],
+};
 
 /* Map UI text lives in the text system (src/data/content.ts, keys map.*), edited in /admin. */
 

@@ -64,7 +64,7 @@ for lot in ["801", "802", "803", "804", "805", "806", "807"]:
         "properties": {"lot": lot, "kind": "phase1", "section": 8, "phase": 1,
             "area_sqft": int(pr["area_sqft"]), "area_acres": float(pr["area_acres"]),
             "address": f'{pr["proposed_address_number"]} {STREET[lot]}', "street": STREET[lot],
-            "corner_of": "Shelby Circle" if lot in ("806", "807") else None,
+            "corner_of": "Street name TBD" if lot in ("806", "807") else None,
             "geometry_source": "Signed Final Plat Section No. 8 (LandTech, 2023), COGO from bearings/distances",
             "accuracy_ft": round(rms, 1), "flags": []}})
 sec8u = unary_union(sec8).buffer(0.5)
@@ -87,7 +87,7 @@ for i, (g, p, cut) in enumerate(fut, 1):
         "coordinates": [to_wgs(list(g.exterior.coords)[:-1])]},
         "properties": {"lot": None, "kind": "future", "section": None, "phase": "future",
             "label": "Future phase (planned, details TBD)", "area_sqft_approx": int(round(g.area, -1)),
-            "address": None, "street": p.get("street"),
+            "address": None, "street": p.get("street") if p.get("street") == "Belmore Way" else "Street name TBD",
             "prelim_ref_lot": p.get("plat_lot"), "prelim_ref_address": p.get("address_label_prelim_plat"),
             "geometry_source": "LaDieu Associates preliminary plat (full-development-map.pdf), digitized by Scout (affine, RMS ~7 ft)",
             "accuracy_ft": "10-20 (approximate)", "flags": flags}})
@@ -95,6 +95,7 @@ for i, (g, p, cut) in enumerate(fut, 1):
 streets = json.load(open(os.path.join(HERE, "map-data-src/scout-planned-streets-approx.geojson")))
 for f in streets["features"]:
     if f["geometry"]["type"] != "LineString": continue
+    if f["properties"]["name"] != "Belmore Way": continue  # the new street's name is TBD: no label
     feats.append({"type": "Feature", "geometry": f["geometry"],
         "properties": {"kind": "street", "name": f["properties"]["name"], "status": f["properties"].get("status"),
                        "accuracy": "approximate, from preliminary plat"}})

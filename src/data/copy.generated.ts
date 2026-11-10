@@ -9,7 +9,7 @@ export const copyDefaults: Record<string, string> = {
   "about.intro.eyebrow": "Schram Family Realty, LLC",
   "about.intro.h2": "The people behind the street.",
   "about.intro.body":
-    "Schram Family Realty, LLC is the developer of Belmore Estates and the name on the Section 8 plat. Legends West is an established Greece neighborhood. Belmore Estates completes it, along Belmore Way and Shelby Circle.",
+    "Schram Family Realty, LLC is the developer of Belmore Estates and the name on the Section 8 plat. Legends West is an established Greece neighborhood. Belmore Estates completes it, along Belmore Way and a new street (name TBD).",
   "about.list.h3": "What we'll put in writing",
   "about.list.item1": "Who builds your home: [BUILDER — TO CONFIRM].",
   "about.list.item2": "The company story, in a paragraph: [COMPANY HISTORY — TO COME].",
@@ -34,12 +34,12 @@ export const copyDefaults: Record<string, string> = {
   "about.team.card3.body": "The studio appointment and your signed selection sheet.",
   "community.seo.title": "Community | Belmore Estates at Legends West, Greece NY",
   "community.seo.description":
-    "Belmore Estates completes Legends West in North Greece, NY: 24 lots on Belmore Way and Shelby Circle in the Greece Central School District.",
+    "Belmore Estates completes Legends West in North Greece, NY: 24 lots on Belmore Way and a new street (name TBD) in the Greece Central School District.",
   "community.hero.image.alt": "A street of newer homes, like those already built in Legends West.",
   "community.intro.eyebrow": "North Greece, NY",
   "community.intro.h2": "Legends West, finished.",
   "community.intro.body":
-    "Belmore Estates is the final section of Legends West. Emery Run, Barclay Court, and Legends Way are already built around it; Belmore Way and Shelby Circle are the two new streets. Twenty-four lots in all. Phase 1 is 801 through 807.",
+    "Belmore Estates is the final section of Legends West. Emery Run, Barclay Court, and Legends Way are already built around it; Belmore Way and a second new street (name TBD) are the two new streets. Twenty-four lots in all. Phase 1 is 801 through 807.",
   "community.plat.h2": "Straight from the plat.",
   "community.plat.body":
     "Final Plat Section No. 8, Legends West Subdivision, was prepared for Schram Family Realty, LLC and carries the Town of Greece approval signatures. The lot map below is traced from that sheet. Bearings and monuments stay on the signed plans, where they belong.",
@@ -50,14 +50,14 @@ export const copyDefaults: Record<string, string> = {
   "community.facts.lots.label": "Lots",
   "community.facts.lots.value": "24 total · 7 in Phase 1",
   "community.facts.streets.label": "Streets",
-  "community.facts.streets.value": "Belmore Way · Shelby Circle",
+  "community.facts.streets.value": "Belmore Way · Street name TBD",
   "community.facts.schools.label": "Schools",
   "community.facts.schools.value": "Greece Central School District · verify for your lot",
   "community.facts.office.label": "Developer office",
   "community.facts.office.value": "45 Radford Way, Rochester",
   "community.model.h2": "Belmore Estates in Phases",
   "community.model.body":
-    "The seven outlined lots on Belmore Way and Shelby Circle are Phase 1, lots 801–807. The shaded area is the future phase, and details for it are still to be determined. Emery Run and Barclay Court are the existing streets of Legends West. Click a lot to see its details, or switch to the aerial view.",
+    "The seven outlined lots on Belmore Way and a new street (name TBD) are Phase 1, lots 801–807. The shaded area is the future phase, and details for it are still to be determined. Emery Run and Barclay Court are the existing streets of Legends West. Click a lot to see its details, or switch to the aerial view.",
   "community.model.hint":
     "Click a lot for details · drag to move · scroll to zoom · switch to aerial",
   "community.model.caption":
@@ -66,7 +66,7 @@ export const copyDefaults: Record<string, string> = {
   "community.ground.item1.title": "Belmore Way",
   "community.ground.item1.body":
     "The first street of Belmore Estates: a 60-foot right-of-way that ties into the existing Legends West roads.",
-  "community.ground.item2.title": "Shelby Circle",
+  "community.ground.item2.title": "Street name TBD",
   "community.ground.item2.body":
     "A cul-de-sac off the east side of Belmore Way. Lots 806 and 807 front it. Lot 805 sits just north, on Belmore Way.",
   "community.ground.item3.title": "Phase 1",
@@ -86,7 +86,7 @@ export const copyDefaults: Record<string, string> = {
   "contact.details.office.label": "Developer office",
   "contact.details.office.value": "45 Radford Way, Rochester, NY 14612",
   "contact.details.community.label": "Community",
-  "contact.details.community.value": "Belmore Way and Shelby Circle, North Greece, NY",
+  "contact.details.community.value": "Belmore Way and a new street (name TBD), North Greece, NY",
   "contact.details.hours.label": "Hours",
   "contact.details.hours.value": "Tours at the homesite — [TOUR HOURS — TO COME]",
   "contact.note":
@@ -139,13 +139,13 @@ export const copyDefaults: Record<string, string> = {
   "faq.intro.h2": "Straight answers.",
   "faq.q1.question": "Where is Belmore Estates?",
   "faq.q1.answer":
-    "In North Greece, Town of Greece, Monroe County. It's the final section of Legends West, between Janes Road and Latta Road, east of Long Pond Road. The new lots front Belmore Way and Shelby Circle, reached from Emery Run, Barclay Court, and Legends Way.",
+    "In North Greece, Town of Greece, Monroe County. It's the final section of Legends West, between Janes Road and Latta Road, east of Long Pond Road. The new lots front Belmore Way and a new street (name TBD), reached from Emery Run, Barclay Court, and Legends Way.",
   "faq.q2.question": "Who is the developer?",
   "faq.q2.answer":
     "Schram Family Realty, LLC, 45 Radford Way, Rochester, NY 14612, the developer named on the Section 8 plat. Homes are built by [BUILDER — TO CONFIRM]. Sales are handled by listing agent Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
   "faq.q3.question": "How many lots are there?",
   "faq.q3.answer":
-    "Twenty-four. Phase 1 is the seven lots on the approved Section 8 plat, numbered 801 through 807. The other 17 make up the future section east of Shelby Circle. Join the waitlist to hear when they're released.",
+    "Twenty-four. Phase 1 is the seven lots on the approved Section 8 plat, numbered 801 through 807. The other 17 make up the future section east of the new street (name TBD). Join the waitlist to hear when they're released.",
   "faq.q4.question": "Which school district?",
   "faq.q4.answer":
     "Belmore Estates is in the Greece Central School District, as is every existing home on Belmore Way. Not all of North Greece is, since district lines don't follow town lines or mailing addresses, so confirm the assignment for your lot with the district before you sign.",
@@ -225,7 +225,7 @@ export const copyDefaults: Record<string, string> = {
     "Check the highlighted fields and try again. Still stuck? Email {{CONTACT_EMAIL}} or call [SALES PHONE — TO COME].",
   "forms.tour.title": "Book a tour",
   "forms.tour.intro":
-    "Walk Belmore Way and Shelby Circle with our sales team, see the lots in person, and ask everything. Tours are at the homesite, [TOUR HOURS — TO COME].",
+    "Walk Belmore Way and a new street (name TBD) with our sales team, see the lots in person, and ask everything. Tours are at the homesite, [TOUR HOURS — TO COME].",
   "forms.tour.phone.label": "Phone",
   "forms.tour.phone.helper": "So we can confirm the time with you.",
   "forms.tour.date.label": "Preferred date",
@@ -256,7 +256,7 @@ export const copyDefaults: Record<string, string> = {
     "Check the highlighted fields and try again, or email {{CONTACT_EMAIL}} to set up a time.",
   "forms.waitlist.title": "Join the waitlist",
   "forms.waitlist.intro":
-    "Seventeen more lots make up the future section, east of Shelby Circle. Join the list to hear when they're released. Release timing: [FUTURE SECTION TIMING — TBD].",
+    "Seventeen more lots make up the future section, east of the new street (name TBD). Join the list to hear when they're released. Release timing: [FUTURE SECTION TIMING — TBD].",
   "forms.waitlist.timeline.label": "When are you hoping to move?",
   "forms.waitlist.timeline.option1": "Within a year",
   "forms.waitlist.timeline.option2": "One to two years",
@@ -331,13 +331,13 @@ export const copyDefaults: Record<string, string> = {
   "global.menu.privacy": "Privacy",
   "global.footer.block1.heading": "Belmore Estates",
   "global.footer.block1.body":
-    "The final section of Legends West, North Greece, NY. Developed by Schram Family Realty, LLC. Phase 1 is lots 801–807 on Belmore Way and Shelby Circle. Listed by Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
+    "The final section of Legends West, North Greece, NY. Developed by Schram Family Realty, LLC. Phase 1 is lots 801–807 on Belmore Way and a new street (name TBD). Listed by Joseph Deleguardia, The Derek Pino Team, RE/MAX Realty Group.",
   "global.footer.block2.eyebrow": "VISIT",
   "global.footer.block2.line1": "Developer office · 45 Radford Way / Rochester, NY 14612",
   "global.footer.block2.line2":
     "Tours at the homesite — [TOUR HOURS — TO COME] · [SALES PHONE — TO COME] · {{CONTACT_EMAIL}}",
   "global.footer.block2.line3":
-    "North Greece, NY · Belmore Way and Shelby Circle, via Emery Run, Barclay Court, and Legends Way",
+    "North Greece, NY · Belmore Way and a new street (name TBD), via Emery Run, Barclay Court, and Legends Way",
   "global.footer.block3.eyebrow": "EXPLORE",
   "global.footer.block3.links":
     "Community · Floor Plans · Phase 1 Lots · Design Studio · Our Process · About · Questions · Privacy",
@@ -357,13 +357,13 @@ export const copyDefaults: Record<string, string> = {
   "global.status.future": "Future — Join waitlist",
   "home.seo.title": "Belmore Estates | New Homes in North Greece, NY",
   "home.seo.description":
-    "The final 24 lots of Legends West in North Greece, NY. Semi-custom homes on Belmore Way and Shelby Circle. Phase 1 is lots 801–807.",
+    "The final 24 lots of Legends West in North Greece, NY. Semi-custom homes on Belmore Way and a new street (name TBD). Phase 1 is lots 801–807.",
   "home.hero.image.alt": "White board-and-batten house with a timber front porch in evening light.",
   "home.hero.eyebrow": "The final section of Legends West",
   "home.hero.subeyebrow": "North Greece, NY · Belmore Way",
   "home.hero.h1": "Belmore Estates",
   "home.hero.body":
-    "Twenty-four homesites that finish an established Greece neighborhood. Phase 1 is lots 801–807, on Belmore Way and Shelby Circle. Semi-custom homes, developed by Schram Family Realty, LLC.",
+    "Twenty-four homesites that finish an established Greece neighborhood. Phase 1 is lots 801–807, on Belmore Way and a new street (name TBD). Semi-custom homes, developed by Schram Family Realty, LLC.",
   "home.hero.button1": "Book a tour",
   "home.hero.button2": "See Phase 1 lots",
   "home.hero.stat1.label": "Lots",
@@ -453,10 +453,10 @@ export const copyDefaults: Record<string, string> = {
   "home.phase1.card805.street": "Belmore Way",
   "home.phase1.card805.title": "Lot 805",
   "home.phase1.card805.area": "0.285 acres · 12,400 sq ft",
-  "home.phase1.card806.street": "Belmore Way at Shelby Circle",
+  "home.phase1.card806.street": "Street name TBD",
   "home.phase1.card806.title": "Lot 806",
   "home.phase1.card806.area": "0.405 acres · 17,632 sq ft",
-  "home.phase1.card807.street": "Belmore Way at Shelby Circle",
+  "home.phase1.card807.street": "Street name TBD",
   "home.phase1.card807.title": "Lot 807",
   "home.phase1.card807.area": "0.413 acres · 18,009 sq ft",
   "home.studio.image.alt": "Stone, oak, brass, and linen finish samples laid out on a table.",
@@ -470,7 +470,7 @@ export const copyDefaults: Record<string, string> = {
   "home.process.step1.number": "01",
   "home.process.step1.title": "Walk Belmore Way",
   "home.process.step1.body":
-    "Book a tour of the street. Belmore Way and Shelby Circle connect to Emery Run, Barclay Court, and Legends Way, the existing Legends West roads.",
+    "Book a tour of the street. Belmore Way and a new street (name TBD) connect to Emery Run, Barclay Court, and Legends Way, the existing Legends West roads.",
   "home.process.step2.number": "02",
   "home.process.step2.title": "Request a Phase 1 lot",
   "home.process.step2.body":
@@ -490,11 +490,11 @@ export const copyDefaults: Record<string, string> = {
   "home.process.link": "See every step",
   "homes.seo.title": "Phase 1 Lots 801–807 | Belmore Estates, Greece NY",
   "homes.seo.description":
-    "Seven Phase 1 homesites on Belmore Way and Shelby Circle in North Greece, NY, from 0.275 to 0.432 acres. See plat areas and request a lot.",
+    "Seven Phase 1 homesites on Belmore Way and a new street (name TBD) in North Greece, NY, from 0.275 to 0.432 acres. See plat areas and request a lot.",
   "homes.index.eyebrow": "Phase 1",
   "homes.index.h2": "Lots 801 through 807.",
   "homes.index.body":
-    "These seven go first. Lots 802, 803, and 804 measure 80 by 150 feet. Lot 805 is 80 by 155. Lots 801, 806, and 807 are the bigger parcels on the bend and around Shelby Circle. Every area is the figure on the approved Section 8 plat. Watching the future section instead? Join the waitlist.",
+    "These seven go first. Lots 802, 803, and 804 measure 80 by 150 feet. Lot 805 is 80 by 155. Lots 801, 806, and 807 are the bigger parcels on the bend and around the new street (name TBD). Every area is the figure on the approved Section 8 plat. Watching the future section instead? Join the waitlist.",
   "homes.card.street": "{street}",
   "homes.card.title": "Lot {lot}",
   "homes.card.area": "{area}",
@@ -520,13 +520,13 @@ export const copyDefaults: Record<string, string> = {
   "homes.lot805.street": "Belmore Way",
   "homes.lot805.area": "0.285 acres · 12,400 sq ft",
   "homes.lot805.note": "80 by 155 feet on the east side of Belmore Way, in line with lot 804.",
-  "homes.lot806.street": "Belmore Way at Shelby Circle",
+  "homes.lot806.street": "Street name TBD",
   "homes.lot806.area": "0.405 acres · 17,632 sq ft",
   "homes.lot806.note":
-    "The corner lot south of 805, fronting Belmore Way and the north side of Shelby Circle.",
-  "homes.lot807.street": "Belmore Way at Shelby Circle",
+    "The corner lot south of 805, fronting Belmore Way and the north side of the new street (street name TBD).",
+  "homes.lot807.street": "Street name TBD",
   "homes.lot807.area": "0.413 acres · 18,009 sq ft",
-  "homes.lot807.note": "South of Shelby Circle, on the outside of the Belmore Way bend.",
+  "homes.lot807.note": "South of the new street (street name TBD), on the outside of the Belmore Way bend.",
   "homes.detail.seo.title": "Lot {lot} | Belmore Estates, Greece NY",
   "homes.detail.seo.description":
     "Lot {lot} at Belmore Estates, North Greece, NY: {area} on {street}, per the approved plat. Phase 1 of 24.",

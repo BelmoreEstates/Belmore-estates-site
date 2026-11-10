@@ -52,7 +52,7 @@ const extraBlocks: BlockDef[] = [
   { key: "about.hero.image.src", value: "/images/living.jpg", image: true },
   // Future section card on /lots (admin "Future section" tab).
   { key: "homes.future.eyebrow", value: "Future section" },
-  { key: "homes.future.title", value: "17 lots east of Shelby Circle" },
+  { key: "homes.future.title", value: "17 future lots: details TBD" },
   {
     key: "homes.future.status",
     value: copyDefaults["global.status.future"] ?? "Future — Join waitlist",
@@ -91,7 +91,7 @@ const extraBlocks: BlockDef[] = [
   {
     key: "map.future.note",
     value:
-      "Planned along Shelby Circle and beyond, details TBD. Preliminary layout, subject to change. Lot lines approximate.",
+      "Future lots: details TBD. Preliminary layout, subject to change. Lot lines approximate.",
     multiline: true,
   },
   {

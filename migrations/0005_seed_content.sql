@@ -17,10 +17,10 @@ insert into lots (id, sort, phase, street, note, area_sqft, area_acres, frontage
 values ('805', 5, '1', 'Belmore Way', '80 by 155 feet on the east side of Belmore Way, in line with lot 804.', 12400, '0.285', '80.00 ft', '155.00 ft', 'available', 'On request', 'TBD')
 on conflict (id) do nothing;
 insert into lots (id, sort, phase, street, note, area_sqft, area_acres, frontage, depth, status, price_text, premium)
-values ('806', 6, '1', 'Belmore Way at Shelby Circle', 'The corner lot south of 805, fronting Belmore Way and the north side of Shelby Circle.', 17632, '0.405', '85.00 ft + 47.12 ft arc + 125.00 ft', 'Irregular corner', 'available', 'On request', 'TBD')
+values ('806', 6, '1', 'Street name TBD', 'The corner lot south of 805, fronting Belmore Way and the north side of the new street (street name TBD).', 17632, '0.405', '85.00 ft + 47.12 ft arc + 125.00 ft', 'Irregular corner', 'available', 'On request', 'TBD')
 on conflict (id) do nothing;
 insert into lots (id, sort, phase, street, note, area_sqft, area_acres, frontage, depth, status, price_text, premium)
-values ('807', 7, '1', 'Belmore Way at Shelby Circle', 'South of Shelby Circle, on the outside of the Belmore Way bend.', 18009, '0.413', '125.00 ft + 47.12 ft arc + 41.49 ft + 36.18 ft arc', 'Irregular corner', 'available', 'On request', 'TBD')
+values ('807', 7, '1', 'Street name TBD', 'South of the new street (street name TBD), on the outside of the Belmore Way bend.', 18009, '0.413', '125.00 ft + 47.12 ft arc + 41.49 ft + 36.18 ft arc', 'Irregular corner', 'available', 'On request', 'TBD')
 on conflict (id) do nothing;
 
 insert into plans (slug, sort, hidden, name, plan_number, beds, baths, sqft, sqft_first, sqft_second, stories, garage, width, depth, footprint, style, price_text, architect, gla_url, rendering_image, rendering_alt, floor_plan_image, images_pending)

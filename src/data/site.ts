@@ -11,7 +11,7 @@ export const site = {
   address: "45 Radford Way",
   officeCity: "Rochester, NY 14612",
   district: "Greece Central School District",
-  streets: "Belmore Way, Shelby Circle, Emery Run, and Barclay Court",
+  streets: "Belmore Way, a new street (name TBD), Emery Run, and Barclay Court",
 };
 
 export type Plan = {
@@ -183,8 +183,8 @@ const platLots: PlatLot[] = [
     areaAcres: "0.405",
     frontage: "85.00 ft + 47.12 ft arc + 125.00 ft",
     depth: "Irregular corner",
-    street: "Belmore Way at Shelby Circle",
-    note: "Corner lot south of 805. It fronts Belmore Way and the north side of Shelby Circle.",
+    street: "Street name TBD",
+    note: "Corner lot south of 805. It fronts Belmore Way and the north side of the new street (street name TBD).",
   },
   {
     id: "807",
@@ -192,8 +192,8 @@ const platLots: PlatLot[] = [
     areaAcres: "0.413",
     frontage: "125.00 ft + 47.12 ft arc + 41.49 ft + 36.18 ft arc",
     depth: "Irregular corner",
-    street: "Belmore Way at Shelby Circle",
-    note: "South of Shelby Circle, on the outside of the Belmore Way bend.",
+    street: "Street name TBD",
+    note: "South of the new street (street name TBD), on the outside of the Belmore Way bend.",
   },
 ];
 

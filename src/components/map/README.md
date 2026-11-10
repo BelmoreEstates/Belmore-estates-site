@@ -27,8 +27,9 @@ Credits for the basemap and aerial are in MapLibre's attribution control (compac
 on narrow maps). The plat credit is in the disclaimer under the map. Both hosts are in the
 CSP `connect-src` in `src/start.ts`.
 
-Basemap overrides (in `transformStyle`): OSM labels for the mislabeled way 20137303
-("Shelby Circle") are hidden; building footprints draw flat from z13 up (OSM currently has
+Basemap overrides (in `transformStyle`): basemap street labels inside the subdivision
+(`HIDE_BASEMAP_NAMES_AREA`) are hidden, since OSM's names there are wrong and the new
+street's name is TBD (our own layer labels Belmore Way; the new street stays unlabeled); building footprints draw flat from z13 up (OSM currently has
 none mapped in the subdivision; the aerial shows the houses); park, water, road casing and
 building colors are richer than stock liberty. House numbers are not drawn.
 
